@@ -137,7 +137,7 @@ public class Login {
     public void validateUser() {
         String username = usernameText.getText();
         String password = passwordText.getText();
-        boolean valid = false;
+        boolean valid = true;
         
         if (valid) {
             enterApp();
@@ -146,6 +146,9 @@ public class Login {
     
     //Moves the user from the login window to the full application.
     private void enterApp() {
+        frame.setVisible(false);
         //Open up the Customer Page
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.open();
     }
 }
