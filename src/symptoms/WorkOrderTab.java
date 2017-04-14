@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+//TODO: add JDatePicker 
 public class WorkOrderTab {
     
     //These are the fields/combo boxes for adding and updating work orders.

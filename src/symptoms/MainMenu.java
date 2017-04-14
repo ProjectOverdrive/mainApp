@@ -75,6 +75,7 @@ public class MainMenu {
                 + "Checker");
 	symptomsPanel.setLayout(null);
         
+        //TODO: hide panel for non-managers 
         //Create the panel for manage.
         JPanel managePanel = new JPanel();
 	mainWindowPanel.addTab("Manage", null, managePanel, null);
