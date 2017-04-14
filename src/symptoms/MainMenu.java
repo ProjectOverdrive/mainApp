@@ -39,6 +39,13 @@ public class MainMenu {
                 "All Work Orders");
 	workOrderPanel.setLayout(null);
         
+        WorkOrderTab workOrderTab = new WorkOrderTab();
+        workOrderPanel.add(workOrderTab.createWorkOrderTable());
+        workOrderPanel.add(workOrderTab.createRefreshListButton());
+        workOrderPanel.add(workOrderTab.createAddWorkOrderButton());
+        workOrderPanel.add(workOrderTab.createDeleteWorkOrderButton());
+        workOrderPanel.add(workOrderTab.createUpdateWorkOrderButton());
+        
         //Create the panel for inventory.
 	JPanel inventoryPanel = new JPanel();
 	mainWindowPanel.addTab("Inventory", null, inventoryPanel, "Store "

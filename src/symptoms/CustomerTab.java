@@ -48,6 +48,14 @@ public class CustomerTab {
     public JButton createUpdateCustomerButton() {
         JButton updateCustomerButton = new JButton("Update Customer");
         updateCustomerButton.setBounds(1133, 89, 167, 28);
+        updateCustomerButton.addMouseListener(new MouseAdapter() {
+            
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //TODO: create update customer window with prepopulated data
+                //buildUpdateCustomerFrame();
+            }
+	});
         return updateCustomerButton;
     }
     
