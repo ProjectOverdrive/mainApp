@@ -49,8 +49,7 @@ public class WorkOrderTab {
             
             @Override
             public void mousePressed(MouseEvent e) {
-                //TODO: create update work order window with prepopulated data
-                //buildUpdateWorkOrderFrame();
+                buildUpdateWorkOrderFrame();
             }
 	});
         return updateWorkOrderButton;
@@ -106,6 +105,17 @@ public class WorkOrderTab {
 	detailsText.setText("Details");
 	detailsText.setBounds(10, 173, 383, 32);
 	addWorkOrderFrame.getContentPane().add(detailsText);
+        
+        JButton addWorkOrderCancelButton = new JButton("Cancel");
+        addWorkOrderCancelButton.setBounds(10, 241, 203, 32);
+        addWorkOrderFrame.getContentPane().add(addWorkOrderCancelButton);
+        
+        addWorkOrderCancelButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                addWorkOrderFrame.dispose();
+            }
+	});
                 
         JButton addWorkOrderSubmitButton = new JButton("Add Work Order");
         addWorkOrderSubmitButton.setBounds(233, 241, 203, 32);
@@ -114,7 +124,7 @@ public class WorkOrderTab {
         addWorkOrderSubmitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
-                if(addWorkOrderHasRequiredFields()) {
+                if(workOrderHasRequiredFields()) {
                     addWorkOrder();
                     addWorkOrderFrame.dispose();
                 } else {
@@ -126,7 +136,7 @@ public class WorkOrderTab {
         addWorkOrderFrame.setVisible(true);
     }
     
-    private boolean addWorkOrderHasRequiredFields() {
+    private boolean workOrderHasRequiredFields() {
         if (detailsText.getText().equals("Details") || 
                 detailsText.getText().equals("")) {
             return false;
@@ -142,6 +152,98 @@ public class WorkOrderTab {
         String priority = prioritySelection.getSelectedItem().toString();
         
         //TODO: Add these fields as an object to the database.
+    }
+    
+    //TODO: make this have prepopulated data from the db
+    public void buildUpdateWorkOrderFrame() {
+        JFrame updateWorkOrderFrame = new JFrame();
+        updateWorkOrderFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        updateWorkOrderFrame.setResizable(false);
+        updateWorkOrderFrame.setTitle("Update Work Order");
+        updateWorkOrderFrame.setBounds(100, 100, 475, 335);
+        updateWorkOrderFrame.getContentPane().setLayout(null);
+        
+        JLabel employeeLabel = new JLabel("Employee");
+        employeeLabel.setBounds(10, 11, 203, 24);
+        updateWorkOrderFrame.getContentPane().add(employeeLabel);
+        
+        //TODO: Create an actual array of employees names from the database.
+        String[] employees = {"Jim", "Mary"};
+        employeeSelection = new JComboBox(employees);
+	employeeSelection.setBounds(10, 40, 150, 32);
+	updateWorkOrderFrame.getContentPane().add(employeeSelection);
+        
+        JLabel customerLabel = new JLabel("Customer");
+        customerLabel.setBounds(233, 11, 203, 24);
+        updateWorkOrderFrame.getContentPane().add(customerLabel);
+        
+        //TODO: Create an actual array of customer names from the database.
+        String[] customers = {"Matt", "Leah"};
+        customerSelection = new JComboBox(customers);
+	customerSelection.setBounds(233, 40, 150, 32);
+	updateWorkOrderFrame.getContentPane().add(customerSelection);
+        
+        JLabel statusLabel = new JLabel("Status");
+        statusLabel.setBounds(10, 82, 203, 24);
+        updateWorkOrderFrame.getContentPane().add(statusLabel);
+        
+        String[] statuses = {"New", "In Progress", "Completed"};
+        statusSelection = new JComboBox(statuses);
+        statusSelection.setBounds(10, 111, 150, 32);
+	updateWorkOrderFrame.getContentPane().add(statusSelection);
+        
+        JLabel priorityLabel = new JLabel("Priority");
+        priorityLabel.setBounds(233, 82, 203, 24);
+        updateWorkOrderFrame.getContentPane().add(priorityLabel);
+        
+        String[] priorities = {"High", "Medium", "Low"};
+        prioritySelection = new JComboBox(priorities);
+	prioritySelection.setBounds(233, 111, 150, 32);
+	updateWorkOrderFrame.getContentPane().add(prioritySelection);
+      
+        detailsText = new JTextField();
+	detailsText.setText("Details");
+	detailsText.setBounds(10, 173, 383, 32);
+	updateWorkOrderFrame.getContentPane().add(detailsText);
+        
+        JButton updateWorkOrderCancelButton = new JButton("Cancel");
+        updateWorkOrderCancelButton.setBounds(10, 241, 203, 32);
+        updateWorkOrderFrame.getContentPane().add(updateWorkOrderCancelButton);
+        
+        updateWorkOrderCancelButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                updateWorkOrderFrame.dispose();
+            }
+	});
+                
+        JButton updateWorkOrderSubmitButton = new JButton("Update Work Order");
+        updateWorkOrderSubmitButton.setBounds(233, 241, 203, 32);
+        updateWorkOrderFrame.getContentPane().add(updateWorkOrderSubmitButton);
+        
+        updateWorkOrderSubmitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                if(workOrderHasRequiredFields()) {
+                    updateWorkOrder();
+                    updateWorkOrderFrame.dispose();
+                } else {
+                   createRequiredFieldsErrorWindow();
+                }
+            }
+	});
+                
+        updateWorkOrderFrame.setVisible(true);
+    }
+    
+    private void updateWorkOrder() {
+        String employeeName = employeeSelection.getSelectedItem().toString();
+        String customerName = customerSelection.getSelectedItem().toString();
+        String status = statusSelection.getSelectedItem().toString();
+        String details = detailsText.getText();
+        String priority = prioritySelection.getSelectedItem().toString();
+        
+        //TODO: update the db with these fields
     }
     
     private void createRequiredFieldsErrorWindow() {

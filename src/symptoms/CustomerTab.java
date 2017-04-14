@@ -52,8 +52,7 @@ public class CustomerTab {
             
             @Override
             public void mousePressed(MouseEvent e) {
-                //TODO: create update customer window with prepopulated data
-                //buildUpdateCustomerFrame();
+                buildUpdateCustomerFrame();
             }
 	});
         return updateCustomerButton;
@@ -107,6 +106,17 @@ public class CustomerTab {
         zipcodeText.setBounds(10, 179, 203, 32);
         addCustomerFrame.getContentPane().add(zipcodeText);
         
+        JButton addCustomerCancelButton = new JButton("Cancel");
+        addCustomerCancelButton.setBounds(10, 221, 203, 32);
+        addCustomerFrame.getContentPane().add(addCustomerCancelButton);
+        
+        addCustomerCancelButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                addCustomerFrame.dispose();
+            }
+	});
+        
         JButton addCustomerSubmitButton = new JButton("Add New Customer");
         addCustomerSubmitButton.setBounds(233, 221, 203, 32);
         addCustomerFrame.getContentPane().add(addCustomerSubmitButton);
@@ -114,7 +124,7 @@ public class CustomerTab {
         addCustomerSubmitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
-                if(addNewCustomerHasRequiredFields()) {
+                if(customerHasRequiredFields()) {
                     addNewCustomer();
                     addCustomerFrame.dispose();
                 } else {
@@ -126,7 +136,7 @@ public class CustomerTab {
         addCustomerFrame.setVisible(true);
     }
     
-    private boolean addNewCustomerHasRequiredFields() {
+    private boolean customerHasRequiredFields() {
         if (firstNameText.getText().equals("First Name") || 
                 firstNameText.getText().equals("")) {
             return false;
@@ -173,6 +183,98 @@ public class CustomerTab {
         String zipcode = zipcodeText.getText();
         
         //TODO: Add these fields as an object to the database.
+    }
+    
+    //TODO: prepopulate these fields with the customer from the database
+    public void buildUpdateCustomerFrame() {
+        JFrame updateCustomerFrame = new JFrame();
+        updateCustomerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        updateCustomerFrame.setResizable(false);
+        updateCustomerFrame.setTitle("Update Customer");
+        updateCustomerFrame.setBounds(100, 100, 475, 315);
+        updateCustomerFrame.getContentPane().setLayout(null);
+        
+        firstNameText = new JTextField();
+	firstNameText.setText("First Name");
+	firstNameText.setBounds(10, 11, 203, 32);
+	updateCustomerFrame.getContentPane().add(firstNameText);
+        
+        lastNameText = new JTextField();
+	lastNameText.setText("Last Name");
+	lastNameText.setBounds(233, 11, 203, 32);
+	updateCustomerFrame.getContentPane().add(lastNameText);
+	
+        phoneNumberText = new JTextField();
+        phoneNumberText.setText("Phone Number");
+        phoneNumberText.setBounds(10, 53, 203, 32);
+        updateCustomerFrame.getContentPane().add(phoneNumberText);
+        
+        emailText = new JTextField();
+	emailText.setText("Email");
+	emailText.setBounds(233, 53, 203, 32);
+	updateCustomerFrame.getContentPane().add(emailText);
+        
+        streetAddressText = new JTextField();
+	streetAddressText.setText("Street Address");
+	streetAddressText.setBounds(10, 95, 426, 32);
+	updateCustomerFrame.getContentPane().add(streetAddressText);
+        
+        cityText = new JTextField();
+        cityText.setText("City");
+        cityText.setBounds(10, 137, 203, 32);
+        updateCustomerFrame.getContentPane().add(cityText);
+        
+        stateText = new JTextField();
+	stateText.setText("State");
+	stateText.setBounds(233, 137, 203, 32);
+	updateCustomerFrame.getContentPane().add(stateText);
+        
+        zipcodeText = new JTextField();
+        zipcodeText.setText("Zipcode");
+        zipcodeText.setBounds(10, 179, 203, 32);
+        updateCustomerFrame.getContentPane().add(zipcodeText);
+        
+        JButton updateCustomerCancelButton = new JButton("Cancel");
+        updateCustomerCancelButton.setBounds(10, 221, 203, 32);
+        updateCustomerFrame.getContentPane().add(updateCustomerCancelButton);
+        
+        updateCustomerCancelButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                updateCustomerFrame.dispose();
+            }
+	});
+        
+        JButton updateCustomerSubmitButton = new JButton("Update Customer");
+        updateCustomerSubmitButton.setBounds(233, 221, 203, 32);
+        updateCustomerFrame.getContentPane().add(updateCustomerSubmitButton);
+        
+        updateCustomerSubmitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                if(customerHasRequiredFields()) {
+                    updateCustomer();
+                    updateCustomerFrame.dispose();
+                } else {
+                    createRequiredFieldsErrorWindow();
+                }
+            }
+	});
+                
+        updateCustomerFrame.setVisible(true);
+    }
+    
+    private void updateCustomer() {
+        String firstName = firstNameText.getText();
+        String lastName = lastNameText.getText();
+        String phoneNumber = phoneNumberText.getText();
+        String email = emailText.getText();
+        String streetAddress = streetAddressText.getText();
+        String city = cityText.getText();
+        String state = stateText.getText();
+        String zipcode = zipcodeText.getText();
+        
+        //TODO: Update these fields on the database.
     }
     
     private void createRequiredFieldsErrorWindow() {
