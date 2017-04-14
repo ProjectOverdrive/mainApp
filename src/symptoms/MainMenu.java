@@ -52,6 +52,14 @@ public class MainMenu {
                 + "Inventory");
 	inventoryPanel.setLayout(null);
         
+        InventoryTab inventoryTab = new InventoryTab();
+        inventoryPanel.add(inventoryTab.createInventoryTable());
+        inventoryPanel.add(inventoryTab.createRefreshListButton());
+        inventoryPanel.add(inventoryTab.createAddInventoryItemButton());
+        inventoryPanel.add(inventoryTab.createDeleteInventoryItemButton());
+        inventoryPanel.add(inventoryTab.createUpdateInventoryItemButton());
+        inventoryPanel.add(inventoryTab.createOrderInventoryItemButton());
+        
         //Create the panel for symptoms.
 	JPanel symptomsPanel = new JPanel();
 	mainWindowPanel.addTab("Symptoms", null, symptomsPanel, "Symptoms "
