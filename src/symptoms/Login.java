@@ -3,14 +3,18 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Login {
+    
+    //These are the main fields for the login window.
     JFrame frame;
     JTextField usernameText;
     JTextField passwordText;
     
+    //This is the wrapper method for the UI initialization.
     public void openLogin() {
         constructUi();
     }
     
+    //This method creates the Login UI.
     private void constructUi() {
         //Create the primary frame.
         frame = new JFrame("Overdrive");

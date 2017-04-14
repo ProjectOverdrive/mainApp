@@ -1,10 +1,14 @@
 import javax.swing.*;
 public class MainMenu {
+    
     JFrame frame;
     
+    //This is the wrapper method for the construction of the UI.
     public void open() {
         constructUi();
     }
+    
+    //This creates the UI.
     private void constructUi() {
         //Create the primary frame.
         frame = new JFrame("Overdrive");
@@ -13,6 +17,8 @@ public class MainMenu {
 	frame.setTitle("Overdrive");
 	frame.setBounds(100, 100, 1356, 928);
         frame.getContentPane().setLayout(null);
+        
+        //TODO: add Overdrive label
         
         //Creates the main window panel.
 	JTabbedPane mainWindowPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -26,6 +32,7 @@ public class MainMenu {
                 + "Database");
 	customerPanel.setLayout(null);
         
+        //Initialize the customer tab and add its components.
         CustomerTab customerTab = new CustomerTab();
         customerPanel.add(customerTab.createCustomerTable());
         customerPanel.add(customerTab.createRefreshListButton());
@@ -39,6 +46,7 @@ public class MainMenu {
                 "All Work Orders");
 	workOrderPanel.setLayout(null);
         
+        //Initialize the work order tab and add its components.
         WorkOrderTab workOrderTab = new WorkOrderTab();
         workOrderPanel.add(workOrderTab.createWorkOrderTable());
         workOrderPanel.add(workOrderTab.createRefreshListButton());
@@ -52,6 +60,7 @@ public class MainMenu {
                 + "Inventory");
 	inventoryPanel.setLayout(null);
         
+        //Initialize the inventory tab and add its components.
         InventoryTab inventoryTab = new InventoryTab();
         inventoryPanel.add(inventoryTab.createInventoryTable());
         inventoryPanel.add(inventoryTab.createRefreshListButton());
