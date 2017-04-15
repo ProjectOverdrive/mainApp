@@ -75,6 +75,16 @@ public class MainMenu {
                 + "Checker");
 	symptomsPanel.setLayout(null);
         
+        //Initialize the symptoms tab and its components.
+        Symptoms symptoms = new Symptoms();
+        symptomsPanel.add(symptoms.createSymptomsLabel());
+        symptomsPanel.add(symptoms.createInputBox1());
+        symptomsPanel.add(symptoms.createInputBox2());
+        symptomsPanel.add(symptoms.createInputBox3());
+        symptomsPanel.add(symptoms.createMileageLabel());
+        symptomsPanel.add(symptoms.createMileageInput());
+        symptomsPanel.add(symptoms.createSubmitButton());
+        
         //TODO: hide panel for non-managers 
         //Create the panel for manage.
         JPanel managePanel = new JPanel();
