@@ -214,9 +214,8 @@ public class Symptoms {
         solutionsFrame.setBounds(100, 100, 475, 315);
         solutionsFrame.getContentPane().setLayout(null);
 
-        //TODO: fix error
         //Parse the mileage input as an integer.
-        int mileage = Integer.getInteger(mileageInput.getText());
+        int mileage = Integer.parseInt(mileageInput.getText());
         //Round mileage to the nearest thousand.
         mileage = (mileage + 500) / 1000 * 1000;
         //Parse mileage into corresponding codes.
@@ -268,10 +267,68 @@ public class Symptoms {
         solutionsFrame.setVisible(true);
     }
 
-    //TODO: actually parse symptoms
     //This method parses the input symptoms to their corresponding codes.
     private int[] parseSymptoms() {
-        int[] solutionCodes = {1, 2, 3};
+        //Add the selected symptoms to an arraylist.
+        ArrayList<String> symptoms = new ArrayList<>();
+        symptoms.add(symptomsInput1.getSelectedItem().toString());
+        symptoms.add(symptomsInput2.getSelectedItem().toString()); 
+        symptoms.add(symptomsInput3.getSelectedItem().toString());
+        
+        //Remove all null values from the arraylist and store as an array.
+        symptoms.removeAll(Arrays.asList(""));
+        String[] selectedSymptoms = new String[symptoms.size()];
+        for (int i = 0; i < symptoms.size(); i++) {
+            selectedSymptoms[i] = symptoms.get(i);
+        }
+        
+        int[] solutionCodes = new int[selectedSymptoms.length];
+        //Loop through the array and parse each symptom as its code.
+        for (int i=0; i < selectedSymptoms.length; i++) {
+            String s = selectedSymptoms[i];
+            if (s.equals("Car Pulls")) {
+                solutionCodes[i] = 1;
+            }
+            if (s.equals("Check Engine Light")) {
+                solutionCodes[i] = 2;
+            }
+            if (s.equals("Cracking Tires")) {
+                solutionCodes[i] = 3;
+            }
+            if (s.equals("Difficulty Starting")) {
+                solutionCodes[i] = 4;
+            }
+            if (s.equals("Engine Overheating")) {
+                solutionCodes[i] = 5;
+            }
+            if (s.equals("Engine Sounds")) {
+                solutionCodes[i] = 6;
+            }
+            if (s.equals("Exhaust Smoke")) {
+                solutionCodes[i] = 7;
+            }
+            if (s.equals("Leak Under Car")) {
+                solutionCodes[i] = 8;
+            }
+            if (s.equals("Low Gas Mileage")) {
+                solutionCodes[i] = 9;
+            }
+            if (s.equals("Low Tire Pressure")) {
+                solutionCodes[i] = 10;
+            }
+            if (s.equals("Poor A/C")) {
+                solutionCodes[i] = 11;
+            }
+            if (s.equals("Punctured Tire")) {
+                solutionCodes[i] = 12;
+            }
+            if (s.equals("Screeching Brakes")) {
+                solutionCodes[i] = 13;
+            }
+            if (s.equals("Smell in Cabin")) {
+                solutionCodes[i] = 14;
+            }
+        }
         return solutionCodes;
     }
 
@@ -516,7 +573,7 @@ public class Symptoms {
         }
 
         //Create an arraylist of all the possible solutions.
-        ArrayList<Solution> possibleSolutions = new ArrayList<Solution>();
+        ArrayList<Solution> possibleSolutions = new ArrayList<>();
         possibleSolutions.add(RT);
         possibleSolutions.add(PT);
         possibleSolutions.add(AAT);
