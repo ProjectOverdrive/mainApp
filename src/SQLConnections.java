@@ -3,7 +3,9 @@
  */
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.Vector;
 
 public class SQLConnections {
 
@@ -36,9 +38,9 @@ public class SQLConnections {
         String query = "SELECT username, password FROM employees";
 
         // Tries to execute query
-        try (Connection conn = this.connect();
+        try (Connection connection = this.connect();
              // Prepares query statement
-             Statement statement = conn.createStatement();
+             Statement statement = connection.createStatement();
              // Gets results of query
              ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -56,9 +58,45 @@ public class SQLConnections {
         return false;
     }
 
-    // Refresh table
+    public DefaultTableModel populateCustomerTable() {
+        String query = "SELECT * FROM customers";
 
-    // Add customer
+        try (Connection connection = this.connect();
+             // Prepares query statement
+             Statement statement = connection.createStatement();
+             // Gets results of query
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            return buildTableModel(resultSet);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void addNewCustomer(String firstName, String lastName, String phoneNumber, String streetAddress,
+                               String city, String state, String zipcode, String email) {
+        String query = "INSERT INTO customers('First Name', 'Last Name', 'Phone Number', 'Street Address'," +
+                "City, State, Zipcode, Email) VALUES(?,?,?,?,?,?,?,?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, phoneNumber);
+            statement.setString(4, streetAddress);
+            statement.setString(5, city);
+            statement.setString(6, state);
+            statement.setString(7, zipcode);
+            statement.setString(8, email);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     // Delete Customer
 
@@ -66,4 +104,29 @@ public class SQLConnections {
 
     //
 
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+            throws SQLException {
+
+        ResultSetMetaData metaData = rs.getMetaData();
+
+        // names of columns
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+
+    }
 }

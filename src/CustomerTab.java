@@ -1,8 +1,15 @@
-import java.awt.*;
-import java.awt.event.*;
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
+import javax.swing.table.TableModel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 
 public class CustomerTab {
+
+    SQLConnections connection;
 
     //These are the text fields for the add/update customer UI.
     private JTextField firstNameText;
@@ -14,19 +21,38 @@ public class CustomerTab {
     private JTextField stateText;
     private JTextField zipcodeText;
 
+    public CustomerTab() {
+        connection = new SQLConnections();
+    }
+
     //This method creates the customer table.
     public JTable createCustomerTable() {
-        JTable custTable = new JTable();
+        JTable custTable = new JTable(connection.populateCustomerTable());
+        //JScrollPane scrollPane = new JScrollPane(custTable);
+        JOptionPane.showMessageDialog(null, new JScrollPane(custTable));
+        custTable.setFillsViewportHeight(true);
+        //panel.setVisible(true);
+
+        String[] columnNames = {"ID", "First Name", "Last Name", "Phone Number", "Street Address", "City", "State",
+                "Zipcode", "Email"};
+        //JTable custTable = new JTable(null, columnNames);
         custTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         custTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
         return custTable;
     }
 
     //This method creates the refresh list button.
+
     public JButton createRefreshListButton() {
         JButton refreshButton = new JButton("Refresh List");
         refreshButton.setBounds(956, 11, 167, 28);
-        //TODO: create a listener to refresh the table when button is clicked.
+        refreshButton.addMouseListener(new MouseAdapter() {
+            //The add customer window should open when button is pressed.
+            @Override
+            public void mousePressed(MouseEvent e) {
+                createCustomerTable();
+            }
+        });
         return refreshButton;
     }
 
@@ -214,7 +240,11 @@ public class CustomerTab {
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
 
-        //TODO: Add these fields as an object to the database.
+        connection.addNewCustomer(firstName, lastName, phoneNumber,
+                streetAddress, city, state,
+                zipcode, email);
+
+        //TODO: Make sure not adding duplicate customer
     }
 
     //This method creates the update customer window.
