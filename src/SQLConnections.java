@@ -33,7 +33,7 @@ public class SQLConnections {
     // Validate user for login, returns true if user exists, else returns false
     public Boolean validateUser(String username, String password) {
 
-        String query = "SELECT username, password FROM employee";
+        String query = "SELECT username, password FROM employees";
 
         // Tries to execute query
         try (Connection conn = this.connect();
@@ -44,7 +44,7 @@ public class SQLConnections {
 
             while (resultSet.next()) {
                 // If given username and password matches a row in the database
-                if (resultSet.getString("username").equals(username) && resultSet.getString("password").equals(password)) {
+                if (resultSet.getString("username").equalsIgnoreCase(username) && resultSet.getString("password").equals(password)) {
                     return true;
                 }
             }
