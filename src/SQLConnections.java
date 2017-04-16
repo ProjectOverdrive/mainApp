@@ -76,6 +76,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Attempts to add new customer to the database
     public void addNewCustomer(String firstName, String lastName, String phoneNumber, String streetAddress,
                                String city, String state, String zipcode, String email) {
         String query = "INSERT INTO customers('First Name', 'Last Name', 'Phone Number', 'Street Address'," +
@@ -91,6 +92,27 @@ public class SQLConnections {
             statement.setString(6, state);
             statement.setString(7, zipcode);
             statement.setString(8, email);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Attempts to add new inventory item to the database
+    public void addNewInventoryItem(String description, String vendor, String location,
+                                    int quantity, double unitCost, String url) {
+        String query = "INSERT INTO inventory(Description, Vendor, Location, Quantity," +
+                "'Unit Cost', URL) VALUES(?,?,?,?,?,?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, description);
+            statement.setString(2, vendor);
+            statement.setString(3, location);
+            statement.setInt(4, quantity);
+            statement.setDouble(5, unitCost);
+            statement.setString(6, url);
             statement.executeUpdate();
 
         } catch (SQLException e) {

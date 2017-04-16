@@ -12,6 +12,11 @@ public class InventoryTab {
     private JTextField quantityText;
     private JTextField unitCostText;
     private JTextField urlText;
+    private SQLConnections connection;
+
+    public InventoryTab() {
+        connection = new SQLConnections();
+    }
 
     //This method creates the inventory table.
     public JTable createInventoryTable() {
@@ -223,6 +228,9 @@ public class InventoryTab {
         int quantity = Integer.parseInt(quantityText.getText());
         double unitCost = Double.parseDouble(unitCostText.getText());
         String url = urlText.getText();
+
+        connection.addNewInventoryItem(description, vendor, location,
+                quantity, unitCost, url);
 
         //TODO: Add these fields as an object to the database.
     }
