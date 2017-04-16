@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Login {
+    SQLConnections connection;
     
     //These are the main fields for the login window.
     JFrame frame;
@@ -11,6 +12,7 @@ public class Login {
     
     //This is the wrapper method for the UI initialization.
     public void openLogin() {
+        this.connection = new SQLConnections();
         constructUi();
     }
     
@@ -128,7 +130,7 @@ public class Login {
         
         //Creates gear icon.
         JLabel gearIcon = new JLabel("");
-	gearIcon.setIcon(new ImageIcon("resources/gearImage.png"));
+	gearIcon.setIcon(new ImageIcon("mainApp/resources/gearImage.png"));
 	gearIcon.setBounds(52, 117, 200, 200);
 	frame.getContentPane().add(gearIcon);
         
@@ -141,10 +143,12 @@ public class Login {
     public void validateUser() {
         String username = usernameText.getText();
         String password = passwordText.getText();
-        boolean valid = true;
+        boolean valid = connection.validateUser(username, password);
         
         if (valid) {
             enterApp();
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid username/password");
         }
     }
     
