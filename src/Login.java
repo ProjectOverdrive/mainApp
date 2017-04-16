@@ -130,7 +130,7 @@ public class Login {
 
         //Creates gear icon.
         JLabel gearIcon = new JLabel("");
-        gearIcon.setIcon(new ImageIcon("mainApp/resources/gearImage.png"));
+        gearIcon.setIcon(new ImageIcon("resources/gearImage.png"));
         gearIcon.setBounds(52, 117, 200, 200);
         frame.getContentPane().add(gearIcon);
 

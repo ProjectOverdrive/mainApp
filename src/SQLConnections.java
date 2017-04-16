@@ -10,7 +10,7 @@ import java.util.Vector;
 public class SQLConnections {
 
     private static Connection connect() {
-        String databaseURL = "jdbc:sqlite:mainApp/database.db";
+        String databaseURL = "jdbc:sqlite:database.db";
 
         Connection connection = null;
 
