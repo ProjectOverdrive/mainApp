@@ -1,11 +1,10 @@
+//TODO: Input validation on address fields (zipcode 5 digits, etc)
+
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
 
 public class CustomerTab {
 
@@ -27,17 +26,11 @@ public class CustomerTab {
 
     //This method creates the customer table.
     public JTable createCustomerTable() {
-        JTable custTable = new JTable(connection.populateCustomerTable());
-        //JScrollPane scrollPane = new JScrollPane(custTable);
-        JOptionPane.showMessageDialog(null, new JScrollPane(custTable));
-        custTable.setFillsViewportHeight(true);
-        //panel.setVisible(true);
-
-        String[] columnNames = {"ID", "First Name", "Last Name", "Phone Number", "Street Address", "City", "State",
-                "Zipcode", "Email"};
-        //JTable custTable = new JTable(null, columnNames);
+        JTable custTable = new JTable();
         custTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        custTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        custTable.setModel(DbUtils.resultSetToTableModel(connection.populateCustomerTable()));
+        custTable.getTableHeader().setReorderingAllowed(false);
+
         return custTable;
     }
 
@@ -241,8 +234,7 @@ public class CustomerTab {
         String zipcode = zipcodeText.getText();
 
         connection.addNewCustomer(firstName, lastName, phoneNumber,
-                streetAddress, city, state,
-                zipcode, email);
+                streetAddress, city, state, zipcode, email);
 
         //TODO: Make sure not adding duplicate customer
     }

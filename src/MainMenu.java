@@ -40,7 +40,10 @@ public class MainMenu {
 
         //Initialize the customer tab and add its components.
         CustomerTab customerTab = new CustomerTab();
-        customerPanel.add(customerTab.createCustomerTable());
+        JScrollPane custTablePanel = new JScrollPane();
+        custTablePanel.setBounds(0, 11, 927, 817);
+        customerPanel.add(custTablePanel);
+        custTablePanel.setViewportView(customerTab.createCustomerTable());
         customerPanel.add(customerTab.createRefreshListButton());
         customerPanel.add(customerTab.createAddCustomerButton());
         customerPanel.add(customerTab.createDeleteCustomerButton());

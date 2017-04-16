@@ -2,10 +2,10 @@
  * Created by Colten on 4/11/17.
  */
 
+//TODO: Set all errors to show window not print to console
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.Vector;
 
 public class SQLConnections {
 
@@ -18,16 +18,10 @@ public class SQLConnections {
 
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(databaseURL);
-            //System.out.println("Connection to SQLite has been established.");
 
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-
-        /*if (connection == null) {
-            System.out.println("I didn't connect");
-            System.exit(0);
-        }*/
 
         return connection;
     }
@@ -58,16 +52,15 @@ public class SQLConnections {
         return false;
     }
 
-    public DefaultTableModel populateCustomerTable() {
+    public ResultSet populateCustomerTable() {
         String query = "SELECT * FROM customers";
 
-        try (Connection connection = this.connect();
-             // Prepares query statement
-             Statement statement = connection.createStatement();
-             // Gets results of query
-             ResultSet resultSet = statement.executeQuery(query)) {
+        try {
+            Connection connection = this.connect();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
 
-            return buildTableModel(resultSet);
+            return resultSet;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -118,37 +111,5 @@ public class SQLConnections {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    // Delete Customer
-
-    // Update Customer
-
-    //
-
-    public static DefaultTableModel buildTableModel(ResultSet rs)
-            throws SQLException {
-
-        ResultSetMetaData metaData = rs.getMetaData();
-
-        // names of columns
-        Vector<String> columnNames = new Vector<String>();
-        int columnCount = metaData.getColumnCount();
-        for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
-        }
-
-        // data of the table
-        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        while (rs.next()) {
-            Vector<Object> vector = new Vector<Object>();
-            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-                vector.add(rs.getObject(columnIndex));
-            }
-            data.add(vector);
-        }
-
-        return new DefaultTableModel(data, columnNames);
-
     }
 }
