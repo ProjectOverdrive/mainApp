@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class MainMenu {
 
@@ -19,7 +20,11 @@ public class MainMenu {
         frame.setBounds(100, 100, 1356, 928);
         frame.getContentPane().setLayout(null);
 
-        //TODO: add Overdrive label
+        //Create Overdrive Label
+        JLabel overdriveLabel = new JLabel("Overdrive");
+        overdriveLabel.setBounds(620, 5, 300, 60);
+        overdriveLabel.setFont(new Font(overdriveLabel.getFont().getName(), Font.PLAIN, 32));
+        frame.getContentPane().add(overdriveLabel);
 
         //Creates the main window panel.
         JTabbedPane mainWindowPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -91,6 +96,20 @@ public class MainMenu {
         JPanel managePanel = new JPanel();
         mainWindowPanel.addTab("Manage", null, managePanel, null);
         managePanel.setLayout(null);
+        
+        //Initialize the manage tab and its components.
+        ManageTab manageTab = new ManageTab();
+        managePanel.add(manageTab.createEmployeeTable());
+        managePanel.add(manageTab.createRefreshListButton());
+        managePanel.add(manageTab.createAddEmployeeButton());
+        managePanel.add(manageTab.createDeleteEmployeeButton());
+        managePanel.add(manageTab.createUpdateEmployeeButton());
+        managePanel.add(manageTab.createExportPayrollButton());
+        
+        //Create the panel for the employee portal.
+        JPanel employeePortalPanel = new JPanel();
+        mainWindowPanel.addTab("Employee Portal", null, employeePortalPanel, null);
+        employeePortalPanel.setLayout(null);
 
         //Display the frame.
         frame.setVisible(true);
