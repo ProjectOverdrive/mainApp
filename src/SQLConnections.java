@@ -5,9 +5,11 @@
 //TODO: Set all errors to show window not print to console
 //TODO: Update password for users
 //TODO: Refresh tables on click
-//TODO: Make table vells uneditable
+//TODO: Make table cells uneditable
+
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class SQLConnections {
 
@@ -74,8 +76,8 @@ public class SQLConnections {
     // Attempts to add new customer to the database
     public void addNewCustomer(String firstName, String lastName, String phoneNumber, String streetAddress,
                                String city, String state, String zipcode, String email) {
-        String query = "INSERT INTO customers('Part Number', 'First Name', 'Last Name', 'Phone Number', " +
-                "'Street Address', City, State, Zipcode, Email) VALUES(?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO customers('First Name', 'Last Name', 'Phone Number', " +
+                "'Street Address', City, State, Zipcode, Email) VALUES(?,?,?,?,?,?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement statement = conn.prepareStatement(query)) {
@@ -95,15 +97,67 @@ public class SQLConnections {
     }
 
     // Removes customer from the database
-    // Value will always be unique as customers are deleted by ID
+    // Value will always be unique as customers are deleted by row ID
     public void deleteCustomer(int selectedCusID) {
         String query = "DELETE FROM customers WHERE rowid = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement statement = conn.prepareStatement(query)) {
-            System.out.println(selectedCusID);
             statement.setInt(1, selectedCusID);
 
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Populates update customer box fields
+    public String[] fillCustomerUpdate(int selectedCusID) {
+        ResultSet resultSet;
+        String[] fieldResults = new String[8];
+        String query = "SELECT * FROM customers WHERE rowid = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, selectedCusID);
+            resultSet = statement.executeQuery();
+
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            System.out.println(columnCount);
+
+            for (int i = 0; i < columnCount; i++) {
+                fieldResults[i] = resultSet.getString(i + 1);
+            }
+
+            return fieldResults;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+
+    }
+
+    // Updates selected customer
+    public void updateCustomer(String firstName, String lastName, String phoneNumber, String email,
+                               String streetAddress, String city, String state, String zipcode,
+                               int selectedCusID) {
+        String query = "UPDATE customers SET 'First Name' = ?, 'Last Name' = ?, 'Phone Number' = ?, " +
+                "'Street Address' = ?, City = ?, State = ?, Zipcode = ?, Email = ? WHERE rowid = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, phoneNumber);
+            statement.setString(4, streetAddress);
+            statement.setString(5, city);
+            statement.setString(6, state);
+            statement.setString(7, zipcode);
+            statement.setString(8, email);
+            statement.setInt(9, selectedCusID);
             statement.executeUpdate();
 
         } catch (SQLException e) {

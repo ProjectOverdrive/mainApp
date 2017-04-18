@@ -5,6 +5,7 @@ import net.proteanit.sql.DbUtils;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class CustomerTab {
 
@@ -252,7 +253,11 @@ public class CustomerTab {
 
     //This method creates the update customer window.
     public void buildUpdateCustomerFrame() {
-        //TODO: prepopulate these fields with the customer from the database
+        // Gets selected row
+        int row = custTable.getSelectedRow();
+        int selectedCusID = (int) custTable.getValueAt(row, 0);
+        String[] fieldValues = connection.fillCustomerUpdate(selectedCusID);
+
         //This initializes the update customer window.
         JFrame updateCustomerFrame = new JFrame();
         updateCustomerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -263,51 +268,51 @@ public class CustomerTab {
 
         //This initializes the first name text field.
         firstNameText = new JTextField();
-        firstNameText.setText("First Name");
+        firstNameText.setText(fieldValues[0]);
         firstNameText.setBounds(10, 11, 203, 32);
         updateCustomerFrame.getContentPane().add(firstNameText);
 
         //This initializes the last name text field.
         lastNameText = new JTextField();
-        lastNameText.setText("Last Name");
+        lastNameText.setText(fieldValues[1]);
         lastNameText.setBounds(233, 11, 203, 32);
         updateCustomerFrame.getContentPane().add(lastNameText);
 
         //This initializes the phone number text field.
         phoneNumberText = new JTextField();
-        phoneNumberText.setText("Phone Number");
+        phoneNumberText.setText(fieldValues[2]);
         phoneNumberText.setBounds(10, 53, 203, 32);
         updateCustomerFrame.getContentPane().add(phoneNumberText);
 
-        //This initializes the email text field.
-        emailText = new JTextField();
-        emailText.setText("Email");
-        emailText.setBounds(233, 53, 203, 32);
-        updateCustomerFrame.getContentPane().add(emailText);
-
         //This initializes the street address text field.
         streetAddressText = new JTextField();
-        streetAddressText.setText("Street Address");
+        streetAddressText.setText(fieldValues[3]);
         streetAddressText.setBounds(10, 95, 426, 32);
         updateCustomerFrame.getContentPane().add(streetAddressText);
 
         //This initializes the city text field.
         cityText = new JTextField();
-        cityText.setText("City");
+        cityText.setText(fieldValues[4]);
         cityText.setBounds(10, 137, 203, 32);
         updateCustomerFrame.getContentPane().add(cityText);
 
         //This initializes the state text field.
         stateText = new JTextField();
-        stateText.setText("State");
+        stateText.setText(fieldValues[5]);
         stateText.setBounds(233, 137, 203, 32);
         updateCustomerFrame.getContentPane().add(stateText);
 
         //This initializes the zipcode text field.
         zipcodeText = new JTextField();
-        zipcodeText.setText("Zipcode");
+        zipcodeText.setText(fieldValues[6]);
         zipcodeText.setBounds(10, 179, 203, 32);
         updateCustomerFrame.getContentPane().add(zipcodeText);
+
+        //This initializes the email text field.
+        emailText = new JTextField();
+        emailText.setText(fieldValues[7]);
+        emailText.setBounds(233, 53, 203, 32);
+        updateCustomerFrame.getContentPane().add(emailText);
 
         //This initializes the cancel button.
         JButton updateCustomerCancelButton = new JButton("Cancel");
@@ -335,7 +340,7 @@ public class CustomerTab {
                 //the database and close the update customer window. Otherwise
                 //display an error.
                 if (customerHasRequiredFields()) {
-                    updateCustomer();
+                    updateCustomer(selectedCusID);
                     updateCustomerFrame.dispose();
                 } else {
                     createRequiredFieldsErrorWindow();
@@ -347,7 +352,7 @@ public class CustomerTab {
     }
 
     //This method updates the customer in the database.
-    private void updateCustomer() {
+    private void updateCustomer(int selectedCusID) {
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
         String phoneNumber = phoneNumberText.getText();
@@ -357,7 +362,8 @@ public class CustomerTab {
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
 
-        //TODO: Update these fields on the database.
+        connection.updateCustomer(firstName, lastName, phoneNumber, email,
+                streetAddress, city, state, zipcode, selectedCusID);
     }
 
     //This method creates a new window to display the required fields error 
