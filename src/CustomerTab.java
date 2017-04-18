@@ -19,6 +19,7 @@ public class CustomerTab {
     private JTextField cityText;
     private JTextField stateText;
     private JTextField zipcodeText;
+    private JTable custTable;
 
     public CustomerTab() {
         connection = new SQLConnections();
@@ -26,7 +27,7 @@ public class CustomerTab {
 
     //This method creates the customer table.
     public JTable createCustomerTable() {
-        JTable custTable = new JTable();
+        custTable = new JTable();
         custTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         custTable.setModel(DbUtils.resultSetToTableModel(connection.populateCustomerTable()));
         custTable.getTableHeader().setReorderingAllowed(false);
@@ -68,7 +69,17 @@ public class CustomerTab {
     public JButton createDeleteCustomerButton() {
         JButton deleteCustomerButton = new JButton("Delete Customer");
         deleteCustomerButton.setBounds(1133, 50, 167, 28);
-        //TODO: delete selected item when button is pressed.
+
+        deleteCustomerButton.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = custTable.getSelectedRow();
+                int selectedCusID = (int) custTable.getValueAt(row, 0);
+                connection.deleteCustomer(selectedCusID);
+                JOptionPane.showMessageDialog(null, "Customer Removed");
+            }
+        });
         return deleteCustomerButton;
     }
 

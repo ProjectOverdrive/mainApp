@@ -3,7 +3,9 @@
  */
 
 //TODO: Set all errors to show window not print to console
-
+//TODO: Update password for users
+//TODO: Refresh tables on click
+//TODO: Make table vells uneditable
 import javax.swing.*;
 import java.sql.*;
 
@@ -53,7 +55,7 @@ public class SQLConnections {
     }
 
     public ResultSet populateCustomerTable() {
-        String query = "SELECT * FROM customers";
+        String query = "SELECT rowid AS 'ID', * FROM customers";
 
         try {
             Connection connection = this.connect();
@@ -72,8 +74,8 @@ public class SQLConnections {
     // Attempts to add new customer to the database
     public void addNewCustomer(String firstName, String lastName, String phoneNumber, String streetAddress,
                                String city, String state, String zipcode, String email) {
-        String query = "INSERT INTO customers('First Name', 'Last Name', 'Phone Number', 'Street Address'," +
-                "City, State, Zipcode, Email) VALUES(?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO customers('Part Number', 'First Name', 'Last Name', 'Phone Number', " +
+                "'Street Address', City, State, Zipcode, Email) VALUES(?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement statement = conn.prepareStatement(query)) {
@@ -92,20 +94,38 @@ public class SQLConnections {
         }
     }
 
+    // Removes customer from the database
+    // Value will always be unique as customers are deleted by ID
+    public void deleteCustomer(int selectedCusID) {
+        String query = "DELETE FROM customers WHERE rowid = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            System.out.println(selectedCusID);
+            statement.setInt(1, selectedCusID);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     // Attempts to add new inventory item to the database
-    public void addNewInventoryItem(String description, String vendor, String location,
+    public void addNewInventoryItem(String partNumber, String description, String vendor, String location,
                                     int quantity, double unitCost, String url) {
         String query = "INSERT INTO inventory(Description, Vendor, Location, Quantity," +
                 "'Unit Cost', URL) VALUES(?,?,?,?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setString(1, description);
-            statement.setString(2, vendor);
-            statement.setString(3, location);
-            statement.setInt(4, quantity);
-            statement.setDouble(5, unitCost);
-            statement.setString(6, url);
+            statement.setString(1, partNumber);
+            statement.setString(2, description);
+            statement.setString(3, vendor);
+            statement.setString(4, location);
+            statement.setInt(5, quantity);
+            statement.setDouble(6, unitCost);
+            statement.setString(7, url);
             statement.executeUpdate();
 
         } catch (SQLException e) {
