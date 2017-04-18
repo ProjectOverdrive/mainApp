@@ -185,8 +185,8 @@ public class SQLConnections {
     // Attempts to add new inventory item to the database
     public void addNewInventoryItem(String partNumber, String description, String vendor, String location,
                                     int quantity, double unitCost, String url) {
-        String query = "INSERT INTO inventory(Description, Vendor, Location, Quantity," +
-                "'Unit Cost', URL) VALUES(?,?,?,?,?,?)";
+        String query = "INSERT INTO inventory('Part Number', Description, Vendor, Location, Quantity," +
+                "'Unit Cost', URL) VALUES(?,?,?,?,?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement statement = conn.prepareStatement(query)) {
