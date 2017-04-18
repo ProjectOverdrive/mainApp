@@ -43,7 +43,7 @@ public class MainMenu {
         customerPanel.setLayout(null);
 
         //Initialize the customer tab and add its components.
-        CustomerTab customerTab = new CustomerTab();
+        CustomerTab customerTab = new CustomerTab(connection);
         JScrollPane custTablePanel = new JScrollPane();
         custTablePanel.setBounds(0, 11, 927, 817);
         customerPanel.add(custTablePanel);
@@ -61,8 +61,12 @@ public class MainMenu {
         workOrderPanel.setLayout(null);
 
         //Initialize the work order tab and add its components.
-        WorkOrderTab workOrderTab = new WorkOrderTab();
-        workOrderPanel.add(workOrderTab.createWorkOrderTable());
+        WorkOrderTab workOrderTab = new WorkOrderTab(connection);
+        JScrollPane workOrderTablePanel = new JScrollPane();
+        workOrderTablePanel.setBounds(0, 11, 927, 817);
+        workOrderPanel.add(workOrderTablePanel);
+        workOrderTablePanel.setViewportView(workOrderTab.createWorkOrderTable());
+
         workOrderPanel.add(workOrderTab.createRefreshListButton());
         workOrderPanel.add(workOrderTab.createAddWorkOrderButton());
         workOrderPanel.add(workOrderTab.createDeleteWorkOrderButton());
@@ -75,7 +79,7 @@ public class MainMenu {
         inventoryPanel.setLayout(null);
 
         //Initialize the inventory tab and add its components.
-        InventoryTab inventoryTab = new InventoryTab();
+        InventoryTab inventoryTab = new InventoryTab(connection);
         JScrollPane inventoryTablePanel = new JScrollPane();
         inventoryTablePanel.setBounds(0, 11, 927, 817);
         inventoryPanel.add(inventoryTablePanel);

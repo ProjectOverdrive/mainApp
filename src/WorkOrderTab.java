@@ -1,3 +1,5 @@
+import net.proteanit.sql.DbUtils;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -11,12 +13,22 @@ public class WorkOrderTab {
     private JTextField detailsText;
     private JComboBox customerSelection;
     private JComboBox prioritySelection;
+    private SQLConnections connection;
+    private JTable workOrderTable;
+
+    public WorkOrderTab(SQLConnections connection) {
+        this.connection = connection;
+    }
 
     //This method creates the table for displaying work orders.
     public JTable createWorkOrderTable() {
-        JTable workOrderTable = new JTable();
+        workOrderTable = new JTable();
         workOrderTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        workOrderTable.setModel(DbUtils.resultSetToTableModel(connection.populateWorkOrderTable()));
+        workOrderTable.getTableHeader().setReorderingAllowed(false);
+        workOrderTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         workOrderTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
+
         return workOrderTable;
     }
 
@@ -193,7 +205,7 @@ public class WorkOrderTab {
         String details = detailsText.getText();
         String priority = prioritySelection.getSelectedItem().toString();
 
-        //TODO: Add these fields as an object to the database.
+        connection.addWorkOrder(employeeName, customerName, status, details, priority);
     }
 
     //This method creates and controls the update work order window.

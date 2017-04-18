@@ -19,8 +19,8 @@ public class InventoryTab {
     private JTextField urlText;
     private JTable inventoryTable;
 
-    public InventoryTab() {
-        connection = new SQLConnections();
+    public InventoryTab(SQLConnections connection) {
+        this.connection = connection;
     }
 
     //This method creates the inventory table.

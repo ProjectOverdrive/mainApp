@@ -6,16 +6,21 @@
 //TODO: Update password for users
 //TODO: Refresh tables on click
 //TODO: Make table cells uneditable
+//TODO: forgot password
 
 import javax.swing.*;
 import java.sql.*;
 
 public class SQLConnections {
+    private Connection connection;
 
-    private static Connection connect() {
+    public SQLConnections() {
+        connect();
+    }
+
+    public Connection connect() {
         String databaseURL = "jdbc:sqlite:database.db";
 
-        Connection connection = null;
 
         try {
 
@@ -35,8 +40,7 @@ public class SQLConnections {
         String query = "SELECT username, password FROM employees";
 
         // Tries to execute query
-        try (Connection connection = this.connect();
-             // Prepares query statement
+        try (// Prepares query statement
              Statement statement = connection.createStatement();
              // Gets results of query
              ResultSet resultSet = statement.executeQuery(query)) {
@@ -44,24 +48,26 @@ public class SQLConnections {
             while (resultSet.next()) {
                 // If given username and password matches a row in the database
                 if (resultSet.getString("username").equalsIgnoreCase(username) && resultSet.getString("password").equals(password)) {
+
                     return true;
                 }
             }
 
-        } catch (SQLException e) {
+        } catch(SQLException e){
             System.out.println(e.getMessage());
         }
+
 
         return false;
     }
 
+    // Checks if logged in user is an admin
     public boolean isAdmin(String activeUser) {
 
         String query = "SELECT isManager FROM [employees] WHERE [Username] = ?";
 
         // Tries to execute query
         try {
-            Connection connection = this.connect();
             // Prepares query statement
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, activeUser);
@@ -70,6 +76,7 @@ public class SQLConnections {
 
             // If given username is a manager account
             if (resultSet.getInt("isManager") == 1) {
+
                 return true;
             }
 
@@ -77,6 +84,7 @@ public class SQLConnections {
             System.out.println(e.getMessage());
         }
 
+        // isAdmin = 0 or null
         return false;
     }
 
@@ -85,7 +93,6 @@ public class SQLConnections {
         String query = "SELECT rowid AS 'ID', * FROM customers";
 
         try {
-            Connection connection = this.connect();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
@@ -104,8 +111,8 @@ public class SQLConnections {
         String query = "INSERT INTO customers('First Name', 'Last Name', 'Phone Number', " +
                 "'Street Address', City, State, Zipcode, Email) VALUES(?,?,?,?,?,?,?,?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, phoneNumber);
@@ -126,8 +133,8 @@ public class SQLConnections {
     public void deleteCustomer(int selectedCusID) {
         String query = "DELETE FROM customers WHERE rowid = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, selectedCusID);
 
             statement.executeUpdate();
@@ -143,8 +150,8 @@ public class SQLConnections {
         String[] fieldResults = new String[8];
         String query = "SELECT * FROM customers WHERE rowid = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, selectedCusID);
             resultSet = statement.executeQuery();
 
@@ -171,8 +178,8 @@ public class SQLConnections {
         String query = "UPDATE customers SET 'First Name' = ?, 'Last Name' = ?, 'Phone Number' = ?, " +
                 "'Street Address' = ?, City = ?, State = ?, Zipcode = ?, Email = ? WHERE rowid = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, phoneNumber);
@@ -189,11 +196,45 @@ public class SQLConnections {
         }
     }
 
+    public ResultSet populateWorkOrderTable() {
+        String query = "SELECT rowid AS 'ID', * FROM workOrders";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void addWorkOrder(String employee, String status, String details, String customer,
+                             String priority) {
+        String query = "INSERT INTO workOrders(Employee, Status, Details, " +
+                "Customer, Priority) VALUES(?,?,?,?,?)";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, employee);
+            statement.setString(2, status);
+            statement.setString(3, details);
+            statement.setString(4, customer);
+            statement.setString(5, priority);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public ResultSet populateInventoryTable() {
         String query = "SELECT rowid AS 'ID', * FROM inventory";
 
         try {
-            Connection connection = this.connect();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
@@ -212,8 +253,8 @@ public class SQLConnections {
         String query = "INSERT INTO inventory('Part Number', Description, Vendor, Location, Quantity," +
                 "'Unit Cost', URL) VALUES(?,?,?,?,?,?,?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, partNumber);
             statement.setString(2, description);
             statement.setString(3, vendor);
@@ -232,8 +273,8 @@ public class SQLConnections {
     public void deleteInventoryItem(int selectedItemID) {
         String query = "DELETE FROM inventory WHERE rowid = ?";
 
-        try (Connection conn = this.connect();
-             PreparedStatement statement = conn.prepareStatement(query)) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, selectedItemID);
 
             statement.executeUpdate();
@@ -249,7 +290,7 @@ public class SQLConnections {
                 "[Username] FROM employees";
 
         try {
-            Connection connection = this.connect();
+
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
