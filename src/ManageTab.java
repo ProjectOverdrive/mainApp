@@ -324,6 +324,7 @@ public class ManageTab {
         requiredFieldsErrorFrame.setVisible(true);
     }
     
+    //TODO: resize frame since password is not included 
     //This method controls the update employee window
     public void buildUpdateEmployeeFrame() {
         //This initializes the frame.

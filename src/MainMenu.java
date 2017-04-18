@@ -129,6 +129,14 @@ public class MainMenu {
         JPanel employeePortalPanel = new JPanel();
         mainWindowPanel.addTab("Employee Portal", null, employeePortalPanel, null);
         employeePortalPanel.setLayout(null);
+        
+        //Initialize the employee portal tab and its components.
+        //Initialize the symptoms tab and its components.
+        EmployeePortalTab employeePortalTab = new EmployeePortalTab();
+        employeePortalPanel.add(employeePortalTab.createEmployeePortalTable());
+        employeePortalPanel.add(employeePortalTab.createRefreshButton());
+        employeePortalPanel.add(employeePortalTab.createUpdateInfoButton());
+        employeePortalPanel.add(employeePortalTab.createChangePasswordButton());
 
         //Display the frame.
         frame.setVisible(true);
