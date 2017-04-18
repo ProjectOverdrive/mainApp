@@ -1,14 +1,15 @@
 //TODO: Input validation on address fields (zipcode 5 digits, etc)
+//TODO: Add field names above text box
 
 import net.proteanit.sql.DbUtils;
-
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class CustomerTab {
 
-    SQLConnections connection;
+    private SQLConnections connection;
 
     //These are the text fields for the add/update customer UI.
     private JTextField firstNameText;
@@ -21,8 +22,8 @@ public class CustomerTab {
     private JTextField zipcodeText;
     private JTable custTable;
 
-    public CustomerTab() {
-        connection = new SQLConnections();
+    public CustomerTab(SQLConnections connection) {
+        this.connection = connection;
     }
 
     //This method creates the customer table.
@@ -32,6 +33,7 @@ public class CustomerTab {
         custTable.setModel(DbUtils.resultSetToTableModel(connection.populateCustomerTable()));
         custTable.getTableHeader().setReorderingAllowed(false);
         custTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+        custTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
         return custTable;
     }
@@ -76,6 +78,7 @@ public class CustomerTab {
             @Override
             public void mousePressed(MouseEvent e) {
                 int row = custTable.getSelectedRow();
+                System.out.println(row);
                 int selectedCusID = (int) custTable.getValueAt(row, 0);
                 connection.deleteCustomer(selectedCusID);
                 JOptionPane.showMessageDialog(null, "Customer Removed");
