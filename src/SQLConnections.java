@@ -55,6 +55,31 @@ public class SQLConnections {
         return false;
     }
 
+    public boolean isAdmin(String activeUser) {
+
+        String query = "SELECT isManager FROM [employees] WHERE [Username] = ?";
+
+        // Tries to execute query
+        try {
+            Connection connection = this.connect();
+            // Prepares query statement
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, activeUser);
+            // Gets results of query
+            ResultSet resultSet = statement.executeQuery();
+
+            // If given username is a manager account
+            if (resultSet.getInt("isManager") == 1) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
     // Pull data for customer table from the database
     public ResultSet populateCustomerTable() {
         String query = "SELECT rowid AS 'ID', * FROM customers";

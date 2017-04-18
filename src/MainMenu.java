@@ -4,11 +4,13 @@ import java.awt.*;
 public class MainMenu {
 
     JFrame frame;
+    SQLConnections connection;
     private String activeUser;
 
     //This is the wrapper method for the construction of the UI.
     public void open(String username) {
         activeUser = username;
+        connection = new SQLConnections();
         constructUi();
     }
 
@@ -101,25 +103,28 @@ public class MainMenu {
         symptomsPanel.add(symptoms.createMileageInput());
         symptomsPanel.add(symptoms.createSubmitButton());
 
-        //TODO: hide panel for non-managers 
         //Create the panel for manage.
-        JPanel managePanel = new JPanel();
-        mainWindowPanel.addTab("Manage", null, managePanel, null);
-        managePanel.setLayout(null);
-        
-        //Initialize the manage tab and its components.
-        ManageTab manageTab = new ManageTab();
-        JScrollPane employeeTablePanel = new JScrollPane();
-        employeeTablePanel.setBounds(0, 11, 927, 817);
-        managePanel.add(employeeTablePanel);
-        employeeTablePanel.setViewportView(manageTab.createEmployeeTable());
+        //If active user is a manager
+        if (connection.isAdmin(activeUser)) {
+            JPanel managePanel = new JPanel();
+            mainWindowPanel.addTab("Manage", null, managePanel, null);
+            managePanel.setLayout(null);
 
-        managePanel.add(manageTab.createRefreshListButton());
-        managePanel.add(manageTab.createAddEmployeeButton());
-        managePanel.add(manageTab.createDeleteEmployeeButton());
-        managePanel.add(manageTab.createUpdateEmployeeButton());
-        managePanel.add(manageTab.createExportPayrollButton());
-        
+            //Initialize the manage tab and its components.
+            ManageTab manageTab = new ManageTab();
+            JScrollPane employeeTablePanel = new JScrollPane();
+            employeeTablePanel.setBounds(0, 11, 927, 817);
+            managePanel.add(employeeTablePanel);
+            employeeTablePanel.setViewportView(manageTab.createEmployeeTable());
+
+            managePanel.add(manageTab.createRefreshListButton());
+            managePanel.add(manageTab.createAddEmployeeButton());
+            managePanel.add(manageTab.createDeleteEmployeeButton());
+            managePanel.add(manageTab.createUpdateEmployeeButton());
+            managePanel.add(manageTab.createExportPayrollButton());
+
+        }
+
         //Create the panel for the employee portal.
         JPanel employeePortalPanel = new JPanel();
         mainWindowPanel.addTab("Employee Portal", null, employeePortalPanel, null);
