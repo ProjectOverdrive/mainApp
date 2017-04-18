@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 public class ManageTab {
-    
+    //TODO: ensure all combo boxes are validated against null space (all files)
     //These are the text fields for the add/update inventory item windows.
     private JTextField firstNameText;
     private JTextField lastNameText;
@@ -79,8 +79,7 @@ public class ManageTab {
             //will open.
             @Override
             public void mousePressed(MouseEvent e) {
-                //TODO: create update window
-                //buildUpdateEmployeeFrame();
+                buildUpdateEmployeeFrame();
             }
         });
         return updateEmployeeButton;
@@ -195,7 +194,7 @@ public class ManageTab {
         addEmployeeFrame.getContentPane().add(addEmployeeSubmitButton);
 
         //TODO: ensure hourly pay is a number, show error window
-        //Pressing this button will attempt to add the customer to the database.
+        //Pressing this button will attempt to add the employee to the database.
         addEmployeeSubmitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
@@ -203,8 +202,13 @@ public class ManageTab {
                 //add to the database. If they are present, add the employee and 
                 //close the window. Otherwise display an error message.
                 if (employeeHasRequiredFields()) {
-                    addNewEmployee();
-                    addEmployeeFrame.dispose();
+                    //Check that hourly pay is a numeric value.
+                    if (numberParsesCorrectly(hourlyPayText.getText())) {
+                        addNewEmployee();
+                        addEmployeeFrame.dispose();    
+                    } else {
+                        createHourlyPayErrorWindow();
+                    }
                 } else {
                     createRequiredFieldsErrorWindow();
                 }
@@ -318,5 +322,197 @@ public class ManageTab {
         });
 
         requiredFieldsErrorFrame.setVisible(true);
+    }
+    
+    //This method controls the update employee window
+    public void buildUpdateEmployeeFrame() {
+        //This initializes the frame.
+        JFrame updateEmployeeFrame = new JFrame();
+        updateEmployeeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        updateEmployeeFrame.setResizable(false);
+        updateEmployeeFrame.setTitle("Update Employee");
+        updateEmployeeFrame.setBounds(100, 100, 475, 385);
+        updateEmployeeFrame.getContentPane().setLayout(null);
+
+        //This initializes the first name text field.
+        firstNameText = new JTextField();
+        firstNameText.setText("First Name");
+        firstNameText.setBounds(10, 11, 203, 32);
+        updateEmployeeFrame.getContentPane().add(firstNameText);
+
+        //This initializes the last name text field.
+        lastNameText = new JTextField();
+        lastNameText.setText("Last Name");
+        lastNameText.setBounds(233, 11, 203, 32);
+        updateEmployeeFrame.getContentPane().add(lastNameText);
+
+        //This initializes the phone number text field.
+        phoneNumberText = new JTextField();
+        phoneNumberText.setText("Phone Number");
+        phoneNumberText.setBounds(10, 53, 203, 32);
+        updateEmployeeFrame.getContentPane().add(phoneNumberText);
+
+        //This initializes the email text field.
+        emailText = new JTextField();
+        emailText.setText("Email");
+        emailText.setBounds(233, 53, 203, 32);
+        updateEmployeeFrame.getContentPane().add(emailText);
+
+        //This initializes the street address text field.
+        streetAddressText = new JTextField();
+        streetAddressText.setText("Street Address");
+        streetAddressText.setBounds(10, 95, 426, 32);
+        updateEmployeeFrame.getContentPane().add(streetAddressText);
+
+        //This initializes the city text field.
+        cityText = new JTextField();
+        cityText.setText("City");
+        cityText.setBounds(10, 137, 203, 32);
+        updateEmployeeFrame.getContentPane().add(cityText);
+
+        //This initializes the state text field.
+        stateText = new JTextField();
+        stateText.setText("State");
+        stateText.setBounds(233, 137, 203, 32);
+        updateEmployeeFrame.getContentPane().add(stateText);
+
+        //This initializes the zipcode text field.
+        zipcodeText = new JTextField();
+        zipcodeText.setText("Zipcode");
+        zipcodeText.setBounds(10, 179, 203, 32);
+        updateEmployeeFrame.getContentPane().add(zipcodeText);
+        
+        //This initializes the username text field.
+        usernameText = new JTextField();
+        usernameText.setText("Username");
+        usernameText.setBounds(10, 221, 203, 32);
+        updateEmployeeFrame.getContentPane().add(usernameText);
+        
+        //Managers will not be able to update passwords.
+        
+        //This initializes the hourly pay text field.
+        hourlyPayText = new JTextField();
+        hourlyPayText.setText("Hourly Pay");
+        hourlyPayText.setBounds(10, 263, 203, 32);
+        updateEmployeeFrame.getContentPane().add(hourlyPayText);
+        
+        //This initializes the is manager combo box.
+        String[] isManagerChoices = {"", "Is Manager", "Not Manager"};
+        isManagerSelection = new JComboBox(isManagerChoices);
+        isManagerSelection.setBounds(233, 263, 203, 32);
+        updateEmployeeFrame.getContentPane().add(isManagerSelection);
+        
+        //This initializes the cancel button.
+        JButton updateEmployeeCancelButton = new JButton("Cancel");
+        updateEmployeeCancelButton.setBounds(10, 305, 203, 32);
+        updateEmployeeFrame.getContentPane().add(updateEmployeeCancelButton);
+
+        //Pressing this button will close the update customer window.
+        updateEmployeeCancelButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                updateEmployeeFrame.dispose();
+            }
+        });
+
+        //This initializes the submit button.
+        JButton updateEmployeeSubmitButton = new JButton("Update Employee");
+        updateEmployeeSubmitButton.setBounds(233, 305, 203, 32);
+        updateEmployeeFrame.getContentPane().add(updateEmployeeSubmitButton);
+
+        //TODO: ensure hourly pay is a number, show error window
+        //Pressing this button will attempt to update the employee in the database.
+        updateEmployeeSubmitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                //Check that all required fields are present before attempting to
+                //update the database. If they are present, update the employee and 
+                //close the window. Otherwise display an error message.
+                if (employeeHasRequiredFields()) {
+                    //Check that hourly pay is a numeric value.
+                    if (numberParsesCorrectly(hourlyPayText.getText())) {
+                        updateEmployee();
+                        updateEmployeeFrame.dispose();    
+                    } else {
+                        createHourlyPayErrorWindow();
+                    }
+                } else {
+                    createRequiredFieldsErrorWindow();
+                }
+            }
+        });
+
+        updateEmployeeFrame.setVisible(true);
+    }
+    
+    //This method updates the employee to the database.
+    private void updateEmployee() {
+        String firstName = firstNameText.getText();
+        String lastName = lastNameText.getText();
+        String phoneNumber = phoneNumberText.getText();
+        String email = emailText.getText();
+        String streetAddress = streetAddressText.getText();
+        String city = cityText.getText();
+        String state = stateText.getText();
+        String zipcode = zipcodeText.getText();
+        String username = usernameText.getText();
+        String password = usernameText.getText();
+        Double hourlyRate = Double.parseDouble(hourlyPayText.getText());
+        int isManager = 0;
+        if (isManagerSelection.getSelectedItem().toString().equals("Is Manager")) {
+            isManager = 1;
+        }
+        
+        //TODO: update database
+    }
+    
+    //This number ensures that fields that are supposed to be numeric are so.
+    private boolean numberParsesCorrectly(String numericalText) {
+        int count = 0;
+        //Loop through the string and increment count when a numeric character
+        //is found.
+        for (char c : numericalText.toCharArray()) {
+            if (Character.isDigit(c)) {
+                count++;
+            }
+        }
+        //If a numeric character is not found, count will be zero and we return
+        //false becuase the number is not numeric.
+        if (count == 0) {
+            return false;
+        }
+        //Otherwise return true.
+        return true;
+    }
+    
+    //This method creates the error window for hourly pay not being numeric.
+    private void createHourlyPayErrorWindow() {
+        //This creates the error window
+        JFrame hourlyPayErrorFrame = new JFrame();
+        hourlyPayErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        hourlyPayErrorFrame.setResizable(false);
+        hourlyPayErrorFrame.setTitle("Error");
+        hourlyPayErrorFrame.setBounds(100, 100, 350, 200);
+        hourlyPayErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel("Hourly Pay must be a numerical value.");
+        errorMessage.setBounds(60, 50, 250, 32);
+        hourlyPayErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        hourlyPayErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                hourlyPayErrorFrame.dispose();
+            }
+        });
+
+        hourlyPayErrorFrame.setVisible(true);
     }
 }
