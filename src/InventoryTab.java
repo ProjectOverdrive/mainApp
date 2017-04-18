@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 
 public class InventoryTab {
 
+    private SQLConnections connection;
+
     //These are the text fields for the add/update inventory item windows.
     private JTextField numberText;
     private JTextField descriptionText;
@@ -15,7 +17,6 @@ public class InventoryTab {
     private JTextField quantityText;
     private JTextField unitCostText;
     private JTextField urlText;
-    private SQLConnections connection;
     private JTable inventoryTable;
 
     public InventoryTab() {
@@ -29,6 +30,7 @@ public class InventoryTab {
         inventoryTable.setModel(DbUtils.resultSetToTableModel(connection.populateInventoryTable()));
         inventoryTable.getTableHeader().setReorderingAllowed(false);
         inventoryTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+
         return inventoryTable;
     }
 
@@ -59,6 +61,19 @@ public class InventoryTab {
     public JButton createDeleteInventoryItemButton() {
         JButton deleteInventoryItemButton = new JButton("Delete Inventory Item");
         deleteInventoryItemButton.setBounds(1133, 50, 167, 28);
+
+        deleteInventoryItemButton.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = inventoryTable.getSelectedRow();
+                System.out.println(row);
+                int selectedItemID = (int) inventoryTable.getValueAt(row, 0);
+                System.out.println(selectedItemID);
+                connection.deleteInventoryItem(selectedItemID);
+                JOptionPane.showMessageDialog(null, "Item Removed");
+            }
+        });
         return deleteInventoryItemButton;
         //TODO: make this work
     }
@@ -69,7 +84,7 @@ public class InventoryTab {
         updateInventoryItemButton.setBounds(1133, 89, 167, 28);
 
         updateInventoryItemButton.addMouseListener(new MouseAdapter() {
-            //When this button is pressed the udpate inventory item window
+            //When this button is pressed the upate inventory item window
             //will open.
             @Override
             public void mousePressed(MouseEvent e) {

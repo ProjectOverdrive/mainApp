@@ -77,7 +77,6 @@ public class MainMenu {
         inventoryPanel.add(inventoryTablePanel);
         inventoryTablePanel.setViewportView(inventoryTab.createInventoryTable());
 
-        inventoryPanel.add(inventoryTab.createInventoryTable());
         inventoryPanel.add(inventoryTab.createRefreshListButton());
         inventoryPanel.add(inventoryTab.createAddInventoryItemButton());
         inventoryPanel.add(inventoryTab.createDeleteInventoryItemButton());

@@ -124,7 +124,6 @@ public class SQLConnections {
             resultSet = statement.executeQuery();
 
             int columnCount = resultSet.getMetaData().getColumnCount();
-            System.out.println(columnCount);
 
             for (int i = 0; i < columnCount; i++) {
                 fieldResults[i] = resultSet.getString(i + 1);
@@ -197,6 +196,21 @@ public class SQLConnections {
             statement.setInt(5, quantity);
             statement.setDouble(6, unitCost);
             statement.setString(7, url);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Removes inventory item from the database
+    public void deleteInventoryItem(int selectedItemID) {
+        String query = "DELETE FROM inventory WHERE rowid = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, selectedItemID);
+
             statement.executeUpdate();
 
         } catch (SQLException e) {
