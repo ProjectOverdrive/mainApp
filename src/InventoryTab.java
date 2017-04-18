@@ -1,6 +1,9 @@
-import java.awt.event.*;
-import java.awt.*;
+import net.proteanit.sql.DbUtils;
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+// TODO: Table row backgrounds
 
 public class InventoryTab {
 
@@ -13,6 +16,7 @@ public class InventoryTab {
     private JTextField unitCostText;
     private JTextField urlText;
     private SQLConnections connection;
+    private JTable inventoryTable;
 
     public InventoryTab() {
         connection = new SQLConnections();
@@ -20,10 +24,11 @@ public class InventoryTab {
 
     //This method creates the inventory table.
     public JTable createInventoryTable() {
-        JTable inventoryTable = new JTable();
+        inventoryTable = new JTable();
         inventoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        inventoryTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        //TODO: make the table work
+        inventoryTable.setModel(DbUtils.resultSetToTableModel(connection.populateInventoryTable()));
+        inventoryTable.getTableHeader().setReorderingAllowed(false);
+        inventoryTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         return inventoryTable;
     }
 
@@ -229,7 +234,7 @@ public class InventoryTab {
         double unitCost = Double.parseDouble(unitCostText.getText());
         String url = urlText.getText();
 
-        connection.addNewInventoryItem(description, vendor, location,
+        connection.addNewInventoryItem(number, description, vendor, location,
                 quantity, unitCost, url);
 
         //TODO: Add these fields as an object to the database.

@@ -9,7 +9,6 @@
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class SQLConnections {
 
@@ -56,6 +55,7 @@ public class SQLConnections {
         return false;
     }
 
+    // Pull data for customer table from the database
     public ResultSet populateCustomerTable() {
         String query = "SELECT rowid AS 'ID', * FROM customers";
 
@@ -163,6 +163,23 @@ public class SQLConnections {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public ResultSet populateInventoryTable() {
+        String query = "SELECT rowid AS 'ID', * FROM inventory";
+
+        try {
+            Connection connection = this.connect();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
     // Attempts to add new inventory item to the database

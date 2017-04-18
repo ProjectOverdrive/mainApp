@@ -5,7 +5,6 @@ import net.proteanit.sql.DbUtils;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 public class CustomerTab {
 
@@ -32,6 +31,7 @@ public class CustomerTab {
         custTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         custTable.setModel(DbUtils.resultSetToTableModel(connection.populateCustomerTable()));
         custTable.getTableHeader().setReorderingAllowed(false);
+        custTable.getColumnModel().getColumn(0).setPreferredWidth(5);
 
         return custTable;
     }

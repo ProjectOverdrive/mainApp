@@ -44,6 +44,7 @@ public class MainMenu {
         custTablePanel.setBounds(0, 11, 927, 817);
         customerPanel.add(custTablePanel);
         custTablePanel.setViewportView(customerTab.createCustomerTable());
+
         customerPanel.add(customerTab.createRefreshListButton());
         customerPanel.add(customerTab.createAddCustomerButton());
         customerPanel.add(customerTab.createDeleteCustomerButton());
@@ -71,6 +72,11 @@ public class MainMenu {
 
         //Initialize the inventory tab and add its components.
         InventoryTab inventoryTab = new InventoryTab();
+        JScrollPane inventoryTablePanel = new JScrollPane();
+        inventoryTablePanel.setBounds(0, 11, 927, 817);
+        inventoryPanel.add(inventoryTablePanel);
+        inventoryTablePanel.setViewportView(inventoryTab.createInventoryTable());
+
         inventoryPanel.add(inventoryTab.createInventoryTable());
         inventoryPanel.add(inventoryTab.createRefreshListButton());
         inventoryPanel.add(inventoryTab.createAddInventoryItemButton());
