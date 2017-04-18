@@ -120,6 +120,21 @@ public class Login {
                 validateUser();
             }
         });
+        
+        //Creates forgot password button.        
+        JButton forgotPassword = new JButton("Forgot Password");
+        forgotPassword.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        forgotPassword.setBounds(332, 270, 174, 31);
+        frame.getContentPane().add(forgotPassword);
+
+        //Forgot Password Button Methods (1)
+        //Mouse listener for forgot password button.
+        forgotPassword.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                resetPasswordEmail();
+            }
+        });
 
         //Creates "Overdrive" title.
         JLabel overdriveTitle = new JLabel("Overdrive");
@@ -136,6 +151,10 @@ public class Login {
 
         //Display the frame.
         frame.setVisible(true);
+    }
+    
+    private void resetPasswordEmail() {
+        //TODO: Colten you got dis
     }
 
     /*This method will check the entered values against the users stored in the 
