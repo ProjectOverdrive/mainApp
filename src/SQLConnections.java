@@ -217,4 +217,23 @@ public class SQLConnections {
             System.out.println(e.getMessage());
         }
     }
+
+    public ResultSet populateEmployeeTable() {
+        String query = "SELECT rowid AS 'ID', [First Name], [Last Name], [Phone Number], " +
+                "[Street Address], [City], [State], [Zipcode], [Email], [Hourly Pay], " +
+                "[Username] FROM employees";
+
+        try {
+            Connection connection = this.connect();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            return resultSet;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
 }

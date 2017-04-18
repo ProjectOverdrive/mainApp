@@ -4,9 +4,11 @@ import java.awt.*;
 public class MainMenu {
 
     JFrame frame;
+    private String activeUser;
 
     //This is the wrapper method for the construction of the UI.
-    public void open() {
+    public void open(String username) {
+        activeUser = username;
         constructUi();
     }
 
@@ -107,7 +109,11 @@ public class MainMenu {
         
         //Initialize the manage tab and its components.
         ManageTab manageTab = new ManageTab();
-        managePanel.add(manageTab.createEmployeeTable());
+        JScrollPane employeeTablePanel = new JScrollPane();
+        employeeTablePanel.setBounds(0, 11, 927, 817);
+        managePanel.add(employeeTablePanel);
+        employeeTablePanel.setViewportView(manageTab.createEmployeeTable());
+
         managePanel.add(manageTab.createRefreshListButton());
         managePanel.add(manageTab.createAddEmployeeButton());
         managePanel.add(manageTab.createDeleteEmployeeButton());

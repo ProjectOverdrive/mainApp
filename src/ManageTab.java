@@ -1,5 +1,8 @@
+import net.proteanit.sql.DbUtils;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import javax.swing.*;
 
 public class ManageTab {
@@ -17,13 +20,21 @@ public class ManageTab {
     private JTextField usernameText;
     private JTextField passwordText;
     private JComboBox isManagerSelection;
+    private JTable employeeTable;
+    private SQLConnections connection;
+
+    public ManageTab() {
+        connection = new SQLConnections();
+    }
 
     //This method creates the employee table.
     public JTable createEmployeeTable() {
-        JTable employeeTable = new JTable();
+        employeeTable = new JTable();
         employeeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        employeeTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        //TODO: make the table work
+        employeeTable.setModel(DbUtils.resultSetToTableModel(connection.populateEmployeeTable()));
+        employeeTable.getTableHeader().setReorderingAllowed(false);
+        employeeTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+
         return employeeTable;
     }
 

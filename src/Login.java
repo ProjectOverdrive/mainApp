@@ -148,17 +148,17 @@ public class Login {
         //TODO: Add max input size for text fields
 
         if (valid) {
-            enterApp();
+            enterApp(username);
         } else {
             JOptionPane.showMessageDialog(null, "Invalid username/password");
         }
     }
 
     //Moves the user from the login window to the full application.
-    private void enterApp() {
+    private void enterApp(String username) {
         frame.setVisible(false);
         //Open up the Customer Page
         MainMenu mainMenu = new MainMenu();
-        mainMenu.open();
+        mainMenu.open(username);
     }
 }
