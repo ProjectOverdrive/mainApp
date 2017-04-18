@@ -14,6 +14,10 @@ public class EmployeePortalTab {
     private JTextField emailText;
     private JTextField usernameText;
     
+    private JTextField currentPasswordText;
+    private JTextField newPasswordText;
+    private JTextField confirmPasswordText;
+    
     //This method creates the employee portal table.
     public JTable createEmployeePortalTable() {
         portalTable = new JTable();
@@ -252,6 +256,183 @@ public class EmployeePortalTab {
     
     //This method controls the update password window.
     private void createUpdatePasswordWindow() {
-        //TODO: build this
+        //This initializes the frame.
+        JFrame changePasswordFrame = new JFrame();
+        changePasswordFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        changePasswordFrame.setResizable(false);
+        changePasswordFrame.setTitle("Change Password");
+        changePasswordFrame.setBounds(100, 100, 475, 315);
+        changePasswordFrame.getContentPane().setLayout(null);
+
+        //Create current password label.
+        JLabel currentPasswordLabel = new JLabel("Enter Current Password");
+        currentPasswordLabel.setBounds(10, 10, 203, 24);
+        changePasswordFrame.getContentPane().add(currentPasswordLabel);
+        
+        //Create current password text field.
+        currentPasswordText = new JTextField();
+        currentPasswordText.setBounds(10, 39, 203, 24);
+        changePasswordFrame.getContentPane().add(currentPasswordText);
+        
+        //Create current password label.
+        JLabel newPasswordLabel = new JLabel("Enter New Password");
+        newPasswordLabel.setBounds(10, 83, 203, 24);
+        changePasswordFrame.getContentPane().add(newPasswordLabel);
+        
+        //Create new password text field.
+        newPasswordText = new JTextField();
+        newPasswordText.setBounds(10, 112, 203, 24);
+        changePasswordFrame.getContentPane().add(newPasswordText);
+        
+        //Create confirm password label.
+        JLabel confirmPasswordLabel = new JLabel("Confirm New Password");
+        confirmPasswordLabel.setBounds(10, 156, 203, 24);
+        changePasswordFrame.getContentPane().add(confirmPasswordLabel);
+        
+        //Create confirm password text field.
+        confirmPasswordText = new JTextField();
+        confirmPasswordText.setBounds(10, 185, 203, 24);
+        changePasswordFrame.getContentPane().add(confirmPasswordText);
+        
+        //This initializes the cancel button.
+        JButton changePasswordCancelButton = new JButton("Cancel");
+        changePasswordCancelButton.setBounds(10, 226, 203, 32);
+        changePasswordFrame.getContentPane().add(changePasswordCancelButton);
+
+        //Pressing this button will close the update info window.
+        changePasswordCancelButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                changePasswordFrame.dispose();
+            }
+        });
+
+        //This initializes the submit button.
+        JButton changePasswordSubmitButton = new JButton("Change Password");
+        changePasswordSubmitButton.setBounds(233, 226, 203, 32);
+        changePasswordFrame.getContentPane().add(changePasswordSubmitButton);
+
+        //Pressing this button will attempt to update the password in the database.
+        changePasswordSubmitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                //Check that all required fields are present before attempting to
+                //update the database. If they are present, update the password and 
+                //close the window. Otherwise display an error message.
+                if (passwordBoxHasRequiredFields()) {
+                    if (currentPasswordIsValid()) {
+                        if (newPasswordFieldsMatch()) {
+                            changePassword();
+                            changePasswordFrame.dispose();
+                        } else {
+                            createNewPasswordErrorWindow();
+                        }
+                    } else {
+                        createCurrentPasswordErrorWindow();
+                    }
+                } else {
+                    createRequiredFieldsErrorWindow();
+                }
+            }
+        });
+
+        changePasswordFrame.setVisible(true);
+    }
+    
+    //This method ensures that no fields are empty.
+    private boolean passwordBoxHasRequiredFields() {
+        if (currentPasswordText.getText().equals("")) {
+            return false;
+        }
+        if (newPasswordText.getText().equals("")) {
+            return false;
+        }
+        if (confirmPasswordText.getText().equals("")) {
+            return false;
+        }
+        return true;
+    }
+    
+    //This method validates the current password against the database.
+    private boolean currentPasswordIsValid() {
+        String enteredCurrentPassword = currentPasswordText.getText();
+        //TODO: validate current password
+        return true;
+    }
+    
+    //This method ensures that the new password fields match. 
+    private boolean newPasswordFieldsMatch() {
+        if (!newPasswordText.getText().equals(confirmPasswordText.getText())) {
+            return false;
+        }
+        return true;
+    }
+    
+    //This method will change the password in the database.
+    private void changePassword() {
+        //TODO: make this work
+        String newPassword = newPasswordText.getText();
+    }
+    
+    //This creates the error window if the new passwords don't match.
+    private void createNewPasswordErrorWindow() {
+        //This creates the error window
+        JFrame newPasswordErrorFrame = new JFrame();
+        newPasswordErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        newPasswordErrorFrame.setResizable(false);
+        newPasswordErrorFrame.setTitle("Error");
+        newPasswordErrorFrame.setBounds(100, 100, 360, 200);
+        newPasswordErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel("There is a mismatch with your new password.");
+        errorMessage.setBounds(40, 50, 270, 32);
+        newPasswordErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton("OK");
+        closeErrorMessageButton.setBounds(125, 100, 90, 28);
+        newPasswordErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                newPasswordErrorFrame.dispose();
+            }
+        });
+
+        newPasswordErrorFrame.setVisible(true);
+    }
+    
+    //This creates the error window if the current password is wrong.
+    private void createCurrentPasswordErrorWindow() {
+        //This creates the error window
+        JFrame currentPasswordErrorFrame = new JFrame();
+        currentPasswordErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        currentPasswordErrorFrame.setResizable(false);
+        currentPasswordErrorFrame.setTitle("Error");
+        currentPasswordErrorFrame.setBounds(100, 100, 350, 200);
+        currentPasswordErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel("Your current password is incorrect.");
+        errorMessage.setBounds(60, 50, 250, 32);
+        currentPasswordErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        currentPasswordErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                currentPasswordErrorFrame.dispose();
+            }
+        });
+
+        currentPasswordErrorFrame.setVisible(true);
     }
 }
