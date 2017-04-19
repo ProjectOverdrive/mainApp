@@ -357,8 +357,12 @@ public class ManageTab {
                 if (employeeHasRequiredFields()) {
                     //Check that hourly pay is a numeric value.
                     if (numberParsesCorrectly(hourlyPayText.getText())) {
-                        addNewEmployee();
-                        addEmployeeFrame.dispose();    
+                        if (phoneNumberParsesCorrectly()) {
+                            addNewEmployee();
+                            addEmployeeFrame.dispose();      
+                        } else {
+                            createPhoneNumberErrorWindow();
+                        }
                     } else {
                         createHourlyPayErrorWindow();
                     }
@@ -430,7 +434,7 @@ public class ManageTab {
     private void addNewEmployee() {
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
-        String phoneNumber = phoneNumberText.getText();
+        String phoneNumber = parsePhoneNumber(phoneNumberText.getText());
         String streetAddress = streetAddressText.getText();
         String city = cityText.getText();
         String state = stateText.getText();
@@ -647,8 +651,12 @@ public class ManageTab {
                 if (employeeHasRequiredFields()) {
                     //Check that hourly pay is a numeric value.
                     if (numberParsesCorrectly(hourlyPayText.getText())) {
-                        updateEmployee();
-                        updateEmployeeFrame.dispose();    
+                        if (phoneNumberParsesCorrectly()) {
+                            updateEmployee();
+                            updateEmployeeFrame.dispose();     
+                        } else {
+                            createPhoneNumberErrorWindow();
+                        }
                     } else {
                         createHourlyPayErrorWindow();
                     }
@@ -665,7 +673,7 @@ public class ManageTab {
     private void updateEmployee() {
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
-        String phoneNumber = phoneNumberText.getText();
+        String phoneNumber = parsePhoneNumber(phoneNumberText.getText());
         String email = emailText.getText();
         String streetAddress = streetAddressText.getText();
         String city = cityText.getText();
@@ -732,5 +740,59 @@ public class ManageTab {
         });
 
         hourlyPayErrorFrame.setVisible(true);
+    }
+    
+    //This method parses the phone number.
+    private String parsePhoneNumber(String inputNumber) {
+        String outputNumber = "";
+        for (int i = 0; i < inputNumber.length(); i++) {
+            char c = inputNumber.charAt(i);
+            if (Character.isDigit(c)) {
+                outputNumber += c;
+            }
+        }
+        return outputNumber;
+    }
+    
+    //This method ensures that the phone number is correctly parsed.
+    private boolean phoneNumberParsesCorrectly() {
+        String phoneNumber = parsePhoneNumber(phoneNumberText.getText());
+        if (phoneNumber.length() != 10) {
+            return false;
+        }
+        return true;
+    }
+    
+    //This method creates an error window for an invalid phone number.
+    private void createPhoneNumberErrorWindow() {
+        //This creates the error window
+        JFrame phoneNumberErrorFrame = new JFrame();
+        phoneNumberErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        phoneNumberErrorFrame.setResizable(false);
+        phoneNumberErrorFrame.setTitle("Error");
+        phoneNumberErrorFrame.setBounds(100, 100, 350, 200);
+        phoneNumberErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("The phone number must be 10 digits.");
+        errorMessage.setBounds(60, 50, 250, 32);
+        phoneNumberErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        phoneNumberErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                phoneNumberErrorFrame.dispose();
+            }
+        });
+
+        phoneNumberErrorFrame.setVisible(true);
     }
 }
