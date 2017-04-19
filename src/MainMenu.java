@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class MainMenu {
 
@@ -29,6 +30,21 @@ public class MainMenu {
         overdriveLabel.setBounds(620, 5, 300, 60);
         overdriveLabel.setFont(new Font(overdriveLabel.getFont().getName(), Font.PLAIN, 32));
         frame.getContentPane().add(overdriveLabel);
+        
+        //Create Logout Button
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBounds(1145, 25, 167, 28);
+        frame.getContentPane().add(logoutButton);
+        
+        logoutButton.addMouseListener(new MouseAdapter() {
+            //The window should close and login should open.
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Login login = new Login();
+                login.openLogin();
+                frame.dispose();
+            }
+        });
 
         //Creates the main window panel.
         JTabbedPane mainWindowPanel = new JTabbedPane(JTabbedPane.TOP);
