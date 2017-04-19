@@ -26,13 +26,15 @@ public class MainMenu {
         frame.getContentPane().setLayout(null);
 
         //Create Overdrive Label
-        JLabel overdriveLabel = new JLabel("Overdrive");
+        JLabel overdriveLabel = new JLabel();
+        overdriveLabel.setText("Overdrive");
         overdriveLabel.setBounds(620, 5, 300, 60);
         overdriveLabel.setFont(new Font(overdriveLabel.getFont().getName(), Font.PLAIN, 32));
         frame.getContentPane().add(overdriveLabel);
         
         //Create Logout Button
-        JButton logoutButton = new JButton("Logout");
+        JButton logoutButton = new JButton();
+        logoutButton.setText("Logout");
         logoutButton.setBounds(1145, 25, 167, 28);
         frame.getContentPane().add(logoutButton);
         
