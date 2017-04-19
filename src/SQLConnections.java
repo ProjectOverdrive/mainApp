@@ -10,6 +10,7 @@
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class SQLConnections {
     private Connection connection;
@@ -53,7 +54,7 @@ public class SQLConnections {
                 }
             }
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
@@ -147,6 +148,7 @@ public class SQLConnections {
     // Populates update customer box fields
     public String[] fillCustomerUpdate(int selectedCusID) {
         ResultSet resultSet;
+        //TODO: Make this not hard coded
         String[] fieldResults = new String[8];
         String query = "SELECT * FROM customers WHERE rowid = ?";
 
@@ -212,18 +214,73 @@ public class SQLConnections {
         return null;
     }
 
-    public void addWorkOrder(String employee, String status, String details, String customer,
-                             String priority) {
-        String query = "INSERT INTO workOrders(Employee, Status, Details, " +
-                "Customer, Priority) VALUES(?,?,?,?,?)";
+    public String[] populateEmployeeDropdown() {
+
+        String query = "SELECT [First Name] FROM employees";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<String> fieldResultsTemp = new ArrayList<>();
+
+            while (resultSet.next()) {
+                fieldResultsTemp.add(resultSet.getString("First Name"));
+            }
+
+            fieldResultsTemp.add(0, "");
+
+            String[] fieldResults = new String[fieldResultsTemp.size()];
+            fieldResults = fieldResultsTemp.toArray(fieldResults);
+
+            return fieldResults;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public String[] populateCustomerDropdown() {
+        String query = "SELECT [First Name] FROM customers";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<String> fieldResultsTemp = new ArrayList<>();
+
+            while (resultSet.next()) {
+                fieldResultsTemp.add(resultSet.getString("First Name"));
+            }
+
+            fieldResultsTemp.add(0, "");
+
+            String[] fieldResults = new String[fieldResultsTemp.size()];
+            fieldResults = fieldResultsTemp.toArray(fieldResults);
+
+            return fieldResults;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void addWorkOrder(String employee, String customer, String status, String priority,
+                             String details) {
+        String query = "INSERT INTO workOrders(Employee, Customer, Status, " +
+                "Priority, Details) VALUES(?,?,?,?,?)";
 
         try (
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, employee);
-            statement.setString(2, status);
-            statement.setString(3, details);
-            statement.setString(4, customer);
-            statement.setString(5, priority);
+            statement.setString(2, customer);
+            statement.setString(3, status);
+            statement.setString(4, priority);
+            statement.setString(5, details);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -238,6 +295,53 @@ public class SQLConnections {
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, selectedWorkOrderID);
 
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public String[] fillWorkOrderUpdate(int selectedWorkOrderID) {
+
+        String query = "SELECT * FROM workOrders WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, selectedWorkOrderID);
+            ResultSet resultSet = statement.executeQuery();
+
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            String[] fieldResults = new String[columnCount];
+
+            for (int i = 0; i < columnCount; i++) {
+                fieldResults[i] = resultSet.getString(i + 1);
+
+                System.out.println(fieldResults[i]);
+            }
+
+            return fieldResults;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void updateWorkOrder(String employeeName, String customerName, String status,
+                                String priority, String details, int selectedWorkOrderID) {
+        String query = "UPDATE workOrders SET Employee = ?, Customer = ?, Status = ?, " +
+                "Priority = ?, Details = ? WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, employeeName);
+            statement.setString(2, customerName);
+            statement.setString(3, status);
+            statement.setString(4, priority);
+            statement.setString(5, details);
+            statement.setInt(6, selectedWorkOrderID);
             statement.executeUpdate();
 
         } catch (SQLException e) {

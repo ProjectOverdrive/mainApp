@@ -1,8 +1,9 @@
 import net.proteanit.sql.DbUtils;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 //TODO: (Caroline) add JDatePicker 
 public class WorkOrderTab {
@@ -88,7 +89,7 @@ public class WorkOrderTab {
                 buildUpdateWorkOrderFrame();
             }
         });
-        
+
         return updateWorkOrderButton;
     }
 
@@ -110,8 +111,8 @@ public class WorkOrderTab {
         //This is the combo box for selecting the employee on the work order.
         //The user can select from the names of all employees currently in the
         //database.
-        //TODO: (Colten) Create an actual array of employees names from the database.
-        String[] employees = {"Jim", "Mary"};
+        String[] employees = connection.populateEmployeeDropdown();
+
         employeeSelection = new JComboBox(employees);
         employeeSelection.setBounds(10, 40, 150, 32);
         addWorkOrderFrame.getContentPane().add(employeeSelection);
@@ -124,8 +125,7 @@ public class WorkOrderTab {
         //This is the combo box for selecting the customer on the work order.
         //The user can select from the names of all customers currently in the 
         //database.
-        //TODO:  (Colten) Create an actual array of customer names from the database.
-        String[] customers = {"Matt", "Leah"};
+        String[] customers = connection.populateCustomerDropdown();
         customerSelection = new JComboBox(customers);
         customerSelection.setBounds(233, 40, 150, 32);
         addWorkOrderFrame.getContentPane().add(customerSelection);
@@ -218,12 +218,16 @@ public class WorkOrderTab {
         String details = detailsText.getText();
         String priority = prioritySelection.getSelectedItem().toString();
 
-        connection.addWorkOrder(employeeName, customerName, status, details, priority);
+        connection.addWorkOrder(employeeName, customerName, status, priority, details);
     }
 
     //This method creates and controls the update work order window.
     public void buildUpdateWorkOrderFrame() {
-        //TODO: (Colten) make this have prepopulated data from the db
+        // Populates fields with data from selected row
+        int row = workOrderTable.getSelectedRow();
+        int selectedWorkOrderID = (int) workOrderTable.getValueAt(row, 0);
+        String[] updateWorkOrderFields = connection.fillWorkOrderUpdate(selectedWorkOrderID);
+
         //This initializes the update work order window.
         JFrame updateWorkOrderFrame = new JFrame();
         updateWorkOrderFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -240,9 +244,9 @@ public class WorkOrderTab {
         //This is the combo box for selecting the employee on the work order.
         //The user can select from the names of all employees currently in the
         //database.
-        //TODO: (Colten) Create an actual array of employees names from the database.
-        String[] employees = {"Jim", "Mary"};
+        String[] employees = connection.populateEmployeeDropdown();
         employeeSelection = new JComboBox(employees);
+        employeeSelection.setSelectedItem(updateWorkOrderFields[0]);
         employeeSelection.setBounds(10, 40, 150, 32);
         updateWorkOrderFrame.getContentPane().add(employeeSelection);
 
@@ -254,9 +258,9 @@ public class WorkOrderTab {
         //This is the combo box for selecting the customer on the work order.
         //The user can select from the names of all customers currently in the 
         //database.
-        //TODO: (Colten) Create an actual array of customer names from the database.
-        String[] customers = {"Matt", "Leah"};
+        String[] customers = connection.populateCustomerDropdown();
         customerSelection = new JComboBox(customers);
+        customerSelection.setSelectedItem(updateWorkOrderFields[1]);
         customerSelection.setBounds(233, 40, 150, 32);
         updateWorkOrderFrame.getContentPane().add(customerSelection);
 
@@ -269,6 +273,7 @@ public class WorkOrderTab {
         //The user can select the status as "new", "in progress", or "completed"
         String[] statuses = {"New", "In Progress", "Completed"};
         statusSelection = new JComboBox(statuses);
+        statusSelection.setSelectedItem(updateWorkOrderFields[2]);
         statusSelection.setBounds(10, 111, 150, 32);
         updateWorkOrderFrame.getContentPane().add(statusSelection);
 
@@ -278,15 +283,16 @@ public class WorkOrderTab {
         updateWorkOrderFrame.getContentPane().add(priorityLabel);
 
         //This is the combo box for selecting the priority of the work order.
-        //The user can select from high, meduim, or low priority.
+        //The user can select from high, medium, or low priority.
         String[] priorities = {"High", "Medium", "Low"};
         prioritySelection = new JComboBox(priorities);
+        prioritySelection.setSelectedItem(updateWorkOrderFields[3]);
         prioritySelection.setBounds(233, 111, 150, 32);
         updateWorkOrderFrame.getContentPane().add(prioritySelection);
 
         //This is the text field for the work order details.
         detailsText = new JTextField();
-        detailsText.setText("Details");
+        detailsText.setText(updateWorkOrderFields[4]);
         detailsText.setBounds(10, 173, 383, 32);
         updateWorkOrderFrame.getContentPane().add(detailsText);
 
@@ -317,7 +323,7 @@ public class WorkOrderTab {
                 if (workOrderHasRequiredFields()) {
                     //Update the work order in the database and close the 
                     //update work order window.
-                    updateWorkOrder();
+                    updateWorkOrder(selectedWorkOrderID);
                     updateWorkOrderFrame.dispose();
                 } else {
                     //If a required field is missing, display the error window.
@@ -330,14 +336,16 @@ public class WorkOrderTab {
     }
 
     //This method updates the work order in the database.
-    private void updateWorkOrder() {
+    private void updateWorkOrder(int selectedWorkOrderID) {
+
         String employeeName = employeeSelection.getSelectedItem().toString();
         String customerName = customerSelection.getSelectedItem().toString();
         String status = statusSelection.getSelectedItem().toString();
-        String details = detailsText.getText();
         String priority = prioritySelection.getSelectedItem().toString();
+        String details = detailsText.getText();
 
-        //TODO: (Colten) update the db with these fields
+        connection.updateWorkOrder(employeeName, customerName, status,
+                priority, details, selectedWorkOrderID);
     }
 
     //This method creates the required fields error window.
