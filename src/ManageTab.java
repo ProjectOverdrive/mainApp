@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import javax.swing.*;
-
+//TODO: (Colten) don't let them delete the last manager
 public class ManageTab {
     //TODO: (Caroline) ensure all combo boxes are validated against null space (all files)
     //These are the text fields for the add/update inventory item windows.
