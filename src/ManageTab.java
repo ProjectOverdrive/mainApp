@@ -175,14 +175,14 @@ public class ManageTab {
         updateErrorFrame.setVisible(true);
     }
 
-    //This method creates the export payroll button.
+    /*//This method creates the export payroll button.
     public JButton createExportPayrollButton() {
         JButton exportPayrollButton = new JButton();
         exportPayrollButton.setText("Export Payroll");
         exportPayrollButton.setBounds(956, 50, 167, 28);
         return exportPayrollButton;
-        //TODO: make this work
-    }   
+        //TODO: Delete this if not used
+    }   */
     
     //This method creates and controls the add employee window.
     public void buildAddEmployeeFrame() {
