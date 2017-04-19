@@ -2,13 +2,12 @@ import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 //TODO: (Colten) Table row backgrounds
-//TODO: (Caroline) Add field names above text box
+//TODO: clean up all imports before we print
 
 public class InventoryTab {
 
@@ -41,7 +40,8 @@ public class InventoryTab {
 
     //This method creates the refresh list button.
     public JButton createRefreshListButton() {
-        JButton refreshButton = new JButton("Refresh List");
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh List");
         refreshButton.setBounds(956, 11, 167, 28);
         return refreshButton;
         //TODO: (Colten) actually refresh the table
@@ -49,7 +49,8 @@ public class InventoryTab {
 
     //This method creates the add inventory item button.
     public JButton createAddInventoryItemButton() {
-        JButton addInventoryItemButton = new JButton("Add Inventory Item");
+        JButton addInventoryItemButton = new JButton();
+        addInventoryItemButton.setText("Add Inventory Item");
         addInventoryItemButton.setBounds(1133, 11, 167, 28);
 
         addInventoryItemButton.addMouseListener(new MouseAdapter() {
@@ -64,7 +65,8 @@ public class InventoryTab {
 
     //This method creates the delete inventory item button.
     public JButton createDeleteInventoryItemButton() {
-        JButton deleteInventoryItemButton = new JButton("Delete Inventory Item");
+        JButton deleteInventoryItemButton = new JButton();
+        deleteInventoryItemButton.setText("Delete Inventory Item");
         deleteInventoryItemButton.setBounds(1133, 50, 167, 28);
 
         deleteInventoryItemButton.addMouseListener(new MouseAdapter() {
@@ -72,19 +74,56 @@ public class InventoryTab {
             @Override
             public void mousePressed(MouseEvent e) {
                 int row = inventoryTable.getSelectedRow();
-                System.out.println(row);
-                int selectedItemID = (int) inventoryTable.getValueAt(row, 0);
-                System.out.println(selectedItemID);
-                connection.deleteInventoryItem(selectedItemID);
-                JOptionPane.showMessageDialog(null, "Item Removed");
+                if (row == -1) {
+                    createDeleteInventoryItemErrorWindow();
+                } else {
+                    int selectedItemID = (int) inventoryTable.getValueAt(row, 0);
+                    System.out.println(selectedItemID);
+                    connection.deleteInventoryItem(selectedItemID);
+                    JOptionPane.showMessageDialog(null, "Item Removed");    
+                }
             }
         });
         return deleteInventoryItemButton;
     }
+    
+    //This method creates the error window for deleting w/o selecting.
+    private void createDeleteInventoryItemErrorWindow() {
+        //This creates the error window
+        JFrame deleteErrorFrame = new JFrame();
+        deleteErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        deleteErrorFrame.setResizable(false);
+        deleteErrorFrame.setTitle("Error");
+        deleteErrorFrame.setBounds(100, 100, 350, 200);
+        deleteErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Select an inventory item to delete.");
+        errorMessage.setBounds(80, 50, 250, 32);
+        deleteErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        deleteErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                deleteErrorFrame.dispose();
+            }
+        });
+
+        deleteErrorFrame.setVisible(true);
+    }
 
     //This method creates the update inventory item button.
     public JButton createUpdateInventoryItemButton() {
-        JButton updateInventoryItemButton = new JButton("Update Inventory Item");
+        JButton updateInventoryItemButton = new JButton();
+        updateInventoryItemButton.setText("Update Inventory Item");
         updateInventoryItemButton.setBounds(1133, 89, 167, 28);
 
         updateInventoryItemButton.addMouseListener(new MouseAdapter() {
@@ -92,15 +131,54 @@ public class InventoryTab {
             //will open.
             @Override
             public void mousePressed(MouseEvent e) {
-                buildUpdateInventoryItemFrame();
+                int row = inventoryTable.getSelectedRow();
+                if (row == -1) {
+                    createUpdateInventoryItemErrorWindow();
+                } else {
+                    buildUpdateInventoryItemFrame();
+                }
             }
         });
         return updateInventoryItemButton;
     }
+    
+    //This method creates the error window for updating w/o selecting.
+    private void createUpdateInventoryItemErrorWindow() {
+        //This creates the error window
+        JFrame updateErrorFrame = new JFrame();
+        updateErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        updateErrorFrame.setResizable(false);
+        updateErrorFrame.setTitle("Error");
+        updateErrorFrame.setBounds(100, 100, 350, 200);
+        updateErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Select an inventory item to update.");
+        errorMessage.setBounds(80, 50, 250, 32);
+        updateErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        updateErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                updateErrorFrame.dispose();
+            }
+        });
+
+        updateErrorFrame.setVisible(true);
+    }
 
     //This method creates the order inventory item button.
     public JButton createOrderInventoryItemButton() {
-        JButton orderInventoryItemButton = new JButton("Order Inventory Item");
+        JButton orderInventoryItemButton = new JButton();
+        orderInventoryItemButton.setText("Order Inventory Item");
         orderInventoryItemButton.setBounds(956, 50, 167, 28);
 
         orderInventoryItemButton.addMouseListener(new MouseAdapter() {
@@ -130,54 +208,90 @@ public class InventoryTab {
         addInventoryItemFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addInventoryItemFrame.setResizable(false);
         addInventoryItemFrame.setTitle("Add Inventory Item");
-        addInventoryItemFrame.setBounds(100, 100, 475, 315);
+        addInventoryItemFrame.setBounds(100, 100, 475, 500);
         addInventoryItemFrame.getContentPane().setLayout(null);
+        
+        //Creates part number label.
+        JLabel partNumberLabel = new JLabel();
+        partNumberLabel.setText("Part Number");
+        partNumberLabel.setBounds(10, 11, 426, 32);
+        addInventoryItemFrame.getContentPane().add(partNumberLabel);
 
         //This is the part number text field.
         numberText = new JTextField();
-        numberText.setText("Part Number");
-        numberText.setBounds(10, 11, 426, 32);
+        numberText.setBounds(10, 48, 426, 32);
         addInventoryItemFrame.getContentPane().add(numberText);
 
+        //Creates part description label.
+        JLabel partDescriptionLabel = new JLabel();
+        partDescriptionLabel.setText("Part Description");
+        partDescriptionLabel.setBounds(10, 90, 426, 32);
+        addInventoryItemFrame.getContentPane().add(partDescriptionLabel);
+        
         //This is the part description text field.
         descriptionText = new JTextField();
-        descriptionText.setText("Part Description");
-        descriptionText.setBounds(10, 53, 426, 32);
+        descriptionText.setBounds(10, 127, 426, 32);
         addInventoryItemFrame.getContentPane().add(descriptionText);
 
+        //Creates vendor label.
+        JLabel vendorLabel = new JLabel();
+        vendorLabel.setText("Vendor");
+        vendorLabel.setBounds(10, 169, 203, 32);
+        addInventoryItemFrame.getContentPane().add(vendorLabel);
+        
         //This is the part vendor text field.
         vendorText = new JTextField();
-        vendorText.setText("Vendor");
-        vendorText.setBounds(10, 95, 203, 32);
+        vendorText.setBounds(10, 206, 203, 32);
         addInventoryItemFrame.getContentPane().add(vendorText);
 
+        //Creates part location label.
+        JLabel partLocationLabel = new JLabel();
+        partLocationLabel.setText("Location in Store");
+        partLocationLabel.setBounds(233, 169, 203, 32);
+        addInventoryItemFrame.getContentPane().add(partLocationLabel);
+        
         //This is the part location text field.
         locationText = new JTextField();
-        locationText.setText("Location in Store");
-        locationText.setBounds(233, 95, 203, 32);
+        locationText.setBounds(233, 206, 203, 32);
         addInventoryItemFrame.getContentPane().add(locationText);
 
+        //Creates quantity label.
+        JLabel quantityLabel = new JLabel();
+        quantityLabel.setText("Quantity in Stock");
+        quantityLabel.setBounds(10, 248, 203, 32);
+        addInventoryItemFrame.getContentPane().add(quantityLabel);
+        
         //This is the quantity in stock text field.
         quantityText = new JTextField();
-        quantityText.setText("Quantity");
-        quantityText.setBounds(10, 137, 203, 32);
+        quantityText.setBounds(10, 285, 203, 32);
         addInventoryItemFrame.getContentPane().add(quantityText);
 
+        //Creates unit cost label.
+        JLabel unitCostLabel = new JLabel();
+        unitCostLabel.setText("Unit Cost");
+        unitCostLabel.setBounds(233, 248, 203, 32);
+        addInventoryItemFrame.getContentPane().add(unitCostLabel);
+        
         //This is the unit cost text field.
         unitCostText = new JTextField();
-        unitCostText.setText("Unit Cost");
-        unitCostText.setBounds(233, 137, 203, 32);
+        unitCostText.setBounds(233, 285, 203, 32);
         addInventoryItemFrame.getContentPane().add(unitCostText);
 
+        //Creates URL label.
+        JLabel urlLabel = new JLabel();
+        urlLabel.setText("URL");
+        urlLabel.setBounds(10, 327, 426, 32);
+        addInventoryItemFrame.getContentPane().add(urlLabel);
+        
         //This is the part url text field.
         urlText = new JTextField();
-        urlText.setText("URL");
-        urlText.setBounds(10, 179, 426, 32);
+        urlText.setBounds(10, 364, 426, 32);
         addInventoryItemFrame.getContentPane().add(urlText);
 
         //This is the cancel button.
-        JButton addInventoryItemCancelButton = new JButton("Cancel");
-        addInventoryItemCancelButton.setBounds(10, 221, 203, 32);
+        JButton addInventoryItemCancelButton = new JButton();
+        addInventoryItemCancelButton.setText("Cancel");
+        addInventoryItemCancelButton.setBounds(10, 410, 203, 32);
         addInventoryItemFrame.getContentPane().add(addInventoryItemCancelButton);
 
         //Pressing this button will close the add inventory window.
@@ -189,8 +303,9 @@ public class InventoryTab {
         });
 
         //This is the submit button.
-        JButton addInventoryItemSubmitButton = new JButton("Add Inventory Item");
-        addInventoryItemSubmitButton.setBounds(233, 221, 203, 32);
+        JButton addInventoryItemSubmitButton = new JButton();
+        addInventoryItemSubmitButton.setText("Add Inventory Item");
+        addInventoryItemSubmitButton.setBounds(233, 410, 203, 32);
         addInventoryItemFrame.getContentPane().add(addInventoryItemSubmitButton);
 
         //This button will attempt to add the new item to the database.
@@ -307,54 +422,90 @@ public class InventoryTab {
         updateInventoryItemFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         updateInventoryItemFrame.setResizable(false);
         updateInventoryItemFrame.setTitle("Update Inventory Item");
-        updateInventoryItemFrame.setBounds(100, 100, 475, 315);
+        updateInventoryItemFrame.setBounds(100, 100, 475, 500);
         updateInventoryItemFrame.getContentPane().setLayout(null);
 
-        //This initializes the part number text field.
+        //Creates part number label.
+        JLabel partNumberLabel = new JLabel();
+        partNumberLabel.setText("Part Number");
+        partNumberLabel.setBounds(10, 11, 426, 32);
+        updateInventoryItemFrame.getContentPane().add(partNumberLabel);
+
+        //This is the part number text field.
         numberText = new JTextField();
-        numberText.setText(fieldValues[0]);
-        numberText.setBounds(10, 11, 426, 32);
+        numberText.setBounds(10, 48, 426, 32);
         updateInventoryItemFrame.getContentPane().add(numberText);
 
-        //This initializes the part description text field.
+        //Creates part description label.
+        JLabel partDescriptionLabel = new JLabel();
+        partDescriptionLabel.setText("Part Description");
+        partDescriptionLabel.setBounds(10, 90, 426, 32);
+        updateInventoryItemFrame.getContentPane().add(partDescriptionLabel);
+        
+        //This is the part description text field.
         descriptionText = new JTextField();
-        descriptionText.setText(fieldValues[1]);
-        descriptionText.setBounds(10, 53, 426, 32);
+        descriptionText.setBounds(10, 127, 426, 32);
         updateInventoryItemFrame.getContentPane().add(descriptionText);
 
-        //This initializes the part vendor text field.
+        //Creates vendor label.
+        JLabel vendorLabel = new JLabel();
+        vendorLabel.setText("Vendor");
+        vendorLabel.setBounds(10, 169, 203, 32);
+        updateInventoryItemFrame.getContentPane().add(vendorLabel);
+        
+        //This is the part vendor text field.
         vendorText = new JTextField();
-        vendorText.setText(fieldValues[2]);
-        vendorText.setBounds(10, 95, 203, 32);
+        vendorText.setBounds(10, 206, 203, 32);
         updateInventoryItemFrame.getContentPane().add(vendorText);
 
-        //This initializes the part location text field.
+        //Creates part location label.
+        JLabel partLocationLabel = new JLabel();
+        partLocationLabel.setText("Location in Store");
+        partLocationLabel.setBounds(233, 169, 203, 32);
+        updateInventoryItemFrame.getContentPane().add(partLocationLabel);
+        
+        //This is the part location text field.
         locationText = new JTextField();
-        locationText.setText(fieldValues[3]);
-        locationText.setBounds(233, 95, 203, 32);
+        locationText.setBounds(233, 206, 203, 32);
         updateInventoryItemFrame.getContentPane().add(locationText);
 
-        //This initializes the quantity in stock text field.
+        //Creates quantity label.
+        JLabel quantityLabel = new JLabel();
+        quantityLabel.setText("Quantity in Stock");
+        quantityLabel.setBounds(10, 248, 203, 32);
+        updateInventoryItemFrame.getContentPane().add(quantityLabel);
+        
+        //This is the quantity in stock text field.
         quantityText = new JTextField();
-        quantityText.setText(fieldValues[4]);
-        quantityText.setBounds(10, 137, 203, 32);
+        quantityText.setBounds(10, 285, 203, 32);
         updateInventoryItemFrame.getContentPane().add(quantityText);
 
-        //This initializes the unit cost text field.
+        //Creates unit cost label.
+        JLabel unitCostLabel = new JLabel();
+        unitCostLabel.setText("Unit Cost");
+        unitCostLabel.setBounds(233, 248, 203, 32);
+        updateInventoryItemFrame.getContentPane().add(unitCostLabel);
+        
+        //This is the unit cost text field.
         unitCostText = new JTextField();
-        unitCostText.setText(fieldValues[5]);
-        unitCostText.setBounds(233, 137, 203, 32);
+        unitCostText.setBounds(233, 285, 203, 32);
         updateInventoryItemFrame.getContentPane().add(unitCostText);
 
-        //This initializes the url text field.
+        //Creates URL label.
+        JLabel urlLabel = new JLabel();
+        urlLabel.setText("URL");
+        urlLabel.setBounds(10, 327, 426, 32);
+        updateInventoryItemFrame.getContentPane().add(urlLabel);
+        
+        //This is the part url text field.
         urlText = new JTextField();
-        urlText.setText(fieldValues[6]);
-        urlText.setBounds(10, 179, 426, 32);
+        urlText.setBounds(10, 364, 426, 32);
         updateInventoryItemFrame.getContentPane().add(urlText);
 
         //This initializes the cancel button.
-        JButton updateInventoryCancelButton = new JButton("Cancel");
-        updateInventoryCancelButton.setBounds(10, 221, 203, 32);
+        JButton updateInventoryCancelButton = new JButton();
+        updateInventoryCancelButton.setText("Cancel");
+        updateInventoryCancelButton.setBounds(10, 410, 203, 32);
         updateInventoryItemFrame.getContentPane().add(updateInventoryCancelButton);
 
         //If the cancel button is pressed, close the update item window.
@@ -366,8 +517,9 @@ public class InventoryTab {
         });
 
         //This initializes the submit button.
-        JButton updateInventoryItemSubmitButton = new JButton("Update Inventory Item");
-        updateInventoryItemSubmitButton.setBounds(233, 221, 203, 32);
+        JButton updateInventoryItemSubmitButton = new JButton();
+        updateInventoryItemSubmitButton.setText("Update Inventory Item");
+        updateInventoryItemSubmitButton.setBounds(233, 410, 203, 32);
         updateInventoryItemFrame.getContentPane().add(updateInventoryItemSubmitButton);
 
         //When this button is pressed, attempt to update the item in the database.
@@ -427,12 +579,14 @@ public class InventoryTab {
         quantityErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("Quantity must be a numerical value.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Quantity must be a numerical value.");
         errorMessage.setBounds(60, 50, 250, 32);
         quantityErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(115, 100, 90, 28);
         quantityErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -458,12 +612,14 @@ public class InventoryTab {
         unitCostErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("Unit Cost must be a numerical value.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Unit Cost must be a numerical value.");
         errorMessage.setBounds(60, 50, 250, 32);
         unitCostErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(115, 100, 90, 28);
         unitCostErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -489,12 +645,14 @@ public class InventoryTab {
         requiredFieldsErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("You are missing a required field.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("You are missing a required field.");
         errorMessage.setBounds(50, 50, 200, 32);
         requiredFieldsErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(105, 100, 90, 28);
         requiredFieldsErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -508,5 +666,4 @@ public class InventoryTab {
 
         requiredFieldsErrorFrame.setVisible(true);
     }
-
 }
