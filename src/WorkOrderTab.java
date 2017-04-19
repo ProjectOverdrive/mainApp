@@ -35,7 +35,8 @@ public class WorkOrderTab {
 
     //This method creates the button for refreshing the list from the database.
     public JButton createRefreshListButton() {
-        JButton refreshButton = new JButton("Refresh List");
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh List");
         refreshButton.setBounds(956, 11, 167, 28);
         return refreshButton;
         //TODO: (Colten) make this work
@@ -43,7 +44,8 @@ public class WorkOrderTab {
 
     //This method creates the add work order button.
     public JButton createAddWorkOrderButton() {
-        JButton addWorkOrderButton = new JButton("Add Work Order");
+        JButton addWorkOrderButton = new JButton();
+        addWorkOrderButton.setText("Add Work Order");
         addWorkOrderButton.setBounds(1133, 11, 167, 28);
 
         addWorkOrderButton.addMouseListener(new MouseAdapter() {
@@ -58,7 +60,8 @@ public class WorkOrderTab {
 
     //This method creates the delete work order button.
     public JButton createDeleteWorkOrderButton() {
-        JButton deleteWorkOrderButton = new JButton("Delete Work Order");
+        JButton deleteWorkOrderButton = new JButton();
+        deleteWorkOrderButton.setText("Delete Work Order");
         deleteWorkOrderButton.setBounds(1133, 50, 167, 28);
 
         deleteWorkOrderButton.addMouseListener(new MouseAdapter() {
@@ -66,10 +69,14 @@ public class WorkOrderTab {
             @Override
             public void mousePressed(MouseEvent e) {
                 int row = workOrderTable.getSelectedRow();
-                System.out.println(row);
-                int selectedWorkOrderID = (int) workOrderTable.getValueAt(row, 0);
-                connection.deleteWorkOrder(selectedWorkOrderID);
-                JOptionPane.showMessageDialog(null, "Work Order Removed");
+                if (row == -1) {
+                    createDeleteWorkOrderErrorWindow();
+                } else {
+                    System.out.println(row);
+                    int selectedWorkOrderID = (int) workOrderTable.getValueAt(row, 0);
+                    connection.deleteWorkOrder(selectedWorkOrderID);
+                    JOptionPane.showMessageDialog(null, "Work Order Removed");
+                }
             }
         });
 
@@ -78,7 +85,8 @@ public class WorkOrderTab {
 
     //This method creates the update work order button.
     public JButton createUpdateWorkOrderButton() {
-        JButton updateWorkOrderButton = new JButton("Update Work Order");
+        JButton updateWorkOrderButton = new JButton();
+        updateWorkOrderButton.setText("Update Work Order");
         updateWorkOrderButton.setBounds(1133, 89, 167, 28);
 
         updateWorkOrderButton.addMouseListener(new MouseAdapter() {
@@ -86,13 +94,84 @@ public class WorkOrderTab {
             //open.
             @Override
             public void mousePressed(MouseEvent e) {
-                buildUpdateWorkOrderFrame();
+                int row = workOrderTable.getSelectedRow();
+                if (row == -1) {
+                    createUpdateWorkOrderErrorWindow();
+                } else {
+                    buildUpdateWorkOrderFrame();
+                }
             }
         });
 
         return updateWorkOrderButton;
     }
+    
+    //This method creates the error window for deleting w/o selecting.
+    private void createDeleteWorkOrderErrorWindow() {
+        //This creates the error window
+        JFrame deleteErrorFrame = new JFrame();
+        deleteErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        deleteErrorFrame.setResizable(false);
+        deleteErrorFrame.setTitle("Error");
+        deleteErrorFrame.setBounds(100, 100, 350, 200);
+        deleteErrorFrame.getContentPane().setLayout(null);
 
+        //This displays the error message.
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Select a work order to delete.");
+        errorMessage.setBounds(80, 50, 250, 32);
+        deleteErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        deleteErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                deleteErrorFrame.dispose();
+            }
+        });
+
+        deleteErrorFrame.setVisible(true);
+    }
+    
+    //This method creates the error window for updating w/o selecting.
+    private void createUpdateWorkOrderErrorWindow() {
+        //This creates the error window
+        JFrame updateErrorFrame = new JFrame();
+        updateErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        updateErrorFrame.setResizable(false);
+        updateErrorFrame.setTitle("Error");
+        updateErrorFrame.setBounds(100, 100, 350, 200);
+        updateErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Select a work order to update.");
+        errorMessage.setBounds(80, 50, 250, 32);
+        updateErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        updateErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                updateErrorFrame.dispose();
+            }
+        });
+
+        updateErrorFrame.setVisible(true);
+    }
+    
     //This method creates and controls the add work order window.
     public void buildAddWorkOrderFrame() {
         //This initializes the add work order window.
@@ -104,7 +183,8 @@ public class WorkOrderTab {
         addWorkOrderFrame.getContentPane().setLayout(null);
 
         //This is the label for the employee combo box.
-        JLabel employeeLabel = new JLabel("Employee");
+        JLabel employeeLabel = new JLabel();
+        employeeLabel.setText("Employee");
         employeeLabel.setBounds(10, 11, 203, 24);
         addWorkOrderFrame.getContentPane().add(employeeLabel);
 
@@ -118,7 +198,8 @@ public class WorkOrderTab {
         addWorkOrderFrame.getContentPane().add(employeeSelection);
 
         //This is the label for the customer combo box.
-        JLabel customerLabel = new JLabel("Customer");
+        JLabel customerLabel = new JLabel();
+        customerLabel.setText("Customer");
         customerLabel.setBounds(233, 11, 203, 24);
         addWorkOrderFrame.getContentPane().add(customerLabel);
 
@@ -131,7 +212,8 @@ public class WorkOrderTab {
         addWorkOrderFrame.getContentPane().add(customerSelection);
 
         //This is the label for the status combo box.
-        JLabel statusLabel = new JLabel("Status");
+        JLabel statusLabel = new JLabel();
+        statusLabel.setText("Status");
         statusLabel.setBounds(10, 82, 203, 24);
         addWorkOrderFrame.getContentPane().add(statusLabel);
 
@@ -143,7 +225,8 @@ public class WorkOrderTab {
         addWorkOrderFrame.getContentPane().add(statusSelection);
 
         //This is the label for the priority combo box. 
-        JLabel priorityLabel = new JLabel("Priority");
+        JLabel priorityLabel = new JLabel();
+        priorityLabel.setText("Priority");
         priorityLabel.setBounds(233, 82, 203, 24);
         addWorkOrderFrame.getContentPane().add(priorityLabel);
 
@@ -153,15 +236,21 @@ public class WorkOrderTab {
         prioritySelection = new JComboBox(priorities);
         prioritySelection.setBounds(233, 111, 150, 32);
         addWorkOrderFrame.getContentPane().add(prioritySelection);
-
+        
+        //Creates label for details.
+        JLabel detailsLabel = new JLabel();
+        detailsLabel.setText("Details");
+        detailsLabel.setBounds(10, 160, 203, 24);
+        addWorkOrderFrame.getContentPane().add(detailsLabel);
+        
         //This is the text field for the work order details.
         detailsText = new JTextField();
-        detailsText.setText("Details");
-        detailsText.setBounds(10, 173, 383, 32);
+        detailsText.setBounds(10, 190, 383, 32);
         addWorkOrderFrame.getContentPane().add(detailsText);
 
         //This is the cancel button.
-        JButton addWorkOrderCancelButton = new JButton("Cancel");
+        JButton addWorkOrderCancelButton = new JButton();
+        addWorkOrderCancelButton.setText("Cancel");
         addWorkOrderCancelButton.setBounds(10, 241, 203, 32);
         addWorkOrderFrame.getContentPane().add(addWorkOrderCancelButton);
 
@@ -174,7 +263,8 @@ public class WorkOrderTab {
         });
 
         //This is the submit button.
-        JButton addWorkOrderSubmitButton = new JButton("Add Work Order");
+        JButton addWorkOrderSubmitButton = new JButton();
+        addWorkOrderSubmitButton.setText("Add Work Order");
         addWorkOrderSubmitButton.setBounds(233, 241, 203, 32);
         addWorkOrderFrame.getContentPane().add(addWorkOrderSubmitButton);
 
@@ -237,7 +327,8 @@ public class WorkOrderTab {
         updateWorkOrderFrame.getContentPane().setLayout(null);
 
         //This is the label for the employee combo box.
-        JLabel employeeLabel = new JLabel("Employee");
+        JLabel employeeLabel = new JLabel();
+        employeeLabel.setText("Employee");
         employeeLabel.setBounds(10, 11, 203, 24);
         updateWorkOrderFrame.getContentPane().add(employeeLabel);
 
@@ -251,7 +342,8 @@ public class WorkOrderTab {
         updateWorkOrderFrame.getContentPane().add(employeeSelection);
 
         //This is the label for the customer combo box.
-        JLabel customerLabel = new JLabel("Customer");
+        JLabel customerLabel = new JLabel();
+        customerLabel.setText("Customer");
         customerLabel.setBounds(233, 11, 203, 24);
         updateWorkOrderFrame.getContentPane().add(customerLabel);
 
@@ -265,7 +357,8 @@ public class WorkOrderTab {
         updateWorkOrderFrame.getContentPane().add(customerSelection);
 
         //This is the label for the status combo box.
-        JLabel statusLabel = new JLabel("Status");
+        JLabel statusLabel = new JLabel();
+        statusLabel.setText("Status");
         statusLabel.setBounds(10, 82, 203, 24);
         updateWorkOrderFrame.getContentPane().add(statusLabel);
 
@@ -278,7 +371,8 @@ public class WorkOrderTab {
         updateWorkOrderFrame.getContentPane().add(statusSelection);
 
         //This is the label for the priority combo box.
-        JLabel priorityLabel = new JLabel("Priority");
+        JLabel priorityLabel = new JLabel();
+        priorityLabel.setText("Priority");
         priorityLabel.setBounds(233, 82, 203, 24);
         updateWorkOrderFrame.getContentPane().add(priorityLabel);
 
@@ -289,15 +383,22 @@ public class WorkOrderTab {
         prioritySelection.setSelectedItem(updateWorkOrderFields[3]);
         prioritySelection.setBounds(233, 111, 150, 32);
         updateWorkOrderFrame.getContentPane().add(prioritySelection);
+        
+        //Creates label for details.
+        JLabel detailsLabel = new JLabel();
+        detailsLabel.setText("Details");
+        detailsLabel.setBounds(10, 160, 203, 24);
+        updateWorkOrderFrame.getContentPane().add(detailsLabel);
 
         //This is the text field for the work order details.
         detailsText = new JTextField();
         detailsText.setText(updateWorkOrderFields[4]);
-        detailsText.setBounds(10, 173, 383, 32);
+        detailsText.setBounds(10, 190, 383, 32);
         updateWorkOrderFrame.getContentPane().add(detailsText);
 
         //This is the cancel button.
-        JButton updateWorkOrderCancelButton = new JButton("Cancel");
+        JButton updateWorkOrderCancelButton = new JButton();
+        updateWorkOrderCancelButton.setText("Cancel");
         updateWorkOrderCancelButton.setBounds(10, 241, 203, 32);
         updateWorkOrderFrame.getContentPane().add(updateWorkOrderCancelButton);
 
@@ -310,7 +411,8 @@ public class WorkOrderTab {
         });
 
         //This is the submit button.
-        JButton updateWorkOrderSubmitButton = new JButton("Update Work Order");
+        JButton updateWorkOrderSubmitButton = new JButton();
+        updateWorkOrderSubmitButton.setText("Update Work Order");
         updateWorkOrderSubmitButton.setBounds(233, 241, 203, 32);
         updateWorkOrderFrame.getContentPane().add(updateWorkOrderSubmitButton);
 
@@ -359,12 +461,14 @@ public class WorkOrderTab {
         requiredFieldsErrorFrame.getContentPane().setLayout(null);
 
         //This label displays the error message.
-        JLabel errorMessage = new JLabel("You are missing a required field.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("You are missing a required field.");
         errorMessage.setBounds(50, 50, 200, 32);
         requiredFieldsErrorFrame.getContentPane().add(errorMessage);
 
         //This button closes the error message.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(105, 100, 90, 28);
         requiredFieldsErrorFrame.getContentPane().add(closeErrorMessageButton);
 
