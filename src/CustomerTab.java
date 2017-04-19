@@ -403,6 +403,7 @@ public class CustomerTab {
         
         //This initializes the first name text field.
         firstNameText = new JTextField();
+        firstNameText.setText(fieldValues[0]);
         firstNameText.setBounds(10, 48, 203, 32);
         updateCustomerFrame.getContentPane().add(firstNameText);
 
@@ -414,6 +415,7 @@ public class CustomerTab {
         
         //This initializes the last name text field.
         lastNameText = new JTextField();
+        lastNameText.setText(fieldValues[1]);
         lastNameText.setBounds(233, 48, 203, 32);
         updateCustomerFrame.getContentPane().add(lastNameText);
         
@@ -425,6 +427,7 @@ public class CustomerTab {
 
         //This initializes the phone number text field.
         phoneNumberText = new JTextField();
+        phoneNumberText.setText(fieldValues[2]);
         phoneNumberText.setBounds(10, 127, 203, 32);
         updateCustomerFrame.getContentPane().add(phoneNumberText);
 
@@ -436,6 +439,7 @@ public class CustomerTab {
         
         //This initializes the email text field.
         emailText = new JTextField();
+        emailText.setText(fieldValues[7]);
         emailText.setBounds(233, 127, 203, 32);
         updateCustomerFrame.getContentPane().add(emailText);
         
@@ -447,6 +451,7 @@ public class CustomerTab {
 
         //This initializes the street address text field.
         streetAddressText = new JTextField();
+        streetAddressText.setText(fieldValues[3]);
         streetAddressText.setBounds(10, 206, 426, 32);
         updateCustomerFrame.getContentPane().add(streetAddressText);
         
@@ -458,6 +463,7 @@ public class CustomerTab {
 
         //This initializes the city text field.
         cityText = new JTextField();
+        cityText.setText(fieldValues[4]);
         cityText.setBounds(10, 285, 203, 32);
         updateCustomerFrame.getContentPane().add(cityText);
         
@@ -469,6 +475,7 @@ public class CustomerTab {
 
         //This initializes the state text field.
         stateText = new JTextField();
+        stateText.setText(fieldValues[5]);
         stateText.setBounds(233, 285, 203, 32);
         updateCustomerFrame.getContentPane().add(stateText);
         
@@ -480,6 +487,7 @@ public class CustomerTab {
 
         //This initializes the zipcode text field.
         zipcodeText = new JTextField();
+        zipcodeText.setText(fieldValues[6]);
         zipcodeText.setBounds(10, 364, 203, 32);
         updateCustomerFrame.getContentPane().add(zipcodeText);
 
