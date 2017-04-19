@@ -9,6 +9,8 @@
 //TODO: forgot password
 
 import javax.swing.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -402,6 +404,32 @@ public class SQLConnections {
         }
     }
 
+    public String[] fillUpdateInventoryItem(int selectedInventoryItemID) {
+        String query = "SELECT * FROM inventory WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, selectedInventoryItemID);
+            ResultSet resultSet = statement.executeQuery();
+
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            String[] fieldResults = new String[columnCount];
+
+            for (int i = 0; i < columnCount; i++) {
+                fieldResults[i] = resultSet.getString(i + 1);
+
+                System.out.println(fieldResults[i]);
+            }
+
+            return fieldResults;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
     public void updateInventoryItem(String number, String description, String vendor, String location,
                                     int quantity, double unitCost, String url, int selectedInventoryItemID) {
         String query = "UPDATE inventory SET 'Part Number' = ?, Description = ?, Vendor = ?, " +
@@ -422,6 +450,27 @@ public class SQLConnections {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public URL getItemURL(int selectedInventoryItemID) {
+        String query = "SELECT URL FROM inventory WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, selectedInventoryItemID);
+            ResultSet resultSet = statement.executeQuery();
+
+            String temp = resultSet.getString("URL");
+            URL url = new URL(temp);
+
+
+            return url;
+
+        } catch (SQLException|MalformedURLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
     public ResultSet populateEmployeeTable() {
