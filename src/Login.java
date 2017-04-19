@@ -13,6 +13,7 @@ public class Login {
     JTextField resetPasswordCodeText;
     JTextField newPasswordText;
     JTextField confirmPasswordText;
+    JTextField emailText;
 
     //This is the wrapper method for the UI initialization.
     public void openLogin() {
@@ -168,24 +169,37 @@ public class Login {
         sendEmailConfirmationFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         sendEmailConfirmationFrame.setResizable(false);
         sendEmailConfirmationFrame.setTitle("Forgot Password");
-        sendEmailConfirmationFrame.setBounds(100, 100, 300, 300);
+        sendEmailConfirmationFrame.setBounds(100, 100, 300, 310);
         sendEmailConfirmationFrame.getContentPane().setLayout(null);
 
         //This label displays the message.
         JLabel message = new JLabel("Send forgot password email?");
-        message.setBounds(50, 50, 200, 32);
+        message.setBounds(50, 30, 200, 32);
         sendEmailConfirmationFrame.getContentPane().add(message);
         
         //This label displays the username label.
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(50, 100, 200, 32);
+        usernameLabel.setBounds(50, 70, 200, 32);
         sendEmailConfirmationFrame.getContentPane().add(usernameLabel);
         
-        //TODO: add fields and validation for username and password
+        //This text field is for the username.
+        usernameText = new JTextField();
+        usernameText.setBounds(50, 105, 174, 32);
+        sendEmailConfirmationFrame.getContentPane().add(usernameText);
+        
+        //This label displays the email label.
+        JLabel emailLabel = new JLabel("Email");
+        emailLabel.setBounds(50, 145, 200, 32);
+        sendEmailConfirmationFrame.getContentPane().add(emailLabel);
+        
+        //This text field is for the email.
+        emailText = new JTextField();
+        emailText.setBounds(50, 180, 174, 31);
+        sendEmailConfirmationFrame.getContentPane().add(emailText);
 
         //This button sends the email.
         JButton confirmButton = new JButton("OK");
-        confirmButton.setBounds(105, 150, 90, 28);
+        confirmButton.setBounds(105, 230, 90, 28);
         sendEmailConfirmationFrame.getContentPane().add(confirmButton);
 
         //If the ok button is pressed, the window should be closed and the email
@@ -193,13 +207,101 @@ public class Login {
         confirmButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
-                sendResetPasswordEmail();
-                createEnterCodeWindow();
-                sendEmailConfirmationFrame.dispose();
+                if (windowOneHasRequiredFields()) {
+                    if (usernameExists()) {
+                        sendResetPasswordEmail();
+                        createEnterCodeWindow();
+                        sendEmailConfirmationFrame.dispose();    
+                    } else {
+                        createUsernameErrorWindow();
+                    }
+                } else {
+                    createRequiredFieldsErrorWindow();
+                }
             }
         });
 
         sendEmailConfirmationFrame.setVisible(true);
+    }
+    
+    //This method ensures that the user enters their username and email.
+    private boolean windowOneHasRequiredFields() {
+        if (usernameText.getText().equals("")) {
+            return false;
+        }
+        if (emailText.getText().equals("")) {
+            return false;
+        }
+        return true;
+    }
+    
+    //This method ensures that the entered username matches one in the database.
+    private boolean usernameExists() {
+        String username = usernameText.getText();
+        //TODO: actually make a check here
+        return true;
+    }
+    
+    //This method displays an error for an incorrect username.
+    private void createUsernameErrorWindow() {
+        //This initializes the error window.
+        JFrame usernameErrorFrame = new JFrame();
+        usernameErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        usernameErrorFrame.setResizable(false);
+        usernameErrorFrame.setTitle("Error");
+        usernameErrorFrame.setBounds(100, 100, 350, 200);
+        usernameErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel("Invalid username.");
+        errorMessage.setBounds(120, 50, 100, 32);
+        usernameErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton("OK");
+        closeErrorMessageButton.setBounds(130, 100, 90, 28);
+        usernameErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //When this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                usernameErrorFrame.dispose();
+            }
+        });
+
+        usernameErrorFrame.setVisible(true);
+    }
+    
+    //This method creates the required fields error window.
+    private void createRequiredFieldsErrorWindow() {
+        //This initializes the error window.
+        JFrame requiredFieldsErrorFrame = new JFrame();
+        requiredFieldsErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        requiredFieldsErrorFrame.setResizable(false);
+        requiredFieldsErrorFrame.setTitle("Error");
+        requiredFieldsErrorFrame.setBounds(100, 100, 300, 200);
+        requiredFieldsErrorFrame.getContentPane().setLayout(null);
+
+        //This label displays the error message.
+        JLabel errorMessage = new JLabel("You are missing a required field.");
+        errorMessage.setBounds(50, 50, 200, 32);
+        requiredFieldsErrorFrame.getContentPane().add(errorMessage);
+
+        //This button closes the error message.
+        JButton closeErrorMessageButton = new JButton("OK");
+        closeErrorMessageButton.setBounds(105, 100, 90, 28);
+        requiredFieldsErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If the close button is pressed, the window should be closed.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                requiredFieldsErrorFrame.dispose();
+            }
+        });
+
+        requiredFieldsErrorFrame.setVisible(true);
     }
     
     //This method creates the window for the user to enter the code they were
@@ -223,11 +325,24 @@ public class Login {
         resetPasswordCodeText.setBounds(50, 70, 200, 32);
         enterEmailCodeFrame.getContentPane().add(resetPasswordCodeText);
 
-        //TODO: add button to retry sending email
+        //This button lets the user retry sending the email
+        JButton resendButton = new JButton("Re-Email");
+        resendButton.setBounds(50, 112, 90, 28);
+        enterEmailCodeFrame.getContentPane().add(resendButton);
+        
+        //If the user tries to resend the email, they will return to the first 
+        //window to re-enter their username and email.
+        resendButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                createSendEmailConfirmationWindow();
+                enterEmailCodeFrame.dispose();
+            }
+        });
         
         //This button submits the code.
         JButton submitButton = new JButton("Submit");
-        submitButton.setBounds(105, 112, 90, 28);
+        submitButton.setBounds(150, 112, 90, 28);
         enterEmailCodeFrame.getContentPane().add(submitButton);
 
         //If the submit button is pressed and the code matches what was emailed, 
@@ -235,16 +350,28 @@ public class Login {
         submitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
-                if (codeMatchesEmail()) {
-                    createEnterPasswordWindow();
-                    enterEmailCodeFrame.dispose();
+                if (windowTwoHasRequiredFields()) {
+                    if (codeMatchesEmail()) {
+                        createEnterPasswordWindow();
+                        enterEmailCodeFrame.dispose();
+                    } else {
+                        createCodeErrorWindow();
+                    }
                 } else {
-                    createCodeErrorWindow();
+                    createRequiredFieldsErrorWindow();
                 }
             }
         });
 
         enterEmailCodeFrame.setVisible(true);
+    }
+    
+    //This method ensures that the user enters a code.
+    private boolean windowTwoHasRequiredFields() {
+        if (resetPasswordCodeText.getText().equals("")) {
+            return false;
+        }
+        return true;
     }
     
     //This method ensures that the entered code matches that of the emailed one.
@@ -288,19 +415,21 @@ public class Login {
         JButton submitButton = new JButton("Submit");
         submitButton.setBounds(105, 210, 90, 28);
         enterNewPasswordFrame.getContentPane().add(submitButton);
-
-        //TODO: validate against empty fields
         
         //If the submit button is pressed and the passwords match, update the 
         //passwords in the database.
         submitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent arg0) {
-                if (passwordsMatch()) {
-                    changePassword();
-                    enterNewPasswordFrame.dispose();
+                if (windowThreeHasRequiredFields()) {
+                    if (passwordsMatch()) {
+                        changePassword();
+                        enterNewPasswordFrame.dispose();
+                    } else {
+                        createPasswordMismatchErrorWindow();
+                    }
                 } else {
-                    createPasswordMismatchErrorWindow();
+                    createRequiredFieldsErrorWindow();
                 }
             }
         });
@@ -308,9 +437,23 @@ public class Login {
         enterNewPasswordFrame.setVisible(true);
     }
     
+    //This method ensures that the user enters a new password and a confirmation
+    //password.
+    private boolean windowThreeHasRequiredFields() {
+        if (newPasswordText.getText().equals("")) {
+            return false;
+        }
+        if (confirmPasswordText.getText().equals("")) {
+            return false;
+        }
+        return true;
+    }
+    
     //This method confirms that the new passwords match
     private boolean passwordsMatch() {
-        //TODO: make sure passwords match
+        if (!newPasswordText.getText().equals(confirmPasswordText.getText())) {
+            return false;
+        }
         return true;
     }
     
@@ -349,8 +492,6 @@ public class Login {
 
         newPasswordErrorFrame.setVisible(true);
     }
-    
-    //TODO: verify that entered code field is not empty
     
     //This method creates the error window if the entered code is wrong.
     private void createCodeErrorWindow() {
