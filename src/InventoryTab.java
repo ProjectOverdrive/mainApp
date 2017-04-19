@@ -1,7 +1,11 @@
 import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 //TODO: (Colten) Table row backgrounds
 //TODO: (Caroline) Add field names above text box
@@ -98,6 +102,23 @@ public class InventoryTab {
     public JButton createOrderInventoryItemButton() {
         JButton orderInventoryItemButton = new JButton("Order Inventory Item");
         orderInventoryItemButton.setBounds(956, 50, 167, 28);
+
+        orderInventoryItemButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = inventoryTable.getSelectedRow();
+                int selectedInventoryItemID = (int) inventoryTable.getValueAt(row, 0);
+
+                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+                if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(connection.getItemURL(selectedInventoryItemID).toURI());
+                    } catch (URISyntaxException|IOException m) {
+                        m.printStackTrace();
+                    }
+                }
+            }
+        });
         return orderInventoryItemButton;
         //TODO: make order item work
     }
@@ -278,6 +299,9 @@ public class InventoryTab {
         int row = inventoryTable.getSelectedRow();
         int selectedInventoryItemID = (int) inventoryTable.getValueAt(row, 0);
 
+        //Stores update field values
+        String[] fieldValues = connection.fillUpdateInventoryItem(selectedInventoryItemID);
+
         //This initializes the update item window.
         JFrame updateInventoryItemFrame = new JFrame();
         updateInventoryItemFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -288,43 +312,43 @@ public class InventoryTab {
 
         //This initializes the part number text field.
         numberText = new JTextField();
-        numberText.setText("Part Number");
+        numberText.setText(fieldValues[0]);
         numberText.setBounds(10, 11, 426, 32);
         updateInventoryItemFrame.getContentPane().add(numberText);
 
         //This initializes the part description text field.
         descriptionText = new JTextField();
-        descriptionText.setText("Part Description");
+        descriptionText.setText(fieldValues[1]);
         descriptionText.setBounds(10, 53, 426, 32);
         updateInventoryItemFrame.getContentPane().add(descriptionText);
 
         //This initializes the part vendor text field.
         vendorText = new JTextField();
-        vendorText.setText("Vendor");
+        vendorText.setText(fieldValues[2]);
         vendorText.setBounds(10, 95, 203, 32);
         updateInventoryItemFrame.getContentPane().add(vendorText);
 
         //This initializes the part location text field.
         locationText = new JTextField();
-        locationText.setText("Location in Store");
+        locationText.setText(fieldValues[3]);
         locationText.setBounds(233, 95, 203, 32);
         updateInventoryItemFrame.getContentPane().add(locationText);
 
         //This initializes the quantity in stock text field.
         quantityText = new JTextField();
-        quantityText.setText("Quantity");
+        quantityText.setText(fieldValues[4]);
         quantityText.setBounds(10, 137, 203, 32);
         updateInventoryItemFrame.getContentPane().add(quantityText);
 
         //This initializes the unit cost text field.
         unitCostText = new JTextField();
-        unitCostText.setText("Unit Cost");
+        unitCostText.setText(fieldValues[5]);
         unitCostText.setBounds(233, 137, 203, 32);
         updateInventoryItemFrame.getContentPane().add(unitCostText);
 
         //This initializes the url text field.
         urlText = new JTextField();
-        urlText.setText("URL");
+        urlText.setText(fieldValues[6]);
         urlText.setBounds(10, 179, 426, 32);
         updateInventoryItemFrame.getContentPane().add(urlText);
 
