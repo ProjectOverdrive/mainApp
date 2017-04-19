@@ -274,6 +274,10 @@ public class InventoryTab {
 
     //This method creates and controls the update item window.
     public void buildUpdateInventoryItemFrame() {
+        //Gets the currently selected row
+        int row = inventoryTable.getSelectedRow();
+        int selectedInventoryItemID = (int) inventoryTable.getValueAt(row, 0);
+
         //This initializes the update item window.
         JFrame updateInventoryItemFrame = new JFrame();
         updateInventoryItemFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -354,7 +358,7 @@ public class InventoryTab {
                         if (numberParsesCorrectly(unitCostText.getText())) {
                             //If all fields are correct, update the item in the
                             //database and close the update item window.
-                            updateInventoryItem();
+                            updateInventoryItem(selectedInventoryItemID);
                             updateInventoryItemFrame.dispose();
                         } else {
                             //Display an error if unit cost is not numeric.
@@ -375,7 +379,7 @@ public class InventoryTab {
     }
 
     //This method updates an inventory item in the database.
-    private void updateInventoryItem() {
+    private void updateInventoryItem(int selectedInventoryItemID) {
         String number = numberText.getText();
         String description = descriptionText.getText();
         String vendor = vendorText.getText();
@@ -384,7 +388,8 @@ public class InventoryTab {
         double unitCost = Double.parseDouble(unitCostText.getText());
         String url = urlText.getText();
 
-        //TODO: (Colten) update these fields to the database.
+        connection.updateInventoryItem(number, description, vendor, location,
+                quantity, unitCost, url, selectedInventoryItemID);
     }
 
     //This method creates the error window for quantity not being numeric.
@@ -479,4 +484,5 @@ public class InventoryTab {
 
         requiredFieldsErrorFrame.setVisible(true);
     }
+
 }

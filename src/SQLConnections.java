@@ -402,6 +402,28 @@ public class SQLConnections {
         }
     }
 
+    public void updateInventoryItem(String number, String description, String vendor, String location,
+                                    int quantity, double unitCost, String url, int selectedInventoryItemID) {
+        String query = "UPDATE inventory SET 'Part Number' = ?, Description = ?, Vendor = ?, " +
+                "Location = ?, Quantity = ?, 'Unit Cost' = ?, URL = ? WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, number);
+            statement.setString(2, description);
+            statement.setString(3, vendor);
+            statement.setString(4, location);
+            statement.setInt(5, quantity);
+            statement.setDouble(6, unitCost);
+            statement.setString(7, url);
+            statement.setInt(8, selectedInventoryItemID);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public ResultSet populateEmployeeTable() {
         String query = "SELECT rowid AS 'ID', [First Name], [Last Name], [Phone Number], " +
                 "[Street Address], [City], [State], [Zipcode], [Email], [Hourly Pay], " +
