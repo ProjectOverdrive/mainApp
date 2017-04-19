@@ -219,7 +219,7 @@ public class WorkOrderTab {
 
         //This is the combo box for selecting the status on the work order.
         //The user can select the status as "new", "in progress", or "completed"
-        String[] statuses = {"New", "In Progress", "Completed"};
+        String[] statuses = {"", "New", "In Progress", "Completed"};
         statusSelection = new JComboBox(statuses);
         statusSelection.setBounds(10, 111, 150, 32);
         addWorkOrderFrame.getContentPane().add(statusSelection);
@@ -232,7 +232,7 @@ public class WorkOrderTab {
 
         //This is the combo box for selecting the priority of the work order.
         //The user can select from high, meduim, or low priority.
-        String[] priorities = {"High", "Medium", "Low"};
+        String[] priorities = {"", "High", "Medium", "Low"};
         prioritySelection = new JComboBox(priorities);
         prioritySelection.setBounds(233, 111, 150, 32);
         addWorkOrderFrame.getContentPane().add(prioritySelection);
@@ -294,6 +294,18 @@ public class WorkOrderTab {
         //If the text field is the default value or empty, return false.
         if (detailsText.getText().equals("Details") ||
                 detailsText.getText().equals("")) {
+            return false;
+        }
+        if (employeeSelection.getSelectedIndex() == 0) {
+            return false;
+        }
+        if (customerSelection.getSelectedIndex() == 0) {
+            return false;
+        }
+        if (statusSelection.getSelectedIndex() == 0) {
+            return false;
+        }
+        if (prioritySelection.getSelectedIndex() == 0) {
             return false;
         }
         //Otherwise, return true.
