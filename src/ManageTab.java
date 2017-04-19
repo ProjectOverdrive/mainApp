@@ -431,18 +431,22 @@ public class ManageTab {
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
         String phoneNumber = phoneNumberText.getText();
-        String email = emailText.getText();
         String streetAddress = streetAddressText.getText();
         String city = cityText.getText();
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
+        String email = emailText.getText();
+        Double hourlyRate = Double.parseDouble(hourlyPayText.getText());
         String username = usernameText.getText();
         String password = usernameText.getText();
-        Double hourlyRate = Double.parseDouble(hourlyPayText.getText());
+
         int isManager = 0;
         if (isManagerSelection.getSelectedItem().toString().equals("Is Manager")) {
             isManager = 1;
         }
+
+        connection.addNewEmployee(firstName, lastName, phoneNumber, streetAddress, city,
+                state, zipcode, email, hourlyRate, username, password, isManager);
         
         //TODO: (Colten) add to database
     }

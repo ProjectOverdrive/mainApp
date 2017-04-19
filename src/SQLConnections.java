@@ -466,7 +466,7 @@ public class SQLConnections {
 
             return url;
 
-        } catch (SQLException|MalformedURLException e) {
+        } catch (SQLException | MalformedURLException e) {
             System.out.println(e.getMessage());
         }
 
@@ -490,5 +490,33 @@ public class SQLConnections {
         }
 
         return null;
+    }
+
+    public void addNewEmployee(String firstName, String lastName, String phoneNumber, String streetAddress,
+                               String city, String state, String zipcode, String email, double hourlyRate,
+                               String username, String password, int isManager) {
+        String query = "INSERT INTO employees('First Name', 'Last Name', 'Phone Number', " +
+                "'Street Address', City, State, Zipcode, Email, 'Hourly Pay', " +
+                "Username, Password, isManager) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, phoneNumber);
+            statement.setString(4, streetAddress);
+            statement.setString(5, city);
+            statement.setString(6, state);
+            statement.setString(7, zipcode);
+            statement.setString(8, email);
+            statement.setDouble(9, hourlyRate);
+            statement.setString(10, username);
+            statement.setString(11, password);
+            statement.setInt(12, isManager);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
