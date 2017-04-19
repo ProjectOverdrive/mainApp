@@ -1,7 +1,6 @@
-//TODO: (Caroline) Add field names above text box
-
 import java.awt.event.*;
 import javax.swing.*;
+
 public class EmployeePortalTab {
     
     //These fields are for the employee portal data.
@@ -29,7 +28,8 @@ public class EmployeePortalTab {
         
     //This method creates the refresh button.
     public JButton createRefreshButton() {
-        JButton refreshButton = new JButton("Refresh");
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh");
         refreshButton.setBounds(956, 11, 167, 28);
         return refreshButton;
         //TODO: (Colten) actually refresh the table
@@ -37,7 +37,8 @@ public class EmployeePortalTab {
     
     //This method creates the update info button.
     public JButton createUpdateInfoButton() {
-        JButton updateInfoButton = new JButton("Update Info");
+        JButton updateInfoButton = new JButton();
+        updateInfoButton.setText("Update Info");
         updateInfoButton.setBounds(1133, 11, 167, 28);
 
         updateInfoButton.addMouseListener(new MouseAdapter() {
@@ -52,7 +53,8 @@ public class EmployeePortalTab {
 
     //This method creates the change password button.
     public JButton createChangePasswordButton() {
-        JButton changePasswordButton = new JButton("Change Password");
+        JButton changePasswordButton = new JButton();
+        changePasswordButton.setText("Change Password");
         changePasswordButton.setBounds(1133, 50, 167, 28);
 
         changePasswordButton.addMouseListener(new MouseAdapter() {
@@ -72,66 +74,112 @@ public class EmployeePortalTab {
         updateInfoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         updateInfoFrame.setResizable(false);
         updateInfoFrame.setTitle("Update Info");
-        updateInfoFrame.setBounds(100, 100, 475, 315);
+        updateInfoFrame.setBounds(100, 100, 475, 500);
         updateInfoFrame.getContentPane().setLayout(null);
-
+        
+        //This is the first name label.
+        JLabel firstNameLabel = new JLabel();
+        firstNameLabel.setText("First Name");
+        firstNameLabel.setBounds(10, 11, 203, 32);
+        updateInfoFrame.getContentPane().add(firstNameLabel);
+        
         //This initializes the first name text field.
         firstNameText = new JTextField();
-        firstNameText.setText("First Name");
-        firstNameText.setBounds(10, 11, 203, 32);
+        firstNameText.setBounds(10, 48, 203, 32);
         updateInfoFrame.getContentPane().add(firstNameText);
+        
+        //This is the last name label.
+        JLabel lastNameLabel = new JLabel();
+        lastNameLabel.setText("Last Name");
+        lastNameLabel.setBounds(233, 11, 203, 32);
+        updateInfoFrame.getContentPane().add(lastNameLabel);
 
         //This initializes the last name text field.
         lastNameText = new JTextField();
-        lastNameText.setText("Last Name");
-        lastNameText.setBounds(233, 11, 203, 32);
+        lastNameText.setBounds(233, 48, 203, 32);
         updateInfoFrame.getContentPane().add(lastNameText);
+        
+        //This is the phone number label.
+        JLabel phoneNumberLabel = new JLabel();
+        phoneNumberLabel.setText("Phone Number");
+        phoneNumberLabel.setBounds(10, 90, 203, 32);
+        updateInfoFrame.getContentPane().add(phoneNumberLabel);
 
         //This initializes the phone number text field.
         phoneNumberText = new JTextField();
-        phoneNumberText.setText("Phone Number");
-        phoneNumberText.setBounds(10, 53, 203, 32);
+        phoneNumberText.setBounds(10, 127, 203, 32);
         updateInfoFrame.getContentPane().add(phoneNumberText);
+        
+        //This is the email label.
+        JLabel emailLabel = new JLabel();
+        emailLabel.setText("Email");
+        emailLabel.setBounds(233, 90, 203, 32);
+        updateInfoFrame.getContentPane().add(emailLabel);
 
         //This initializes the email text field.
         emailText = new JTextField();
-        emailText.setText("Email");
-        emailText.setBounds(233, 53, 203, 32);
+        emailText.setBounds(233, 127, 203, 32);
         updateInfoFrame.getContentPane().add(emailText);
+        
+        //This is the street address label.
+        JLabel streetAddressLabel = new JLabel();
+        streetAddressLabel.setText("Street Address");
+        streetAddressLabel.setBounds(10, 169, 203, 32);
+        updateInfoFrame.getContentPane().add(streetAddressLabel);
 
         //This initializes the street address text field.
         streetAddressText = new JTextField();
-        streetAddressText.setText("Street Address");
-        streetAddressText.setBounds(10, 95, 426, 32);
+        streetAddressText.setBounds(10, 206, 426, 32);
         updateInfoFrame.getContentPane().add(streetAddressText);
+        
+        //This is the city label.
+        JLabel cityLabel = new JLabel();
+        cityLabel.setText("City");
+        cityLabel.setBounds(10, 248, 203, 32);
+        updateInfoFrame.getContentPane().add(cityLabel);
 
         //This initializes the city text field.
         cityText = new JTextField();
-        cityText.setText("City");
-        cityText.setBounds(10, 137, 203, 32);
+        cityText.setBounds(10, 285, 203, 32);
         updateInfoFrame.getContentPane().add(cityText);
+        
+        //This is the state label.
+        JLabel stateLabel = new JLabel();
+        stateLabel.setText("State");
+        stateLabel.setBounds(233, 248, 203, 32);
+        updateInfoFrame.getContentPane().add(stateLabel);
 
         //This initializes the state text field.
         stateText = new JTextField();
-        stateText.setText("State");
-        stateText.setBounds(233, 137, 203, 32);
+        stateText.setBounds(233, 285, 203, 32);
         updateInfoFrame.getContentPane().add(stateText);
+        
+        //This is the zipcode label.
+        JLabel zipcodeLabel = new JLabel();
+        zipcodeLabel.setText("Zipcode");
+        zipcodeLabel.setBounds(10, 327, 203, 32);
+        updateInfoFrame.getContentPane().add(zipcodeLabel);
 
         //This initializes the zipcode text field.
         zipcodeText = new JTextField();
-        zipcodeText.setText("Zipcode");
-        zipcodeText.setBounds(10, 179, 203, 32);
+        zipcodeText.setBounds(10, 364, 203, 32);
         updateInfoFrame.getContentPane().add(zipcodeText);
+        
+        //This is the username label.
+        JLabel usernameLabel = new JLabel();
+        usernameLabel.setText("Username");
+        usernameLabel.setBounds(233, 327, 203, 32);
+        updateInfoFrame.getContentPane().add(usernameLabel);
         
         //This initializes the username text field.
         usernameText = new JTextField();
-        usernameText.setText("Username");
-        usernameText.setBounds(233, 179, 203, 32);
+        usernameText.setBounds(233, 364, 203, 32);
         updateInfoFrame.getContentPane().add(usernameText);
         
         //This initializes the cancel button.
-        JButton updateInfoCancelButton = new JButton("Cancel");
-        updateInfoCancelButton.setBounds(10, 221, 203, 32);
+        JButton updateInfoCancelButton = new JButton();
+        updateInfoCancelButton.setText("Cancel");
+        updateInfoCancelButton.setBounds(10, 406, 203, 32);
         updateInfoFrame.getContentPane().add(updateInfoCancelButton);
 
         //Pressing this button will close the update info window.
@@ -143,8 +191,9 @@ public class EmployeePortalTab {
         });
 
         //This initializes the submit button.
-        JButton updateInfoSubmitButton = new JButton("Update Info");
-        updateInfoSubmitButton.setBounds(233, 221, 203, 32);
+        JButton updateInfoSubmitButton = new JButton();
+        updateInfoSubmitButton.setText("Update Info");
+        updateInfoSubmitButton.setBounds(233, 406, 203, 32);
         updateInfoFrame.getContentPane().add(updateInfoSubmitButton);
 
         //Pressing this button will attempt to update the employee in the database.
@@ -235,12 +284,14 @@ public class EmployeePortalTab {
         requiredFieldsErrorFrame.getContentPane().setLayout(null);
 
         //This label displays the text of the error message.
-        JLabel errorMessage = new JLabel("You are missing a required field.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("You are missing a required field.");
         errorMessage.setBounds(50, 50, 200, 32);
         requiredFieldsErrorFrame.getContentPane().add(errorMessage);
 
         //This initializes the ok button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(105, 100, 90, 28);
         requiredFieldsErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -267,7 +318,8 @@ public class EmployeePortalTab {
         changePasswordFrame.getContentPane().setLayout(null);
 
         //Create current password label.
-        JLabel currentPasswordLabel = new JLabel("Enter Current Password");
+        JLabel currentPasswordLabel = new JLabel();
+        currentPasswordLabel.setText("Enter Current Password");
         currentPasswordLabel.setBounds(10, 10, 203, 24);
         changePasswordFrame.getContentPane().add(currentPasswordLabel);
         
@@ -277,7 +329,8 @@ public class EmployeePortalTab {
         changePasswordFrame.getContentPane().add(currentPasswordText);
         
         //Create current password label.
-        JLabel newPasswordLabel = new JLabel("Enter New Password");
+        JLabel newPasswordLabel = new JLabel();
+        newPasswordLabel.setText("Enter New Password");
         newPasswordLabel.setBounds(10, 83, 203, 24);
         changePasswordFrame.getContentPane().add(newPasswordLabel);
         
@@ -287,7 +340,8 @@ public class EmployeePortalTab {
         changePasswordFrame.getContentPane().add(newPasswordText);
         
         //Create confirm password label.
-        JLabel confirmPasswordLabel = new JLabel("Confirm New Password");
+        JLabel confirmPasswordLabel = new JLabel();
+        confirmPasswordLabel.setText("Confirm New Password");
         confirmPasswordLabel.setBounds(10, 156, 203, 24);
         changePasswordFrame.getContentPane().add(confirmPasswordLabel);
         
@@ -297,7 +351,8 @@ public class EmployeePortalTab {
         changePasswordFrame.getContentPane().add(confirmPasswordText);
         
         //This initializes the cancel button.
-        JButton changePasswordCancelButton = new JButton("Cancel");
+        JButton changePasswordCancelButton = new JButton();
+        changePasswordCancelButton.setText("Cancel");
         changePasswordCancelButton.setBounds(10, 226, 203, 32);
         changePasswordFrame.getContentPane().add(changePasswordCancelButton);
 
@@ -310,7 +365,8 @@ public class EmployeePortalTab {
         });
 
         //This initializes the submit button.
-        JButton changePasswordSubmitButton = new JButton("Change Password");
+        JButton changePasswordSubmitButton = new JButton();
+        changePasswordSubmitButton.setText("Change Password");
         changePasswordSubmitButton.setBounds(233, 226, 203, 32);
         changePasswordFrame.getContentPane().add(changePasswordSubmitButton);
 
@@ -387,12 +443,14 @@ public class EmployeePortalTab {
         newPasswordErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("There is a mismatch with your new password.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("There is a mismatch with your new password.");
         errorMessage.setBounds(40, 50, 270, 32);
         newPasswordErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(125, 100, 90, 28);
         newPasswordErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -418,12 +476,14 @@ public class EmployeePortalTab {
         currentPasswordErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("Your current password is incorrect.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Your current password is incorrect.");
         errorMessage.setBounds(60, 50, 250, 32);
         currentPasswordErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
         JButton closeErrorMessageButton = new JButton("OK");
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(115, 100, 90, 28);
         currentPasswordErrorFrame.getContentPane().add(closeErrorMessageButton);
 

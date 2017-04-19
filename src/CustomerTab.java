@@ -296,7 +296,7 @@ public class CustomerTab {
         });
 
         //This initializes the submit button.
-        JButton addCustomerSubmitButton = new JButton("");
+        JButton addCustomerSubmitButton = new JButton();
         addCustomerSubmitButton.setText("Add New Customer");
         addCustomerSubmitButton.setBounds(233, 406, 203, 32);
         addCustomerFrame.getContentPane().add(addCustomerSubmitButton);
@@ -573,12 +573,14 @@ public class CustomerTab {
         phoneNumberErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("The phone number must be 10 digits.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("The phone number must be 10 digits.");
         errorMessage.setBounds(60, 50, 250, 32);
         phoneNumberErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(115, 100, 90, 28);
         phoneNumberErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -605,7 +607,8 @@ public class CustomerTab {
         requiredFieldsErrorFrame.getContentPane().setLayout(null);
 
         //This label displays the text of the error message.
-        JLabel errorMessage = new JLabel("You are missing a required field.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("You are missing a required field.");
         errorMessage.setBounds(50, 50, 200, 32);
         requiredFieldsErrorFrame.getContentPane().add(errorMessage);
 
