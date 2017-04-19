@@ -1,5 +1,5 @@
-//TODO: Input validation on address fields (zipcode 5 digits, etc)
-//TODO: Add field names above text box
+//TODO: (Caroline) Input validation on address fields (zipcode 5 digits, etc)
+//TODO: (Caroline) Add field names above text box
 
 import net.proteanit.sql.DbUtils;
 import javax.swing.*;
@@ -39,7 +39,6 @@ public class CustomerTab {
     }
 
     //This method creates the refresh list button.
-
     public JButton createRefreshListButton() {
         JButton refreshButton = new JButton("Refresh List");
         refreshButton.setBounds(956, 11, 167, 28);
@@ -94,7 +93,6 @@ public class CustomerTab {
 
         updateCustomerButton.addMouseListener(new MouseAdapter() {
             //The update customer window should open when this button is pressed.
-            //TODO: enable row selection
             @Override
             public void mousePressed(MouseEvent e) {
                 buildUpdateCustomerFrame();
@@ -251,7 +249,7 @@ public class CustomerTab {
         connection.addNewCustomer(firstName, lastName, phoneNumber,
                 streetAddress, city, state, zipcode, email);
 
-        //TODO: Make sure not adding duplicate customer
+        //TODO: (Colten) Make sure not adding duplicate customer
     }
 
     //This method creates the update customer window.

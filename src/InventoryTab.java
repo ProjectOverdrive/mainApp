@@ -3,7 +3,8 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-// TODO: Table row backgrounds
+//TODO: (Colten) Table row backgrounds
+//TODO: (Caroline) Add field names above text box
 
 public class InventoryTab {
 
@@ -39,7 +40,7 @@ public class InventoryTab {
         JButton refreshButton = new JButton("Refresh List");
         refreshButton.setBounds(956, 11, 167, 28);
         return refreshButton;
-        //TODO: actually refresh the table
+        //TODO: (Colten) actually refresh the table
     }
 
     //This method creates the add inventory item button.
@@ -75,7 +76,6 @@ public class InventoryTab {
             }
         });
         return deleteInventoryItemButton;
-        //TODO: make this work
     }
 
     //This method creates the update inventory item button.
@@ -99,7 +99,7 @@ public class InventoryTab {
         JButton orderInventoryItemButton = new JButton("Order Inventory Item");
         orderInventoryItemButton.setBounds(956, 50, 167, 28);
         return orderInventoryItemButton;
-        //TODO: make this work
+        //TODO: make order item work
     }
 
     //This method creates and controls the add inventory item window.
@@ -251,8 +251,6 @@ public class InventoryTab {
 
         connection.addNewInventoryItem(number, description, vendor, location,
                 quantity, unitCost, url);
-
-        //TODO: Add these fields as an object to the database.
     }
 
     //This number ensures that fields that are supposed to be numeric are so.
@@ -276,7 +274,6 @@ public class InventoryTab {
 
     //This method creates and controls the update item window.
     public void buildUpdateInventoryItemFrame() {
-        //TODO: get these things to prepopulate
         //This initializes the update item window.
         JFrame updateInventoryItemFrame = new JFrame();
         updateInventoryItemFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -387,7 +384,7 @@ public class InventoryTab {
         double unitCost = Double.parseDouble(unitCostText.getText());
         String url = urlText.getText();
 
-        //TODO: update these fields as an object to the database.
+        //TODO: (Colten) update these fields to the database.
     }
 
     //This method creates the error window for quantity not being numeric.

@@ -4,9 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-//TODO: add JDatePicker 
+//TODO: (Caroline) add JDatePicker 
 public class WorkOrderTab {
-    //TODO: make initial value null in combo box, validate against it.
+    //TODO: (Caroline) make initial value null in combo box, validate against it.
     //These are the fields/combo boxes for adding and updating work orders.
     private JComboBox employeeSelection;
     private JComboBox statusSelection;
@@ -37,7 +37,7 @@ public class WorkOrderTab {
         JButton refreshButton = new JButton("Refresh List");
         refreshButton.setBounds(956, 11, 167, 28);
         return refreshButton;
-        //TODO: make this work
+        //TODO: (Colten) make this work
     }
 
     //This method creates the add work order button.
@@ -60,7 +60,7 @@ public class WorkOrderTab {
         JButton deleteWorkOrderButton = new JButton("Delete Work Order");
         deleteWorkOrderButton.setBounds(1133, 50, 167, 28);
         return deleteWorkOrderButton;
-        //TODO: make this work
+        //TODO: (Colten) make this work
     }
 
     //This method creates the update work order button.
@@ -97,7 +97,7 @@ public class WorkOrderTab {
         //This is the combo box for selecting the employee on the work order.
         //The user can select from the names of all employees currently in the
         //database.
-        //TODO: Create an actual array of employees names from the database.
+        //TODO: (Colten) Create an actual array of employees names from the database.
         String[] employees = {"Jim", "Mary"};
         employeeSelection = new JComboBox(employees);
         employeeSelection.setBounds(10, 40, 150, 32);
@@ -111,7 +111,7 @@ public class WorkOrderTab {
         //This is the combo box for selecting the customer on the work order.
         //The user can select from the names of all customers currently in the 
         //database.
-        //TODO: Create an actual array of customer names from the database.
+        //TODO:  (Colten) Create an actual array of customer names from the database.
         String[] customers = {"Matt", "Leah"};
         customerSelection = new JComboBox(customers);
         customerSelection.setBounds(233, 40, 150, 32);
@@ -210,7 +210,7 @@ public class WorkOrderTab {
 
     //This method creates and controls the update work order window.
     public void buildUpdateWorkOrderFrame() {
-        //TODO: make this have prepopulated data from the db
+        //TODO: (Colten) make this have prepopulated data from the db
         //This initializes the update work order window.
         JFrame updateWorkOrderFrame = new JFrame();
         updateWorkOrderFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -227,7 +227,7 @@ public class WorkOrderTab {
         //This is the combo box for selecting the employee on the work order.
         //The user can select from the names of all employees currently in the
         //database.
-        //TODO: Create an actual array of employees names from the database.
+        //TODO: (Colten) Create an actual array of employees names from the database.
         String[] employees = {"Jim", "Mary"};
         employeeSelection = new JComboBox(employees);
         employeeSelection.setBounds(10, 40, 150, 32);
@@ -241,7 +241,7 @@ public class WorkOrderTab {
         //This is the combo box for selecting the customer on the work order.
         //The user can select from the names of all customers currently in the 
         //database.
-        //TODO: Create an actual array of customer names from the database.
+        //TODO: (Colten) Create an actual array of customer names from the database.
         String[] customers = {"Matt", "Leah"};
         customerSelection = new JComboBox(customers);
         customerSelection.setBounds(233, 40, 150, 32);
@@ -324,7 +324,7 @@ public class WorkOrderTab {
         String details = detailsText.getText();
         String priority = prioritySelection.getSelectedItem().toString();
 
-        //TODO: update the db with these fields
+        //TODO: (Colten) update the db with these fields
     }
 
     //This method creates the required fields error window.

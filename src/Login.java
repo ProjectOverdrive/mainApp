@@ -160,7 +160,7 @@ public class Login {
     
     //This method will send the reset password link.
     private void sendResetPasswordEmail() {
-        //TODO: Colten you got dis
+        //TODO: (Colten) send reset password link
     }
 
     private void createSendEmailConfirmationWindow() {
@@ -238,7 +238,7 @@ public class Login {
     //This method ensures that the entered username matches one in the database.
     private boolean usernameExists() {
         String username = usernameText.getText();
-        //TODO: actually make a check here
+        //TODO: (Colten) actually make a username check here
         return true;
     }
     
@@ -377,7 +377,7 @@ public class Login {
     //This method ensures that the entered code matches that of the emailed one.
     private boolean codeMatchesEmail() {
         String enteredCode = resetPasswordCodeText.getText();
-        //TODO: pull down emailed code to verify match
+        //TODO: (Colten) pull down emailed code to verify match
         return true;
     }
     
@@ -459,7 +459,7 @@ public class Login {
     
     //This method changes the password in the database.
     private void changePassword() {
-        //TODO: make thsi work
+        //TODO: (Colten) make change password work
     }
     
     //This method creates an error window if there is a password mismatch.
@@ -531,7 +531,7 @@ public class Login {
         String password = passwordText.getText();
         boolean valid = connection.validateUser(username, password);
 
-        //TODO: Add max input size for text fields
+        //TODO: (Caroline) Add max input size for text fields
 
         if (valid) {
             enterApp(username);

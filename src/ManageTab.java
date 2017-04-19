@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 public class ManageTab {
-    //TODO: ensure all combo boxes are validated against null space (all files)
+    //TODO: (Caroline) ensure all combo boxes are validated against null space (all files)
     //These are the text fields for the add/update inventory item windows.
     private JTextField firstNameText;
     private JTextField lastNameText;
@@ -43,7 +43,7 @@ public class ManageTab {
         JButton refreshButton = new JButton("Refresh List");
         refreshButton.setBounds(956, 11, 167, 28);
         return refreshButton;
-        //TODO: actually refresh the table
+        //TODO: (Colten) actually refresh the table
     }
 
     //This method creates the add employee button.
@@ -66,7 +66,7 @@ public class ManageTab {
         JButton deleteEmployeeButton = new JButton("Delete Employee");
         deleteEmployeeButton.setBounds(1133, 50, 167, 28);
         return deleteEmployeeButton;
-        //TODO: make this work
+        //TODO: (Colten) make this work
     }
 
     //This method creates the update employee button.
@@ -193,7 +193,6 @@ public class ManageTab {
         addEmployeeSubmitButton.setBounds(233, 305, 203, 32);
         addEmployeeFrame.getContentPane().add(addEmployeeSubmitButton);
 
-        //TODO: ensure hourly pay is a number, show error window
         //Pressing this button will attempt to add the employee to the database.
         addEmployeeSubmitButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -291,7 +290,7 @@ public class ManageTab {
             isManager = 1;
         }
         
-        //TODO: add to database
+        //TODO: (Colten) add to database
     }
     
     private void createRequiredFieldsErrorWindow() {
@@ -324,7 +323,7 @@ public class ManageTab {
         requiredFieldsErrorFrame.setVisible(true);
     }
     
-    //TODO: resize frame since password is not included 
+    //TODO: (Caroline) resize frame since password is not included 
     //This method controls the update employee window
     public void buildUpdateEmployeeFrame() {
         //This initializes the frame.
@@ -421,7 +420,6 @@ public class ManageTab {
         updateEmployeeSubmitButton.setBounds(233, 305, 203, 32);
         updateEmployeeFrame.getContentPane().add(updateEmployeeSubmitButton);
 
-        //TODO: ensure hourly pay is a number, show error window
         //Pressing this button will attempt to update the employee in the database.
         updateEmployeeSubmitButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -464,7 +462,7 @@ public class ManageTab {
             isManager = 1;
         }
         
-        //TODO: update database
+        //TODO: (Colten) update database
     }
     
     //This number ensures that fields that are supposed to be numeric are so.

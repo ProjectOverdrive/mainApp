@@ -1,3 +1,5 @@
+//TODO: (Caroline) Add field names above text box
+
 import java.awt.event.*;
 import javax.swing.*;
 public class EmployeePortalTab {
@@ -30,7 +32,7 @@ public class EmployeePortalTab {
         JButton refreshButton = new JButton("Refresh");
         refreshButton.setBounds(956, 11, 167, 28);
         return refreshButton;
-        //TODO: actually refresh the table
+        //TODO: (Colten) actually refresh the table
     }
     
     //This method creates the update info button.
@@ -220,7 +222,7 @@ public class EmployeePortalTab {
         String zipcode = zipcodeText.getText();
         String username = usernameText.getText();
         
-        //TODO: update database
+        //TODO: (Colten) update database
     }
     
     private void createRequiredFieldsErrorWindow() {
@@ -356,7 +358,7 @@ public class EmployeePortalTab {
     //This method validates the current password against the database.
     private boolean currentPasswordIsValid() {
         String enteredCurrentPassword = currentPasswordText.getText();
-        //TODO: validate current password
+        //TODO: (Colten) validate current password
         return true;
     }
     
@@ -370,7 +372,7 @@ public class EmployeePortalTab {
     
     //This method will change the password in the database.
     private void changePassword() {
-        //TODO: make this work
+        //TODO: (Colten) make change password work
         String newPassword = newPasswordText.getText();
     }
     
