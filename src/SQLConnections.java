@@ -231,6 +231,20 @@ public class SQLConnections {
         }
     }
 
+    public void deleteWorkOrder(int selectedWorkOrderID) {
+        String query = "DELETE FROM workOrders WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, selectedWorkOrderID);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public ResultSet populateInventoryTable() {
         String query = "SELECT rowid AS 'ID', * FROM inventory";
 

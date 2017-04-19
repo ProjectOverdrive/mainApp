@@ -59,8 +59,20 @@ public class WorkOrderTab {
     public JButton createDeleteWorkOrderButton() {
         JButton deleteWorkOrderButton = new JButton("Delete Work Order");
         deleteWorkOrderButton.setBounds(1133, 50, 167, 28);
+
+        deleteWorkOrderButton.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = workOrderTable.getSelectedRow();
+                System.out.println(row);
+                int selectedWorkOrderID = (int) workOrderTable.getValueAt(row, 0);
+                connection.deleteWorkOrder(selectedWorkOrderID);
+                JOptionPane.showMessageDialog(null, "Work Order Removed");
+            }
+        });
+
         return deleteWorkOrderButton;
-        //TODO: (Colten) make this work
     }
 
     //This method creates the update work order button.
@@ -76,6 +88,7 @@ public class WorkOrderTab {
                 buildUpdateWorkOrderFrame();
             }
         });
+        
         return updateWorkOrderButton;
     }
 
