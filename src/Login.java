@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Login {
+    
     SQLConnections connection;
 
     //These are the main fields for the login window.
@@ -30,6 +31,12 @@ public class Login {
         frame.setTitle("Overdrive");
         frame.setBounds(100, 100, 595, 443);
         frame.getContentPane().setLayout(null);
+        
+        //Creates the username label.
+        JLabel usernameLabel = new JLabel();
+        usernameLabel.setText("Username");
+        usernameLabel.setBounds(332, 110, 175, 32);
+        frame.getContentPane().add(usernameLabel);
 
         //Creates username field.
         usernameText = new JTextField();
@@ -37,7 +44,7 @@ public class Login {
         usernameText.setHorizontalAlignment(SwingConstants.CENTER);
         usernameText.setToolTipText("Enter username here");
         usernameText.setText("Username");
-        usernameText.setBounds(332, 156, 174, 31);
+        usernameText.setBounds(332, 147, 174, 31);
         frame.getContentPane().add(usernameText);
         usernameText.setColumns(10);
 
@@ -74,13 +81,19 @@ public class Login {
                 }
             }
         });
+        
+        //Creates the password label.
+        JLabel passwordLabel = new JLabel();
+        passwordLabel.setText("Password");
+        passwordLabel.setBounds(332, 189, 175, 32);
+        frame.getContentPane().add(passwordLabel);
 
         //Creates password field.
         passwordText = new JPasswordField();
         passwordText.setToolTipText("Enter password here");
         passwordText.setHorizontalAlignment(SwingConstants.CENTER);
         passwordText.setText("1234");
-        passwordText.setBounds(332, 198, 174, 31);
+        passwordText.setBounds(332, 226, 174, 31);
         frame.getContentPane().add(passwordText);
 
         //Password Methods (2)
@@ -112,9 +125,10 @@ public class Login {
         });
 
         //Creates login button.        
-        JButton btnLogin = new JButton("Login");
+        JButton btnLogin = new JButton();
+        btnLogin.setText("Login");
         btnLogin.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        btnLogin.setBounds(332, 270, 174, 31);
+        btnLogin.setBounds(332, 280, 174, 31);
         frame.getContentPane().add(btnLogin);
 
         //Login Button Methods (1)
@@ -127,9 +141,10 @@ public class Login {
         });
         
         //Creates forgot password button.        
-        JButton forgotPassword = new JButton("Forgot Password");
+        JButton forgotPassword = new JButton();
+        forgotPassword.setText("Forgot Password");
         forgotPassword.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-        forgotPassword.setBounds(332, 310, 174, 31);
+        forgotPassword.setBounds(332, 320, 174, 31);
         frame.getContentPane().add(forgotPassword);
 
         //Forgot Password Button Methods (1)
@@ -142,14 +157,15 @@ public class Login {
         });
 
         //Creates "Overdrive" title.
-        JLabel overdriveTitle = new JLabel("Overdrive");
+        JLabel overdriveTitle = new JLabel();
+        overdriveTitle.setText("Overdrive");
         overdriveTitle.setFont(new Font("Corbel", Font.PLAIN, 40));
         overdriveTitle.setHorizontalAlignment(SwingConstants.CENTER);
         overdriveTitle.setBounds(10, 23, 574, 83);
         frame.getContentPane().add(overdriveTitle);
 
         //Creates gear icon.
-        JLabel gearIcon = new JLabel("");
+        JLabel gearIcon = new JLabel();
         gearIcon.setIcon(new ImageIcon("resources/gearImage.png"));
         gearIcon.setBounds(52, 117, 200, 200);
         frame.getContentPane().add(gearIcon);
@@ -173,12 +189,14 @@ public class Login {
         sendEmailConfirmationFrame.getContentPane().setLayout(null);
 
         //This label displays the message.
-        JLabel message = new JLabel("Send forgot password email?");
+        JLabel message = new JLabel();
+        message.setText("Send forgot password email?");
         message.setBounds(50, 30, 200, 32);
         sendEmailConfirmationFrame.getContentPane().add(message);
         
         //This label displays the username label.
-        JLabel usernameLabel = new JLabel("Username");
+        JLabel usernameLabel = new JLabel();
+        usernameLabel.setText("Username");
         usernameLabel.setBounds(50, 70, 200, 32);
         sendEmailConfirmationFrame.getContentPane().add(usernameLabel);
         
@@ -188,7 +206,8 @@ public class Login {
         sendEmailConfirmationFrame.getContentPane().add(usernameText);
         
         //This label displays the email label.
-        JLabel emailLabel = new JLabel("Email");
+        JLabel emailLabel = new JLabel();
+        emailLabel.setText("Email");
         emailLabel.setBounds(50, 145, 200, 32);
         sendEmailConfirmationFrame.getContentPane().add(emailLabel);
         
@@ -198,7 +217,8 @@ public class Login {
         sendEmailConfirmationFrame.getContentPane().add(emailText);
 
         //This button sends the email.
-        JButton confirmButton = new JButton("OK");
+        JButton confirmButton = new JButton();
+        confirmButton.setText("OK");
         confirmButton.setBounds(105, 230, 90, 28);
         sendEmailConfirmationFrame.getContentPane().add(confirmButton);
 
@@ -253,12 +273,14 @@ public class Login {
         usernameErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("Invalid username.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Invalid username.");
         errorMessage.setBounds(120, 50, 100, 32);
         usernameErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(130, 100, 90, 28);
         usernameErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -284,12 +306,14 @@ public class Login {
         requiredFieldsErrorFrame.getContentPane().setLayout(null);
 
         //This label displays the error message.
-        JLabel errorMessage = new JLabel("You are missing a required field.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("You are missing a required field.");
         errorMessage.setBounds(50, 50, 200, 32);
         requiredFieldsErrorFrame.getContentPane().add(errorMessage);
 
         //This button closes the error message.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(105, 100, 90, 28);
         requiredFieldsErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -316,7 +340,8 @@ public class Login {
         enterEmailCodeFrame.getContentPane().setLayout(null);
 
         //This label displays the message.
-        JLabel message = new JLabel("Enter the code you were emailed.");
+        JLabel message = new JLabel();
+        message.setText("Enter the code you were emailed.");
         message.setBounds(50, 30, 200, 32);
         enterEmailCodeFrame.getContentPane().add(message);
         
@@ -326,7 +351,8 @@ public class Login {
         enterEmailCodeFrame.getContentPane().add(resetPasswordCodeText);
 
         //This button lets the user retry sending the email
-        JButton resendButton = new JButton("Re-Email");
+        JButton resendButton = new JButton();
+        resendButton.setText("Re-Email");
         resendButton.setBounds(50, 112, 90, 28);
         enterEmailCodeFrame.getContentPane().add(resendButton);
         
@@ -341,7 +367,8 @@ public class Login {
         });
         
         //This button submits the code.
-        JButton submitButton = new JButton("Submit");
+        JButton submitButton = new JButton();
+        submitButton.setText("Submit");
         submitButton.setBounds(150, 112, 90, 28);
         enterEmailCodeFrame.getContentPane().add(submitButton);
 
@@ -392,7 +419,8 @@ public class Login {
         enterNewPasswordFrame.getContentPane().setLayout(null);
 
         //This label displays the new password message.
-        JLabel newMessage = new JLabel("New Password");
+        JLabel newMessage = new JLabel();
+        newMessage.setText("New Password");
         newMessage.setBounds(50, 30, 200, 32);
         enterNewPasswordFrame.getContentPane().add(newMessage);
         
@@ -402,7 +430,8 @@ public class Login {
         enterNewPasswordFrame.getContentPane().add(newPasswordText);
 
         //This label displays the confirm password message.
-        JLabel confirmMessage = new JLabel("Confirm Password");
+        JLabel confirmMessage = new JLabel();
+        confirmMessage.setText("Confirm Password");
         confirmMessage.setBounds(50, 120, 200, 32);
         enterNewPasswordFrame.getContentPane().add(confirmMessage);
         
@@ -412,7 +441,8 @@ public class Login {
         enterNewPasswordFrame.getContentPane().add(confirmPasswordText);
         
         //This button submits the code.
-        JButton submitButton = new JButton("Submit");
+        JButton submitButton = new JButton();
+        submitButton.setText("Submit");
         submitButton.setBounds(105, 210, 90, 28);
         enterNewPasswordFrame.getContentPane().add(submitButton);
         
@@ -473,12 +503,14 @@ public class Login {
         newPasswordErrorFrame.getContentPane().setLayout(null);
 
         //This displays the error message.
-        JLabel errorMessage = new JLabel("There is a mismatch with your new password.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("There is a mismatch with your new password.");
         errorMessage.setBounds(40, 50, 270, 32);
         newPasswordErrorFrame.getContentPane().add(errorMessage);
 
         //This creates the okay button.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(125, 100, 90, 28);
         newPasswordErrorFrame.getContentPane().add(closeErrorMessageButton);
 
@@ -504,12 +536,14 @@ public class Login {
         errorCodeErrorFrame.getContentPane().setLayout(null);
 
         //This label displays the error message.
-        JLabel errorMessage = new JLabel("You entered the wrong code.");
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("You entered the wrong code.");
         errorMessage.setBounds(50, 50, 200, 32);
         errorCodeErrorFrame.getContentPane().add(errorMessage);
 
         //This button closes the error message.
-        JButton closeErrorMessageButton = new JButton("OK");
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
         closeErrorMessageButton.setBounds(105, 100, 90, 28);
         errorCodeErrorFrame.getContentPane().add(closeErrorMessageButton);
 
