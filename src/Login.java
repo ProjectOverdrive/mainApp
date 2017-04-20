@@ -16,6 +16,7 @@ public class Login {
     JTextField resetPasswordCodeText;
     JTextField newPasswordText;
     JTextField confirmPasswordText;
+    JTextField forgotPasswordUsernameText;
     JTextField emailText;
 
     private String activeUser;
@@ -220,9 +221,9 @@ public class Login {
         sendEmailConfirmationFrame.getContentPane().add(usernameLabel);
         
         //This text field is for the username.
-        usernameText = new JTextField();
-        usernameText.setBounds(50, 105, 174, 32);
-        sendEmailConfirmationFrame.getContentPane().add(usernameText);
+        forgotPasswordUsernameText = new JTextField();
+        forgotPasswordUsernameText.setBounds(50, 105, 174, 32);
+        sendEmailConfirmationFrame.getContentPane().add(forgotPasswordUsernameText);
         
         //This label displays the email label.
         JLabel emailLabel = new JLabel();
@@ -265,7 +266,7 @@ public class Login {
     
     //This method ensures that the user enters their username and email.
     private boolean windowOneHasRequiredFields() {
-        if (usernameText.getText().equals("")) {
+        if (forgotPasswordUsernameText.getText().equals("")) {
             return false;
         }
         if (emailText.getText().equals("")) {
@@ -276,7 +277,7 @@ public class Login {
     
     //This method ensures that the entered username matches one in the database.
     private boolean usernameEmailExists() {
-        activeUser = usernameText.getText();
+        activeUser = forgotPasswordUsernameText.getText();
         email = emailText.getText();
 
         connection.connect();
