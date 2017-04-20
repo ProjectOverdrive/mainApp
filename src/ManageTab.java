@@ -497,6 +497,13 @@ public class ManageTab {
      
     //This method controls the update employee window
     public void buildUpdateEmployeeFrame() {
+        int row = employeeTable.getSelectedRow();
+        int selectedEmployeeID = (int) employeeTable.getValueAt(row, 0);
+
+        connection.connect();
+        String[] fieldValues = connection.fillEmployeeUpdate(selectedEmployeeID);
+        connection.disconnect();
+
         //This initializes the frame.
         JFrame updateEmployeeFrame = new JFrame();
         updateEmployeeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -513,6 +520,7 @@ public class ManageTab {
         
         //This initializes the first name text field.
         firstNameText = new JTextField();
+        firstNameText.setText(fieldValues[0]);
         firstNameText.setBounds(10, 48, 203, 32);
         updateEmployeeFrame.getContentPane().add(firstNameText);
         
@@ -524,6 +532,7 @@ public class ManageTab {
 
         //This initializes the last name text field.
         lastNameText = new JTextField();
+        lastNameText.setText(fieldValues[1]);
         lastNameText.setBounds(233, 48, 203, 32);
         updateEmployeeFrame.getContentPane().add(lastNameText);
         
@@ -535,6 +544,7 @@ public class ManageTab {
 
         //This initializes the phone number text field.
         phoneNumberText = new JTextField();
+        phoneNumberText.setText(fieldValues[2]);
         phoneNumberText.setBounds(10, 127, 203, 32);
         updateEmployeeFrame.getContentPane().add(phoneNumberText);
         
@@ -546,6 +556,7 @@ public class ManageTab {
 
         //This initializes the email text field.
         emailText = new JTextField();
+        emailText.setText(fieldValues[7]);
         emailText.setBounds(233, 127, 203, 32);
         updateEmployeeFrame.getContentPane().add(emailText);
         
@@ -557,6 +568,7 @@ public class ManageTab {
 
         //This initializes the street address text field.
         streetAddressText = new JTextField();
+        streetAddressText.setText(fieldValues[3]);
         streetAddressText.setBounds(10, 206, 426, 32);
         updateEmployeeFrame.getContentPane().add(streetAddressText);
         
@@ -568,6 +580,7 @@ public class ManageTab {
 
         //This initializes the city text field.
         cityText = new JTextField();
+        cityText.setText(fieldValues[4]);
         cityText.setBounds(10, 285, 203, 32);
         updateEmployeeFrame.getContentPane().add(cityText);
         
@@ -579,6 +592,7 @@ public class ManageTab {
 
         //This initializes the state text field.
         stateText = new JTextField();
+        stateText.setText(fieldValues[5]);
         stateText.setBounds(233, 285, 203, 32);
         updateEmployeeFrame.getContentPane().add(stateText);
         
@@ -590,6 +604,7 @@ public class ManageTab {
 
         //This initializes the zipcode text field.
         zipcodeText = new JTextField();
+        zipcodeText.setText(fieldValues[6]);
         zipcodeText.setBounds(10, 364, 203, 32);
         updateEmployeeFrame.getContentPane().add(zipcodeText);
         
@@ -601,6 +616,7 @@ public class ManageTab {
         
         //This initializes the username text field.
         usernameText = new JTextField();
+        usernameText.setText(fieldValues[9]);
         usernameText.setBounds(10, 443, 203, 32);
         updateEmployeeFrame.getContentPane().add(usernameText);
         
@@ -614,6 +630,7 @@ public class ManageTab {
         
         //This initializes the hourly pay text field.
         hourlyPayText = new JTextField();
+        hourlyPayText.setText(fieldValues[8]);
         hourlyPayText.setBounds(10, 522, 203, 32);
         updateEmployeeFrame.getContentPane().add(hourlyPayText);
         
@@ -626,6 +643,12 @@ public class ManageTab {
         //This initializes the is manager combo box.
         String[] isManagerChoices = {"", "Is Manager", "Not Manager"};
         isManagerSelection = new JComboBox(isManagerChoices);
+        //Auto select manager if employee is a manager
+        if(Integer.parseInt(fieldValues[11]) == 1) {
+            isManagerSelection.setSelectedIndex(1);
+        } else {
+            isManagerSelection.setSelectedIndex(2);
+        }
         isManagerSelection.setBounds(233, 522, 203, 32);
         updateEmployeeFrame.getContentPane().add(isManagerSelection);
         

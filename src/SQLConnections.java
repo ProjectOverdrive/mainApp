@@ -622,4 +622,33 @@ public class SQLConnections {
             System.out.println(e.getMessage());
         }
     }
+
+    public String[] fillEmployeeUpdate(int selectedEmployeeID) {
+        String query = "SELECT * FROM employees WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, selectedEmployeeID);
+            ResultSet resultSet = statement.executeQuery();
+
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            String[] fieldResults = new String[columnCount];
+
+            for (int i = 0; i < columnCount; i++) {
+                fieldResults[i] = resultSet.getString(i + 1);
+
+                System.out.println(fieldResults[i]);
+            }
+
+            statement.close();
+            resultSet.close();
+
+            return fieldResults;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
 }
