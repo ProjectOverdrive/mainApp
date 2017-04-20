@@ -156,7 +156,12 @@ public class MainMenu {
         
         //Initialize the employee portal tab and its components.
         //Initialize the symptoms tab and its components.
-        EmployeePortalTab employeePortalTab = new EmployeePortalTab();
+        EmployeePortalTab employeePortalTab = new EmployeePortalTab(activeUser);
+        JScrollPane employeeInfoPanel = new JScrollPane();
+        employeeInfoPanel.setBounds(0, 11, 927, 817);
+        employeePortalPanel.add(employeeInfoPanel);
+        employeeInfoPanel.setViewportView(employeePortalTab.createEmployeePortalTable());
+
         employeePortalPanel.add(employeePortalTab.createEmployeePortalTable());
         employeePortalPanel.add(employeePortalTab.createRefreshButton());
         employeePortalPanel.add(employeePortalTab.createUpdateInfoButton());

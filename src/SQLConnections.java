@@ -51,7 +51,7 @@ public class SQLConnections {
     public void disconnect() {
         try {
             connection.close();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }
@@ -682,4 +682,141 @@ public class SQLConnections {
             System.out.println(e.getMessage());
         }
     }
+
+    public CachedRowSet populateEmployeeInfo(String activeUser) {
+        String query = "SELECT rowid AS 'ID', [First Name], [Last Name], [Phone Number], " +
+                "[Street Address], [City], [State], [Zipcode], [Email], [Hourly Pay], " +
+                "[Username] FROM employees WHERE Username = ?";
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, activeUser);
+            ResultSet resultSet = statement.executeQuery();
+
+            CachedRowSet rowSet = new CachedRowSetImpl();
+            rowSet.populate(resultSet);
+
+            statement.close();
+            resultSet.close();
+
+            return rowSet;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public String[] fillPersonalInfoUpdate(String activeUser) {
+        String query = "SELECT [First Name], [Last Name], [Phone Number], " +
+                "[Street Address], [City], [State], [Zipcode], [Email], " +
+                "[Username] FROM employees WHERE Username = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, activeUser);
+            ResultSet resultSet = statement.executeQuery();
+
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            String[] fieldResults = new String[columnCount];
+
+            for (int i = 0; i < columnCount; i++) {
+                fieldResults[i] = resultSet.getString(i + 1);
+
+                System.out.println(fieldResults[i]);
+            }
+
+            statement.close();
+            resultSet.close();
+
+            return fieldResults;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void updatePersonalInfo(String firstName, String lastName, String phoneNumber, String email,
+                                   String streetAddress, String city, String state, String zipcode,
+                                   String username, String activeUser) {
+        String query = "UPDATE employees SET 'First Name' = ?, 'Last Name' = ?, 'Phone Number' = ?, " +
+                "'Street Address' = ?, City = ?, State = ?, Zipcode = ?, Email = ?," +
+                "Username = ? WHERE username = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            statement.setString(3, phoneNumber);
+            statement.setString(4, streetAddress);
+            statement.setString(5, city);
+            statement.setString(6, state);
+            statement.setString(7, zipcode);
+            statement.setString(8, email);
+            statement.setString(9, username);
+            statement.setString(10, activeUser);
+
+            statement.executeUpdate();
+
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // Verifies current password when attempting to change
+    public boolean verifyPassword(String user, String password) {
+
+        String query = "SELECT Password FROM [employees] WHERE [Username] = ?";
+
+        // Tries to execute query
+        try {// Prepares query statement
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, user);
+            // Gets results of query
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                // If given username and password matches a row in the database
+                if (resultSet.getString("Password").equals(password)) {
+
+                    statement.close();
+                    resultSet.close();
+                    System.out.println("I was true");
+                    return true;
+                }
+            }
+
+            statement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    public void changePassword(String activeUser, String newPassword) {
+        String query = "UPDATE employees SET Password = ? WHERE username = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, newPassword);
+            statement.setString(2, activeUser);
+
+            statement.executeUpdate();
+
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

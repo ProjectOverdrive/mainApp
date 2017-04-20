@@ -1,3 +1,5 @@
+import net.proteanit.sql.DbUtils;
+
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -18,10 +20,26 @@ public class EmployeePortalTab {
     private JTextField currentPasswordText;
     private JTextField newPasswordText;
     private JTextField confirmPasswordText;
+    private String activeUser;
+    private SQLConnections connection;
+
+    public EmployeePortalTab(String activeUser) {
+        this.activeUser = activeUser;
+        this.connection = SQLConnections.getConnectionInstance();
+    }
     
     //This method creates the employee portal table.
     public JTable createEmployeePortalTable() {
         portalTable = new JTable();
+
+        portalTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        connection.connect();
+        portalTable.setModel(DbUtils.resultSetToTableModel(connection.populateEmployeeInfo(activeUser)));
+        connection.disconnect();
+
+        portalTable.getTableHeader().setReorderingAllowed(false);
+        portalTable.getColumnModel().getColumn(0).setPreferredWidth(5);
 
         return portalTable;
     }
@@ -69,6 +87,10 @@ public class EmployeePortalTab {
     
     //This method controls the update info window.
     private void buildUpdateInfoWindow() {
+        connection.connect();
+        String[] fieldValues = connection.fillPersonalInfoUpdate(activeUser);
+        connection.disconnect();
+
         //This initializes the frame.
         JFrame updateInfoFrame = new JFrame();
         updateInfoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -85,6 +107,7 @@ public class EmployeePortalTab {
         
         //This initializes the first name text field.
         firstNameText = new JTextField();
+        firstNameText.setText(fieldValues[0]);
         firstNameText.setBounds(10, 48, 203, 32);
         updateInfoFrame.getContentPane().add(firstNameText);
         
@@ -96,6 +119,7 @@ public class EmployeePortalTab {
 
         //This initializes the last name text field.
         lastNameText = new JTextField();
+        lastNameText.setText(fieldValues[1]);
         lastNameText.setBounds(233, 48, 203, 32);
         updateInfoFrame.getContentPane().add(lastNameText);
         
@@ -107,6 +131,7 @@ public class EmployeePortalTab {
 
         //This initializes the phone number text field.
         phoneNumberText = new JTextField();
+        phoneNumberText.setText(fieldValues[2]);
         phoneNumberText.setBounds(10, 127, 203, 32);
         updateInfoFrame.getContentPane().add(phoneNumberText);
         
@@ -118,6 +143,7 @@ public class EmployeePortalTab {
 
         //This initializes the email text field.
         emailText = new JTextField();
+        emailText.setText(fieldValues[7]);
         emailText.setBounds(233, 127, 203, 32);
         updateInfoFrame.getContentPane().add(emailText);
         
@@ -129,6 +155,7 @@ public class EmployeePortalTab {
 
         //This initializes the street address text field.
         streetAddressText = new JTextField();
+        streetAddressText.setText(fieldValues[3]);
         streetAddressText.setBounds(10, 206, 426, 32);
         updateInfoFrame.getContentPane().add(streetAddressText);
         
@@ -140,6 +167,7 @@ public class EmployeePortalTab {
 
         //This initializes the city text field.
         cityText = new JTextField();
+        cityText.setText(fieldValues[4]);
         cityText.setBounds(10, 285, 203, 32);
         updateInfoFrame.getContentPane().add(cityText);
         
@@ -151,6 +179,7 @@ public class EmployeePortalTab {
 
         //This initializes the state text field.
         stateText = new JTextField();
+        stateText.setText(fieldValues[5]);
         stateText.setBounds(233, 285, 203, 32);
         updateInfoFrame.getContentPane().add(stateText);
         
@@ -162,6 +191,7 @@ public class EmployeePortalTab {
 
         //This initializes the zipcode text field.
         zipcodeText = new JTextField();
+        zipcodeText.setText(fieldValues[6]);
         zipcodeText.setBounds(10, 364, 203, 32);
         updateInfoFrame.getContentPane().add(zipcodeText);
         
@@ -173,6 +203,7 @@ public class EmployeePortalTab {
         
         //This initializes the username text field.
         usernameText = new JTextField();
+        usernameText.setText(fieldValues[8]);
         usernameText.setBounds(233, 364, 203, 32);
         updateInfoFrame.getContentPane().add(usernameText);
         
@@ -274,7 +305,12 @@ public class EmployeePortalTab {
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
         String username = usernameText.getText();
-        
+
+        connection.connect();
+        connection.updatePersonalInfo(firstName, lastName, phoneNumber, email, streetAddress,
+                city, state, zipcode, username, activeUser);
+        connection.disconnect();
+
         //TODO: (Colten) update database
     }
     
@@ -472,8 +508,16 @@ public class EmployeePortalTab {
     //This method validates the current password against the database.
     private boolean currentPasswordIsValid() {
         String enteredCurrentPassword = currentPasswordText.getText();
-        //TODO: (Colten) validate current password
-        return true;
+
+        connection.connect();
+        if(connection.verifyPassword(activeUser, enteredCurrentPassword)) {
+            connection.disconnect();
+            return true;
+        } else {
+            connection.disconnect();
+            return false;
+        }
+
     }
     
     //This method ensures that the new password fields match. 
@@ -486,8 +530,11 @@ public class EmployeePortalTab {
     
     //This method will change the password in the database.
     private void changePassword() {
-        //TODO: (Colten) make change password work
         String newPassword = newPasswordText.getText();
+
+        connection.connect();
+        connection.changePassword(activeUser, newPassword);
+        connection.disconnect();
     }
     
     //This creates the error window if the new passwords don't match.
