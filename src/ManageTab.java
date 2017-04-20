@@ -383,6 +383,7 @@ public class ManageTab {
     
     //This method validates that all required fields are present.
     private boolean employeeHasRequiredFields() {
+        //TODO: This throws an error as tries to get value of update employee password
         //If the value is the default value or is empty, return false.
         if (firstNameText.getText().equals("First Name") ||
                 firstNameText.getText().equals("")) {
@@ -702,6 +703,9 @@ public class ManageTab {
     
     //This method updates the employee to the database.
     private void updateEmployee() {
+        int row = employeeTable.getSelectedRow();
+        int selectedEmployeeID = (int) employeeTable.getValueAt(row, 0);
+
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
         String phoneNumber = parsePhoneNumber(phoneNumberText.getText());
@@ -711,13 +715,17 @@ public class ManageTab {
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
         String username = usernameText.getText();
-        String password = usernameText.getText();
         Double hourlyRate = Double.parseDouble(hourlyPayText.getText());
         int isManager = 0;
         if (isManagerSelection.getSelectedItem().toString().equals("Is Manager")) {
             isManager = 1;
         }
-        
+
+        connection.connect();
+        connection.updateEmployee(firstName, lastName, phoneNumber, email, streetAddress,
+                city, state, zipcode, username, hourlyRate, isManager, selectedEmployeeID);
+        connection.disconnect();
+
         //TODO: (Colten) update database
     }
     
