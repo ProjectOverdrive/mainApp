@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-//TODO: (Colten) Table row backgrounds
+        
 //TODO: clean up all imports before we print
 
 public class InventoryTab {
@@ -204,7 +203,6 @@ public class InventoryTab {
             }
         });
         return orderInventoryItemButton;
-        //TODO: make order item work
     }
 
     //This method creates and controls the add inventory item window.

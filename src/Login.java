@@ -601,8 +601,6 @@ public class Login {
         boolean valid = connection.validateLogin(activeUser, password);
         connection.disconnect();
 
-        //TODO: (Caroline) Add max input size for text fields
-
         if (valid) {
             enterApp(activeUser);
         } else {

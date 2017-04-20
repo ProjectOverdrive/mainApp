@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 //TODO: (Caroline) add JDatePicker 
 public class WorkOrderTab {
-    //TODO: (Caroline) make initial value null in combo box, validate against it.
+    
     //These are the fields/combo boxes for adding and updating work orders.
     private JComboBox employeeSelection;
     private JComboBox statusSelection;

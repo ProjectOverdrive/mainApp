@@ -64,4 +64,6 @@ public class Email {
             ex.printStackTrace();
         }
     }
+    
+    //TODO: remove extra main method
 }

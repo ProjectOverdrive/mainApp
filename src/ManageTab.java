@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 //TODO: (Colten) don't let them delete the last manager
 public class ManageTab {
-    //TODO: (Caroline) ensure all combo boxes are validated against null space (all files)
+    
     //These are the text fields for the add/update inventory item windows.
     private JTextField firstNameText;
     private JTextField lastNameText;
@@ -90,7 +90,6 @@ public class ManageTab {
             }
         });
         return deleteEmployeeButton;
-        //TODO: (Colten) make this work
     }
     
     //This method creates the error window for deleting w/o selecting.
@@ -360,7 +359,7 @@ public class ManageTab {
                 //Check that all required fields are present before attempting to
                 //add to the database. If they are present, add the employee and 
                 //close the window. Otherwise display an error message.
-                if (employeeHasRequiredFields()) {
+                if (addEmployeeHasRequiredFields()) {
                     //Check that hourly pay is a numeric value.
                     if (numberParsesCorrectly(hourlyPayText.getText())) {
                         if (phoneNumberParsesCorrectly()) {
@@ -382,8 +381,7 @@ public class ManageTab {
     }
     
     //This method validates that all required fields are present.
-    private boolean employeeHasRequiredFields() {
-        //TODO: This throws an error as tries to get value of update employee password
+    private boolean addEmployeeHasRequiredFields() {
         //If the value is the default value or is empty, return false.
         if (firstNameText.getText().equals("First Name") ||
                 firstNameText.getText().equals("")) {
@@ -460,8 +458,6 @@ public class ManageTab {
         connection.addNewEmployee(firstName, lastName, phoneNumber, streetAddress, city,
                 state, zipcode, email, hourlyRate, username, password, isManager);
         connection.disconnect();
-        
-        //TODO: (Colten) add to database
     }
     
     private void createRequiredFieldsErrorWindow() {
@@ -680,7 +676,7 @@ public class ManageTab {
                 //Check that all required fields are present before attempting to
                 //update the database. If they are present, update the employee and 
                 //close the window. Otherwise display an error message.
-                if (employeeHasRequiredFields()) {
+                if (updateEmployeeHasRequiredFields()) {
                     //Check that hourly pay is a numeric value.
                     if (numberParsesCorrectly(hourlyPayText.getText())) {
                         if (phoneNumberParsesCorrectly()) {
@@ -699,6 +695,57 @@ public class ManageTab {
         });
 
         updateEmployeeFrame.setVisible(true);
+    }
+    
+    //This method validates that all required fields are present.
+    private boolean updateEmployeeHasRequiredFields() {
+        //If the value is the default value or is empty, return false.
+        if (firstNameText.getText().equals("First Name") ||
+                firstNameText.getText().equals("")) {
+            return false;
+        }
+        if (lastNameText.getText().equals("Last Name") ||
+                lastNameText.getText().equals("")) {
+            return false;
+        }
+        if (phoneNumberText.getText().equals("Phone Number") ||
+                phoneNumberText.getText().equals("")) {
+            return false;
+        }
+        if (emailText.getText().equals("Email") ||
+                emailText.getText().equals("")) {
+            return false;
+        }
+        if (streetAddressText.getText().equals("Street Address") ||
+                streetAddressText.getText().equals("")) {
+            return false;
+        }
+        if (cityText.getText().equals("City") ||
+                cityText.getText().equals("")) {
+            return false;
+        }
+        if (stateText.getText().equals("State") ||
+                stateText.getText().equals("")) {
+            return false;
+        }
+        if (zipcodeText.getText().equals("Zipcode") ||
+                zipcodeText.getText().equals("")) {
+            return false;
+        }
+        if (usernameText.getText().equals("Username") ||
+                usernameText.getText().equals("")) {
+            return false;
+        }
+        if (hourlyPayText.getText().equals("Hourly Pay") ||
+                hourlyPayText.getText().equals("")) {
+            return false;
+        }
+        if (isManagerSelection.getSelectedItem().equals("")) {
+            return false;
+        }
+        
+        //Otherwise return true. (All fields are present)
+        return true;
     }
     
     //This method updates the employee to the database.
@@ -725,8 +772,6 @@ public class ManageTab {
         connection.updateEmployee(firstName, lastName, phoneNumber, email, streetAddress,
                 city, state, zipcode, username, hourlyRate, isManager, selectedEmployeeID);
         connection.disconnect();
-
-        //TODO: (Colten) update database
     }
     
     //This number ensures that fields that are supposed to be numeric are so.

@@ -98,8 +98,6 @@ public class CustomerTab {
         return deleteCustomerButton;
     }
     
-    //TODO: (Caroline) ensure all ui pieces use setText()
-    
     //This method creates the error window for deleting w/o selecting.
     private void createDeleteCustomerErrorWindow() {
         //This creates the error window
