@@ -17,15 +17,17 @@ public class WorkOrderTab {
     private SQLConnections connection;
     private JTable workOrderTable;
 
-    public WorkOrderTab(SQLConnections connection) {
-        this.connection = connection;
+    public WorkOrderTab() {
+        this.connection = SQLConnections.getConnectionInstance();
     }
 
     //This method creates the table for displaying work orders.
     public JTable createWorkOrderTable() {
         workOrderTable = new JTable();
         workOrderTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        connection.connect();
         workOrderTable.setModel(DbUtils.resultSetToTableModel(connection.populateWorkOrderTable()));
+        connection.disconnect();
         workOrderTable.getTableHeader().setReorderingAllowed(false);
         workOrderTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         workOrderTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -74,7 +76,9 @@ public class WorkOrderTab {
                 } else {
                     System.out.println(row);
                     int selectedWorkOrderID = (int) workOrderTable.getValueAt(row, 0);
+                    connection.connect();
                     connection.deleteWorkOrder(selectedWorkOrderID);
+                    connection.disconnect();
                     JOptionPane.showMessageDialog(null, "Work Order Removed");
                 }
             }
@@ -191,7 +195,9 @@ public class WorkOrderTab {
         //This is the combo box for selecting the employee on the work order.
         //The user can select from the names of all employees currently in the
         //database.
+        connection.connect();
         String[] employees = connection.populateEmployeeDropdown();
+        connection.disconnect();
 
         employeeSelection = new JComboBox(employees);
         employeeSelection.setBounds(10, 40, 150, 32);
@@ -206,7 +212,10 @@ public class WorkOrderTab {
         //This is the combo box for selecting the customer on the work order.
         //The user can select from the names of all customers currently in the 
         //database.
+        connection.connect();
         String[] customers = connection.populateCustomerDropdown();
+        connection.disconnect();
+
         customerSelection = new JComboBox(customers);
         customerSelection.setBounds(233, 40, 150, 32);
         addWorkOrderFrame.getContentPane().add(customerSelection);
@@ -320,7 +329,9 @@ public class WorkOrderTab {
         String details = detailsText.getText();
         String priority = prioritySelection.getSelectedItem().toString();
 
+        connection.connect();
         connection.addWorkOrder(employeeName, customerName, status, priority, details);
+        connection.disconnect();
     }
 
     //This method creates and controls the update work order window.
@@ -328,7 +339,9 @@ public class WorkOrderTab {
         // Populates fields with data from selected row
         int row = workOrderTable.getSelectedRow();
         int selectedWorkOrderID = (int) workOrderTable.getValueAt(row, 0);
+        connection.connect();
         String[] updateWorkOrderFields = connection.fillWorkOrderUpdate(selectedWorkOrderID);
+        connection.disconnect();
 
         //This initializes the update work order window.
         JFrame updateWorkOrderFrame = new JFrame();
@@ -347,7 +360,10 @@ public class WorkOrderTab {
         //This is the combo box for selecting the employee on the work order.
         //The user can select from the names of all employees currently in the
         //database.
+        connection.connect();
         String[] employees = connection.populateEmployeeDropdown();
+        connection.disconnect();
+
         employeeSelection = new JComboBox(employees);
         employeeSelection.setSelectedItem(updateWorkOrderFields[0]);
         employeeSelection.setBounds(10, 40, 150, 32);
@@ -362,7 +378,10 @@ public class WorkOrderTab {
         //This is the combo box for selecting the customer on the work order.
         //The user can select from the names of all customers currently in the 
         //database.
+        connection.connect();
         String[] customers = connection.populateCustomerDropdown();
+        connection.disconnect();
+
         customerSelection = new JComboBox(customers);
         customerSelection.setSelectedItem(updateWorkOrderFields[1]);
         customerSelection.setBounds(233, 40, 150, 32);
@@ -458,8 +477,10 @@ public class WorkOrderTab {
         String priority = prioritySelection.getSelectedItem().toString();
         String details = detailsText.getText();
 
+        connection.connect();
         connection.updateWorkOrder(employeeName, customerName, status,
                 priority, details, selectedWorkOrderID);
+        connection.disconnect();
     }
 
     //This method creates the required fields error window.

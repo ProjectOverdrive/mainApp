@@ -16,9 +16,12 @@ public class Login {
     JTextField confirmPasswordText;
     JTextField emailText;
 
+    public Login() {
+        this.connection = SQLConnections.getConnectionInstance();
+    }
+
     //This is the wrapper method for the UI initialization.
     public void openLogin() {
-        this.connection = new SQLConnections();
         constructUi();
     }
 
@@ -563,7 +566,9 @@ public class Login {
     public void validateUser() {
         String username = usernameText.getText();
         String password = passwordText.getText();
+        connection.connect();
         boolean valid = connection.validateUser(username, password);
+        connection.disconnect();
 
         //TODO: (Caroline) Add max input size for text fields
 

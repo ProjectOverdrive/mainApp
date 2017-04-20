@@ -11,7 +11,7 @@ public class MainMenu {
     //This is the wrapper method for the construction of the UI.
     public void open(String username) {
         activeUser = username;
-        connection = new SQLConnections();
+        this.connection = SQLConnections.getConnectionInstance();
         constructUi();
     }
 
@@ -61,7 +61,7 @@ public class MainMenu {
         customerPanel.setLayout(null);
 
         //Initialize the customer tab and add its components.
-        CustomerTab customerTab = new CustomerTab(connection);
+        CustomerTab customerTab = new CustomerTab();
         JScrollPane custTablePanel = new JScrollPane();
         custTablePanel.setBounds(0, 11, 927, 817);
         customerPanel.add(custTablePanel);
@@ -79,7 +79,7 @@ public class MainMenu {
         workOrderPanel.setLayout(null);
 
         //Initialize the work order tab and add its components.
-        WorkOrderTab workOrderTab = new WorkOrderTab(connection);
+        WorkOrderTab workOrderTab = new WorkOrderTab();
         JScrollPane workOrderTablePanel = new JScrollPane();
         workOrderTablePanel.setBounds(0, 11, 927, 817);
         workOrderPanel.add(workOrderTablePanel);
@@ -97,7 +97,7 @@ public class MainMenu {
         inventoryPanel.setLayout(null);
 
         //Initialize the inventory tab and add its components.
-        InventoryTab inventoryTab = new InventoryTab(connection);
+        InventoryTab inventoryTab = new InventoryTab();
         JScrollPane inventoryTablePanel = new JScrollPane();
         inventoryTablePanel.setBounds(0, 11, 927, 817);
         inventoryPanel.add(inventoryTablePanel);
@@ -127,6 +127,7 @@ public class MainMenu {
 
         //Create the panel for manage.
         //If active user is a manager
+        connection.connect();
         if (connection.isAdmin(activeUser)) {
             JPanel managePanel = new JPanel();
             mainWindowPanel.addTab("Manage", null, managePanel, null);
@@ -145,7 +146,7 @@ public class MainMenu {
             managePanel.add(manageTab.createUpdateEmployeeButton());
             //managePanel.add(manageTab.createExportPayrollButton());
             //TODO: Delete this if not used
-
+            connection.disconnect();
         }
 
         //Create the panel for the employee portal.

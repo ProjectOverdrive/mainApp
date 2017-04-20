@@ -5,8 +5,6 @@ import java.awt.event.*;
 
 public class CustomerTab {
 
-    private SQLConnections connection;
-
     //These are the text fields for the add/update customer UI.
     private JTextField firstNameText;
     private JTextField lastNameText;
@@ -17,16 +15,21 @@ public class CustomerTab {
     private JTextField stateText;
     private JTextField zipcodeText;
     private JTable custTable;
+    private SQLConnections connection;
 
-    public CustomerTab(SQLConnections connection) {
-        this.connection = connection;
+    public CustomerTab() {
+        this.connection = SQLConnections.getConnectionInstance();
     }
 
     //This method creates the customer table.
     public JTable createCustomerTable() {
         custTable = new JTable();
         custTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        connection.connect();
         custTable.setModel(DbUtils.resultSetToTableModel(connection.populateCustomerTable()));
+        connection.disconnect();
+
         custTable.getTableHeader().setReorderingAllowed(false);
         custTable.getColumnModel().getColumn(0).setPreferredWidth(5);
         custTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -84,7 +87,9 @@ public class CustomerTab {
                     createDeleteCustomerErrorWindow();
                 } else {
                     int selectedCusID = (int) custTable.getValueAt(row, 0);
+                    connection.connect();
                     connection.deleteCustomer(selectedCusID);
+                    connection.disconnect();
                     JOptionPane.showMessageDialog(null, "Customer Removed");  
                 }
             }
@@ -374,8 +379,10 @@ public class CustomerTab {
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
 
+        connection.connect();
         connection.addNewCustomer(firstName, lastName, phoneNumber,
                 streetAddress, city, state, zipcode, email);
+        connection.disconnect();
 
         //TODO: (Colten) Make sure not adding duplicate customer
     }
@@ -385,7 +392,10 @@ public class CustomerTab {
         // Gets selected row
         int row = custTable.getSelectedRow();
         int selectedCusID = (int) custTable.getValueAt(row, 0);
+
+        connection.connect();
         String[] fieldValues = connection.fillCustomerUpdate(selectedCusID);
+        connection.disconnect();
 
         //This initializes the update customer window.
         JFrame updateCustomerFrame = new JFrame();
@@ -545,8 +555,10 @@ public class CustomerTab {
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
 
+        connection.connect();
         connection.updateCustomer(firstName, lastName, phoneNumber, email,
                 streetAddress, city, state, zipcode, selectedCusID);
+        connection.disconnect();
     }
     
     //This method parses the phone number.

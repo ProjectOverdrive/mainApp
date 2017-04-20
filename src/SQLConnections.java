@@ -8,6 +8,9 @@
 //TODO: Make table cells uneditable
 //TODO: forgot password
 
+import com.sun.rowset.CachedRowSetImpl;
+
+import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,15 +18,25 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class SQLConnections {
-    private Connection connection;
+    private static Connection connection;
 
-    public SQLConnections() {
-        connect();
+    // Singleton design pattern implementation
+    private static SQLConnections connectionInstance;
+
+    private SQLConnections() {
     }
 
-    public Connection connect() {
-        String databaseURL = "jdbc:sqlite:database.db";
+    public static SQLConnections getConnectionInstance() {
+        if (null == connectionInstance) {
+            connectionInstance = new SQLConnections();
+        }
+        return connectionInstance;
+    }
+    // End of singleton
 
+
+    public static void connect() {
+        String databaseURL = "jdbc:sqlite:database.db";
 
         try {
 
@@ -33,8 +46,14 @@ public class SQLConnections {
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
+    }
 
-        return connection;
+    public void disconnect() {
+        try {
+            connection.close();
+        } catch(SQLException e) {
+            System.out.println(e);
+        }
     }
 
     // Validate user for login, returns true if user exists, else returns false
@@ -52,14 +71,18 @@ public class SQLConnections {
                 // If given username and password matches a row in the database
                 if (resultSet.getString("username").equalsIgnoreCase(username) && resultSet.getString("password").equals(password)) {
 
+                    statement.close();
+                    resultSet.close();
                     return true;
                 }
             }
 
+            statement.close();
+            resultSet.close();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
 
         return false;
     }
@@ -80,8 +103,12 @@ public class SQLConnections {
             // If given username is a manager account
             if (resultSet.getInt("isManager") == 1) {
 
+                statement.close();
+                resultSet.close();
                 return true;
             }
+            statement.close();
+            resultSet.close();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -92,14 +119,21 @@ public class SQLConnections {
     }
 
     // Pull data for customer table from the database
-    public ResultSet populateCustomerTable() {
+    public CachedRowSet populateCustomerTable() {
         String query = "SELECT rowid AS 'ID', * FROM customers";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
-            return resultSet;
+            CachedRowSet rowSet = new CachedRowSetImpl();
+
+            rowSet.populate(resultSet);
+
+            statement.close();
+            resultSet.close();
+
+            return rowSet;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -114,8 +148,7 @@ public class SQLConnections {
         String query = "INSERT INTO customers('First Name', 'Last Name', 'Phone Number', " +
                 "'Street Address', City, State, Zipcode, Email) VALUES(?,?,?,?,?,?,?,?)";
 
-        try (
-                PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, phoneNumber);
@@ -125,6 +158,8 @@ public class SQLConnections {
             statement.setString(7, zipcode);
             statement.setString(8, email);
             statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -141,6 +176,8 @@ public class SQLConnections {
             statement.setInt(1, selectedCusID);
 
             statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -164,6 +201,9 @@ public class SQLConnections {
             for (int i = 0; i < columnCount; i++) {
                 fieldResults[i] = resultSet.getString(i + 1);
             }
+
+            statement.close();
+            resultSet.close();
 
             return fieldResults;
 
@@ -195,19 +235,27 @@ public class SQLConnections {
             statement.setInt(9, selectedCusID);
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public ResultSet populateWorkOrderTable() {
+    public CachedRowSet populateWorkOrderTable() {
         String query = "SELECT rowid AS 'ID', * FROM workOrders";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
-            return resultSet;
+            CachedRowSet rowSet = new CachedRowSetImpl();
+            rowSet.populate(resultSet);
+
+            statement.close();
+            resultSet.close();
+
+            return rowSet;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -234,6 +282,9 @@ public class SQLConnections {
 
             String[] fieldResults = new String[fieldResultsTemp.size()];
             fieldResults = fieldResultsTemp.toArray(fieldResults);
+
+            statement.close();
+            resultSet.close();
 
             return fieldResults;
 
@@ -262,6 +313,9 @@ public class SQLConnections {
             String[] fieldResults = new String[fieldResultsTemp.size()];
             fieldResults = fieldResultsTemp.toArray(fieldResults);
 
+            statement.close();
+            resultSet.close();
+
             return fieldResults;
 
         } catch (SQLException e) {
@@ -285,6 +339,8 @@ public class SQLConnections {
             statement.setString(5, details);
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -298,6 +354,7 @@ public class SQLConnections {
             statement.setInt(1, selectedWorkOrderID);
 
             statement.executeUpdate();
+            statement.close();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -321,6 +378,9 @@ public class SQLConnections {
 
                 System.out.println(fieldResults[i]);
             }
+
+            statement.close();
+            resultSet.close();
 
             return fieldResults;
 
@@ -346,19 +406,27 @@ public class SQLConnections {
             statement.setInt(6, selectedWorkOrderID);
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public ResultSet populateInventoryTable() {
+    public CachedRowSet populateInventoryTable() {
         String query = "SELECT rowid AS 'ID', * FROM inventory";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
-            return resultSet;
+            CachedRowSet rowSet = new CachedRowSetImpl();
+            rowSet.populate(resultSet);
+
+            statement.close();
+            resultSet.close();
+
+            return rowSet;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -384,6 +452,8 @@ public class SQLConnections {
             statement.setString(7, url);
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -398,6 +468,8 @@ public class SQLConnections {
             statement.setInt(1, selectedItemID);
 
             statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -420,6 +492,9 @@ public class SQLConnections {
 
                 System.out.println(fieldResults[i]);
             }
+
+            statement.close();
+            resultSet.close();
 
             return fieldResults;
 
@@ -447,6 +522,8 @@ public class SQLConnections {
             statement.setInt(8, selectedInventoryItemID);
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -463,6 +540,8 @@ public class SQLConnections {
             String temp = resultSet.getString("URL");
             URL url = new URL(temp);
 
+            statement.close();
+            resultSet.close();
 
             return url;
 
@@ -473,7 +552,7 @@ public class SQLConnections {
         return null;
     }
 
-    public ResultSet populateEmployeeTable() {
+    public CachedRowSet populateEmployeeTable() {
         String query = "SELECT rowid AS 'ID', [First Name], [Last Name], [Phone Number], " +
                 "[Street Address], [City], [State], [Zipcode], [Email], [Hourly Pay], " +
                 "[Username] FROM employees";
@@ -483,7 +562,13 @@ public class SQLConnections {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
-            return resultSet;
+            CachedRowSet rowSet = new CachedRowSetImpl();
+            rowSet.populate(resultSet);
+
+            statement.close();
+            resultSet.close();
+
+            return rowSet;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -514,6 +599,24 @@ public class SQLConnections {
             statement.setInt(12, isManager);
 
             statement.executeUpdate();
+
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteEmployee(int selectedEmployeeID) {
+        String query = "DELETE FROM employees WHERE rowid = ?";
+
+        try (
+                PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, selectedEmployeeID);
+
+            statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

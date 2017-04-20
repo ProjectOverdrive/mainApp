@@ -23,15 +23,17 @@ public class InventoryTab {
     private JTextField urlText;
     private JTable inventoryTable;
 
-    public InventoryTab(SQLConnections connection) {
-        this.connection = connection;
+    public InventoryTab() {
+        this.connection = SQLConnections.getConnectionInstance();
     }
 
     //This method creates the inventory table.
     public JTable createInventoryTable() {
         inventoryTable = new JTable();
         inventoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        connection.connect();
         inventoryTable.setModel(DbUtils.resultSetToTableModel(connection.populateInventoryTable()));
+        connection.disconnect();
         inventoryTable.getTableHeader().setReorderingAllowed(false);
         inventoryTable.getColumnModel().getColumn(0).setPreferredWidth(5);
 
@@ -79,7 +81,9 @@ public class InventoryTab {
                 } else {
                     int selectedItemID = (int) inventoryTable.getValueAt(row, 0);
                     System.out.println(selectedItemID);
+                    connection.connect();
                     connection.deleteInventoryItem(selectedItemID);
+                    connection.disconnect();
                     JOptionPane.showMessageDialog(null, "Item Removed");    
                 }
             }
@@ -190,7 +194,9 @@ public class InventoryTab {
                 Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                 if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
                     try {
+                        connection.connect();
                         desktop.browse(connection.getItemURL(selectedInventoryItemID).toURI());
+                        connection.disconnect();
                     } catch (URISyntaxException|IOException m) {
                         m.printStackTrace();
                     }
@@ -385,8 +391,10 @@ public class InventoryTab {
         double unitCost = Double.parseDouble(unitCostText.getText());
         String url = urlText.getText();
 
+        connection.connect();
         connection.addNewInventoryItem(number, description, vendor, location,
                 quantity, unitCost, url);
+        connection.disconnect();
     }
 
     //This number ensures that fields that are supposed to be numeric are so.
@@ -415,7 +423,10 @@ public class InventoryTab {
         int selectedInventoryItemID = (int) inventoryTable.getValueAt(row, 0);
 
         //Stores update field values
+        connection.connect();
+        //TODO: Fix this
         String[] fieldValues = connection.fillUpdateInventoryItem(selectedInventoryItemID);
+        connection.disconnect();
 
         //This initializes the update item window.
         JFrame updateInventoryItemFrame = new JFrame();
@@ -564,8 +575,10 @@ public class InventoryTab {
         double unitCost = Double.parseDouble(unitCostText.getText());
         String url = urlText.getText();
 
+        connection.connect();
         connection.updateInventoryItem(number, description, vendor, location,
                 quantity, unitCost, url, selectedInventoryItemID);
+        connection.disconnect();
     }
 
     //This method creates the error window for quantity not being numeric.

@@ -24,14 +24,18 @@ public class ManageTab {
     private SQLConnections connection;
 
     public ManageTab() {
-        connection = new SQLConnections();
+        this.connection = SQLConnections.getConnectionInstance();
     }
 
     //This method creates the employee table.
     public JTable createEmployeeTable() {
         employeeTable = new JTable();
         employeeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        connection.connect();
         employeeTable.setModel(DbUtils.resultSetToTableModel(connection.populateEmployeeTable()));
+        connection.disconnect();
+
         employeeTable.getTableHeader().setReorderingAllowed(false);
         employeeTable.getColumnModel().getColumn(0).setPreferredWidth(5);
 
@@ -77,9 +81,11 @@ public class ManageTab {
                 if (row == -1) {
                     createDeleteEmployeeErrorWindow();
                 } else {
-                    //int selectedCusID = (int) employeeTable.getValueAt(row, 0);
-                    //connection.deleteEmployee(selectedCusID);
-                    //JOptionPane.showMessageDialog(null, "Employee Removed");  
+                    int selectedEmployeeID = (int) employeeTable.getValueAt(row, 0);
+                    connection.connect();
+                    connection.deleteEmployee(selectedEmployeeID);
+                    connection.disconnect();
+                    JOptionPane.showMessageDialog(null, "Employee Removed");
                 }
             }
         });
@@ -449,8 +455,10 @@ public class ManageTab {
             isManager = 1;
         }
 
+        connection.connect();
         connection.addNewEmployee(firstName, lastName, phoneNumber, streetAddress, city,
                 state, zipcode, email, hourlyRate, username, password, isManager);
+        connection.disconnect();
         
         //TODO: (Colten) add to database
     }
