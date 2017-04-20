@@ -310,8 +310,6 @@ public class EmployeePortalTab {
         connection.updatePersonalInfo(firstName, lastName, phoneNumber, email, streetAddress,
                 city, state, zipcode, username, activeUser);
         connection.disconnect();
-
-        //TODO: (Colten) update database
     }
     
     //This method parses the phone number.

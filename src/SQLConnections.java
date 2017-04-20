@@ -3,10 +3,10 @@
  */
 
 //TODO: Set all errors to show window not print to console
-//TODO: Update password for users
 //TODO: Refresh tables on click
 //TODO: Make table cells uneditable
 //TODO: forgot password
+//TODO: finish commenting methods
 
 import com.sun.rowset.CachedRowSetImpl;
 
@@ -57,7 +57,7 @@ public class SQLConnections {
     }
 
     // Validate user for login, returns true if user exists, else returns false
-    public Boolean validateUser(String username, String password) {
+    public Boolean validateLogin(String username, String password) {
 
         String query = "SELECT username, password FROM employees";
 
@@ -70,6 +70,36 @@ public class SQLConnections {
             while (resultSet.next()) {
                 // If given username and password matches a row in the database
                 if (resultSet.getString("username").equalsIgnoreCase(username) && resultSet.getString("password").equals(password)) {
+
+                    statement.close();
+                    resultSet.close();
+                    return true;
+                }
+            }
+
+            statement.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean validateUser(String username, String email) {
+
+        String query = "SELECT Username, Email FROM employees";
+
+        // Tries to execute query
+        try (// Prepares query statement
+             Statement statement = connection.createStatement();
+             // Gets results of query
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                // If given username and password matches a row in the database
+                if (resultSet.getString("username").equalsIgnoreCase(username) && resultSet.getString("email").equalsIgnoreCase(email)) {
 
                     statement.close();
                     resultSet.close();

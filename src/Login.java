@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.UUID;
+import javax.mail.MessagingException;
 import javax.swing.*;
 
 public class Login {
@@ -15,6 +17,10 @@ public class Login {
     JTextField newPasswordText;
     JTextField confirmPasswordText;
     JTextField emailText;
+
+    private String activeUser;
+    private String email;
+    private String verificationCode;
 
     public Login() {
         this.connection = SQLConnections.getConnectionInstance();
@@ -179,7 +185,17 @@ public class Login {
     
     //This method will send the reset password link.
     private void sendResetPasswordEmail() {
-        //TODO: (Colten) send reset password link
+        Email sendVerification = new Email();
+
+        verificationCode = UUID.randomUUID().toString().substring(0, 5);
+
+        try {
+            sendVerification.sendPlainTextEmail(email, "Verification Code", "Here is your verification code: "
+                    + verificationCode);
+        } catch (MessagingException e) {
+            System.out.println(e);
+        }
+
     }
 
     private void createSendEmailConfirmationWindow() {
@@ -231,7 +247,7 @@ public class Login {
             @Override
             public void mousePressed(MouseEvent arg0) {
                 if (windowOneHasRequiredFields()) {
-                    if (usernameExists()) {
+                    if (usernameEmailExists()) {
                         sendResetPasswordEmail();
                         createEnterCodeWindow();
                         sendEmailConfirmationFrame.dispose();    
@@ -259,10 +275,18 @@ public class Login {
     }
     
     //This method ensures that the entered username matches one in the database.
-    private boolean usernameExists() {
-        String username = usernameText.getText();
-        //TODO: (Colten) actually make a username check here
-        return true;
+    private boolean usernameEmailExists() {
+        activeUser = usernameText.getText();
+        email = emailText.getText();
+
+        connection.connect();
+        if(connection.validateUser(activeUser, email)) {
+            connection.disconnect();
+            return true;
+        } else {
+            connection.disconnect();
+            return false;
+        }
     }
     
     //This method displays an error for an incorrect username.
@@ -407,8 +431,12 @@ public class Login {
     //This method ensures that the entered code matches that of the emailed one.
     private boolean codeMatchesEmail() {
         String enteredCode = resetPasswordCodeText.getText();
-        //TODO: (Colten) pull down emailed code to verify match
-        return true;
+
+        if (enteredCode.equals(verificationCode)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     //This method creates the window for the user to enter the new password.
@@ -492,7 +520,10 @@ public class Login {
     
     //This method changes the password in the database.
     private void changePassword() {
-        //TODO: (Colten) make change password work
+        String newPassword = newPasswordText.getText();
+        connection.connect();
+        connection.changePassword(activeUser, newPassword);
+        connection.disconnect();
     }
     
     //This method creates an error window if there is a password mismatch.
@@ -564,16 +595,16 @@ public class Login {
     /*This method will check the entered values against the users stored in the 
     database.*/
     public void validateUser() {
-        String username = usernameText.getText();
+        activeUser = usernameText.getText();
         String password = passwordText.getText();
         connection.connect();
-        boolean valid = connection.validateUser(username, password);
+        boolean valid = connection.validateLogin(activeUser, password);
         connection.disconnect();
 
         //TODO: (Caroline) Add max input size for text fields
 
         if (valid) {
-            enterApp(username);
+            enterApp(activeUser);
         } else {
             JOptionPane.showMessageDialog(null, "Invalid username/password");
         }
