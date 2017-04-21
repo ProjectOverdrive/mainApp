@@ -33,15 +33,6 @@ public class WorkOrderTab {
         return workOrderTable;
     }
 
-    //This method creates the button for refreshing the list from the database.
-    public JButton createRefreshListButton() {
-        JButton refreshButton = new JButton();
-        refreshButton.setText("Refresh List");
-        refreshButton.setBounds(956, 11, 167, 28);
-        return refreshButton;
-        //TODO: (Colten) make this work
-    }
-
     //This method creates the add work order button.
     public JButton createAddWorkOrderButton() {
         JButton addWorkOrderButton = new JButton();

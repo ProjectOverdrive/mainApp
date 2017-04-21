@@ -37,15 +37,6 @@ public class InventoryTab {
         return inventoryTable;
     }
 
-    //This method creates the refresh list button.
-    public JButton createRefreshListButton() {
-        JButton refreshButton = new JButton();
-        refreshButton.setText("Refresh List");
-        refreshButton.setBounds(956, 11, 167, 28);
-        return refreshButton;
-        //TODO: (Colten) actually refresh the table
-    }
-
     //This method creates the add inventory item button.
     public JButton createAddInventoryItemButton() {
         JButton addInventoryItemButton = new JButton();

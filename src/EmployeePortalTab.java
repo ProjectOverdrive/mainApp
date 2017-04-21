@@ -43,15 +43,6 @@ public class EmployeePortalTab {
 
         return portalTable;
     }
-        
-    //This method creates the refresh button.
-    public JButton createRefreshButton() {
-        JButton refreshButton = new JButton();
-        refreshButton.setText("Refresh");
-        refreshButton.setBounds(956, 11, 167, 28);
-        return refreshButton;
-        //TODO: (Colten) actually refresh the table
-    }
     
     //This method creates the update info button.
     public JButton createUpdateInfoButton() {

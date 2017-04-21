@@ -5,8 +5,18 @@ import java.awt.event.*;
 public class MainMenu {
 
     JFrame frame;
-    SQLConnections connection;
+    private SQLConnections connection;
     private String activeUser;
+    private CustomerTab customerTab;
+    private JScrollPane custTablePanel;
+    private WorkOrderTab workOrderTab;
+    private JScrollPane workOrderTablePanel;
+    private InventoryTab inventoryTab;
+    private JScrollPane inventoryTablePanel;
+    private ManageTab manageTab;
+    private JScrollPane employeeTablePanel;
+    private EmployeePortalTab employeePortalTab;
+    private JScrollPane employeeInfoPanel;
 
     //This is the wrapper method for the construction of the UI.
     public void open(String username) {
@@ -61,13 +71,13 @@ public class MainMenu {
         customerPanel.setLayout(null);
 
         //Initialize the customer tab and add its components.
-        CustomerTab customerTab = new CustomerTab();
-        JScrollPane custTablePanel = new JScrollPane();
+        customerTab = new CustomerTab();
+        custTablePanel = new JScrollPane();
         custTablePanel.setBounds(0, 11, 927, 817);
         customerPanel.add(custTablePanel);
-        custTablePanel.setViewportView(customerTab.createCustomerTable());
+        createCustomerTable();
 
-        customerPanel.add(customerTab.createRefreshListButton());
+        customerPanel.add(createCustomerRefreshListButton());
         customerPanel.add(customerTab.createAddCustomerButton());
         customerPanel.add(customerTab.createDeleteCustomerButton());
         customerPanel.add(customerTab.createUpdateCustomerButton());
@@ -79,13 +89,13 @@ public class MainMenu {
         workOrderPanel.setLayout(null);
 
         //Initialize the work order tab and add its components.
-        WorkOrderTab workOrderTab = new WorkOrderTab();
-        JScrollPane workOrderTablePanel = new JScrollPane();
+        workOrderTab = new WorkOrderTab();
+        workOrderTablePanel = new JScrollPane();
         workOrderTablePanel.setBounds(0, 11, 927, 817);
         workOrderPanel.add(workOrderTablePanel);
-        workOrderTablePanel.setViewportView(workOrderTab.createWorkOrderTable());
+        createWorkOrderTable();
 
-        workOrderPanel.add(workOrderTab.createRefreshListButton());
+        workOrderPanel.add(createWorkOrderRefreshListButton());
         workOrderPanel.add(workOrderTab.createAddWorkOrderButton());
         workOrderPanel.add(workOrderTab.createDeleteWorkOrderButton());
         workOrderPanel.add(workOrderTab.createUpdateWorkOrderButton());
@@ -97,13 +107,13 @@ public class MainMenu {
         inventoryPanel.setLayout(null);
 
         //Initialize the inventory tab and add its components.
-        InventoryTab inventoryTab = new InventoryTab();
-        JScrollPane inventoryTablePanel = new JScrollPane();
+        inventoryTab = new InventoryTab();
+        inventoryTablePanel = new JScrollPane();
         inventoryTablePanel.setBounds(0, 11, 927, 817);
         inventoryPanel.add(inventoryTablePanel);
-        inventoryTablePanel.setViewportView(inventoryTab.createInventoryTable());
+        createInventoryTable();
 
-        inventoryPanel.add(inventoryTab.createRefreshListButton());
+        inventoryPanel.add(createInventoryRefreshListButton());
         inventoryPanel.add(inventoryTab.createAddInventoryItemButton());
         inventoryPanel.add(inventoryTab.createDeleteInventoryItemButton());
         inventoryPanel.add(inventoryTab.createUpdateInventoryItemButton());
@@ -134,13 +144,13 @@ public class MainMenu {
             managePanel.setLayout(null);
 
             //Initialize the manage tab and its components.
-            ManageTab manageTab = new ManageTab();
-            JScrollPane employeeTablePanel = new JScrollPane();
+            manageTab = new ManageTab();
+            employeeTablePanel = new JScrollPane();
             employeeTablePanel.setBounds(0, 11, 927, 817);
             managePanel.add(employeeTablePanel);
-            employeeTablePanel.setViewportView(manageTab.createEmployeeTable());
+            createManageTable();
 
-            managePanel.add(manageTab.createRefreshListButton());
+            managePanel.add(createManageRefreshListButton());
             managePanel.add(manageTab.createAddEmployeeButton());
             managePanel.add(manageTab.createDeleteEmployeeButton());
             managePanel.add(manageTab.createUpdateEmployeeButton());
@@ -154,18 +164,119 @@ public class MainMenu {
         
         //Initialize the employee portal tab and its components.
         //Initialize the symptoms tab and its components.
-        EmployeePortalTab employeePortalTab = new EmployeePortalTab(activeUser);
-        JScrollPane employeeInfoPanel = new JScrollPane();
+        employeePortalTab = new EmployeePortalTab(activeUser);
+        employeeInfoPanel = new JScrollPane();
         employeeInfoPanel.setBounds(0, 11, 927, 817);
         employeePortalPanel.add(employeeInfoPanel);
-        employeeInfoPanel.setViewportView(employeePortalTab.createEmployeePortalTable());
+        createEmployeePortalTable();
 
-        employeePortalPanel.add(employeePortalTab.createEmployeePortalTable());
-        employeePortalPanel.add(employeePortalTab.createRefreshButton());
+        employeePortalPanel.add(createEmployeePortalRefreshButton());
         employeePortalPanel.add(employeePortalTab.createUpdateInfoButton());
         employeePortalPanel.add(employeePortalTab.createChangePasswordButton());
 
         //Display the frame.
         frame.setVisible(true);
+    }
+
+    //This method creates the button for refreshing the customer list from the database.
+    public JButton createCustomerRefreshListButton() {
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh List");
+        refreshButton.setBounds(956, 11, 167, 28);
+        refreshButton.addMouseListener(new MouseAdapter() {
+            //The table should be refreshed.
+            @Override
+            public void mousePressed(MouseEvent e) {
+                createCustomerTable();
+                System.out.println("I fired");
+            }
+        });
+
+        return refreshButton;
+    }
+
+    //This method creates the work order table refresh list button.
+    public JButton createWorkOrderRefreshListButton() {
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh List");
+        refreshButton.setBounds(956, 11, 167, 28);
+        refreshButton.addMouseListener(new MouseAdapter() {
+            //The table should be refreshed.
+            @Override
+            public void mousePressed(MouseEvent e) {
+                createWorkOrderTable();
+            }
+        });
+        return refreshButton;
+    }
+
+    //This method creates the inventory table refresh list button.
+    public JButton createInventoryRefreshListButton() {
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh List");
+        refreshButton.setBounds(956, 11, 167, 28);
+        refreshButton.addMouseListener(new MouseAdapter() {
+            //The table should be refreshed.
+            @Override
+            public void mousePressed(MouseEvent e) {
+                createInventoryTable();
+            }
+        });
+        return refreshButton;
+    }
+
+    //This method creates the management table refresh list button.
+    public JButton createManageRefreshListButton() {
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh List");
+        refreshButton.setBounds(956, 11, 167, 28);
+        refreshButton.addMouseListener(new MouseAdapter() {
+            //The table should be refreshed.
+            @Override
+            public void mousePressed(MouseEvent e) {
+                createManageTable();
+            }
+        });
+        return refreshButton;
+    }
+
+    //This method creates the employee info refresh button.
+    public JButton createEmployeePortalRefreshButton() {
+        JButton refreshButton = new JButton();
+        refreshButton.setText("Refresh");
+        refreshButton.setBounds(956, 11, 167, 28);
+        refreshButton.addMouseListener(new MouseAdapter() {
+            //The table should be refreshed.
+            @Override
+            public void mousePressed(MouseEvent e) {
+                createEmployeePortalTable();
+            }
+        });
+        return refreshButton;
+    }
+
+    //Creates customer table and adds to customer panel
+    public void createCustomerTable() {
+        custTablePanel.setViewportView(customerTab.createCustomerTable());
+    }
+
+    //Creates work order table and adds to work orders panel
+    public void createWorkOrderTable() {
+        workOrderTablePanel.setViewportView(workOrderTab.createWorkOrderTable());
+    }
+
+    //Creates inventory table and adds to work orders panel
+    public void createInventoryTable() {
+        inventoryTablePanel.setViewportView(inventoryTab.createInventoryTable());
+    }
+
+    //Creates manage table and adds to manage panel
+    public void createManageTable() {
+        employeeTablePanel.setViewportView(manageTab.createEmployeeTable());
+    }
+
+    //Creates employee info table and adds to employee portal panel
+    public void createEmployeePortalTable() {
+        employeeInfoPanel.setViewportView(employeePortalTab.createEmployeePortalTable());
     }
 }

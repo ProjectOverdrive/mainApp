@@ -1,7 +1,9 @@
 import net.proteanit.sql.DbUtils;
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.table.AbstractTableModel;
 
 public class CustomerTab {
 
@@ -27,7 +29,8 @@ public class CustomerTab {
         custTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         connection.connect();
-        custTable.setModel(DbUtils.resultSetToTableModel(connection.populateCustomerTable()));
+        TableModel tableModel = DbUtils.resultSetToTableModel(connection.populateCustomerTable());
+        custTable.setModel(tableModel);
         connection.disconnect();
 
         custTable.getTableHeader().setReorderingAllowed(false);
@@ -35,22 +38,6 @@ public class CustomerTab {
         custTable.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
         return custTable;
-    }
-
-    //This method creates the refresh list button.
-    public JButton createRefreshListButton() {
-        JButton refreshButton = new JButton();
-        refreshButton.setText("Refresh List");
-        refreshButton.setBounds(956, 11, 167, 28);
-        refreshButton.addMouseListener(new MouseAdapter() {
-            //The table should be refreshed.
-            @Override
-            public void mousePressed(MouseEvent e) {
-                createCustomerTable();
-            }
-        });
-        
-        return refreshButton;
     }
 
     //This method creates the add customer button.
