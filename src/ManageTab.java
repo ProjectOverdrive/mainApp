@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 import javax.swing.*;
-//TODO: (Colten) don't let them delete the last manager
+
 public class ManageTab {
     
     //These are the text fields for the add/update inventory item windows.
@@ -179,15 +179,6 @@ public class ManageTab {
 
         updateErrorFrame.setVisible(true);
     }
-
-    /*//This method creates the export payroll button.
-    public JButton createExportPayrollButton() {
-        JButton exportPayrollButton = new JButton();
-        exportPayrollButton.setText("Export Payroll");
-        exportPayrollButton.setBounds(956, 50, 167, 28);
-        return exportPayrollButton;
-        //TODO: Delete this if not used
-    }   */
     
     //This method creates and controls the add employee window.
     public void buildAddEmployeeFrame() {

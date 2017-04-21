@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
-        
-//TODO: clean up all imports before we print
 
 public class InventoryTab {
 
@@ -79,7 +77,6 @@ public class InventoryTab {
                     createDeleteInventoryItemErrorWindow();
                 } else {
                     int selectedItemID = (int) inventoryTable.getValueAt(row, 0);
-                    System.out.println(selectedItemID);
                     connection.connect();
                     connection.deleteInventoryItem(selectedItemID);
                     connection.disconnect();

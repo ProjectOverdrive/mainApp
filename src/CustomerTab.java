@@ -69,8 +69,6 @@ public class CustomerTab {
         
         return addCustomerButton;
     }
-
-    //TODO: remove all println's
     
     //Ths method creates the delete customer button.
     public JButton createDeleteCustomerButton() {
@@ -381,8 +379,6 @@ public class CustomerTab {
         connection.addNewCustomer(firstName, lastName, phoneNumber,
                 streetAddress, city, state, zipcode, email);
         connection.disconnect();
-
-        //TODO: (Colten) Make sure not adding duplicate customer
     }
 
     //This method creates the update customer window.

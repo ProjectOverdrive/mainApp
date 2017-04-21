@@ -3,10 +3,8 @@
  */
 
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Date;
-import java.util.Properties;
+import javax.mail.internet.*;
+import java.util.*;
 
 public class Email {
 
@@ -42,28 +40,5 @@ public class Email {
 
         // sends the e-mail
         Transport.send(msg);
-
     }
-
-    /**
-     * Test the send e-mail method
-     */
-    public static void main(String[] args) {
-        // outgoing message information
-        String mailTo = "ccross07@gmail.com";
-        String subject = "Hello my friend";
-        String message = "Hi guy, Hope you are doing well, Fellow Colten.";
-
-        Email mailer = new Email();
-
-        try {
-            mailer.sendPlainTextEmail(mailTo, subject, message);
-            System.out.println("Email sent.");
-        } catch (Exception ex) {
-            System.out.println("Failed to sent email.");
-            ex.printStackTrace();
-        }
-    }
-    
-    //TODO: remove extra main method
 }

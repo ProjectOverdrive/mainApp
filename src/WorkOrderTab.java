@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-//TODO: (Caroline) add JDatePicker 
 public class WorkOrderTab {
     
     //These are the fields/combo boxes for adding and updating work orders.
@@ -74,7 +73,6 @@ public class WorkOrderTab {
                 if (row == -1) {
                     createDeleteWorkOrderErrorWindow();
                 } else {
-                    System.out.println(row);
                     int selectedWorkOrderID = (int) workOrderTable.getValueAt(row, 0);
                     connection.connect();
                     connection.deleteWorkOrder(selectedWorkOrderID);

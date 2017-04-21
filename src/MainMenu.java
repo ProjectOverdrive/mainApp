@@ -144,8 +144,6 @@ public class MainMenu {
             managePanel.add(manageTab.createAddEmployeeButton());
             managePanel.add(manageTab.createDeleteEmployeeButton());
             managePanel.add(manageTab.createUpdateEmployeeButton());
-            //managePanel.add(manageTab.createExportPayrollButton());
-            //TODO: Delete this if not used
             connection.disconnect();
         }
 
