@@ -191,7 +191,7 @@ public class Login {
             sendVerification.sendEmail(email, "Verification Code", "Here is your verification code: "
                     + verificationCode);
         } catch (MessagingException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e);
         }
 
     }

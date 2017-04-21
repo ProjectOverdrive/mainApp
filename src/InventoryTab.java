@@ -451,7 +451,6 @@ public class InventoryTab {
 
         //Stores update field values
         connection.connect();
-        //TODO: Fix this
         String[] fieldValues = connection.fillUpdateInventoryItem(selectedInventoryItemID);
         connection.disconnect();
 
@@ -471,6 +470,7 @@ public class InventoryTab {
 
         //This is the part number text field.
         numberText = new JTextField();
+        numberText.setText(fieldValues[0]);
         numberText.setBounds(10, 48, 426, 32);
         updateInventoryItemFrame.getContentPane().add(numberText);
 
@@ -482,6 +482,7 @@ public class InventoryTab {
 
         //This is the part description text field.
         descriptionText = new JTextField();
+        descriptionText.setText(fieldValues[1]);
         descriptionText.setBounds(10, 127, 426, 32);
         updateInventoryItemFrame.getContentPane().add(descriptionText);
 
@@ -493,6 +494,7 @@ public class InventoryTab {
 
         //This is the part vendor text field.
         vendorText = new JTextField();
+        vendorText.setText(fieldValues[2]);
         vendorText.setBounds(10, 206, 203, 32);
         updateInventoryItemFrame.getContentPane().add(vendorText);
 
@@ -504,6 +506,7 @@ public class InventoryTab {
 
         //This is the part location text field.
         locationText = new JTextField();
+        locationText.setText(fieldValues[3]);
         locationText.setBounds(233, 206, 203, 32);
         updateInventoryItemFrame.getContentPane().add(locationText);
 
@@ -515,6 +518,7 @@ public class InventoryTab {
 
         //This is the quantity in stock text field.
         quantityText = new JTextField();
+        quantityText.setText(fieldValues[4]);
         quantityText.setBounds(10, 285, 203, 32);
         updateInventoryItemFrame.getContentPane().add(quantityText);
 
@@ -526,6 +530,7 @@ public class InventoryTab {
 
         //This is the unit cost text field.
         unitCostText = new JTextField();
+        unitCostText.setText(fieldValues[5]);
         unitCostText.setBounds(233, 285, 203, 32);
         updateInventoryItemFrame.getContentPane().add(unitCostText);
 
@@ -537,6 +542,7 @@ public class InventoryTab {
 
         //This is the part url text field.
         urlText = new JTextField();
+        urlText.setText(fieldValues[6]);
         urlText.setBounds(10, 364, 426, 32);
         updateInventoryItemFrame.getContentPane().add(urlText);
 
