@@ -29,7 +29,13 @@ public class ManageTab {
 
     //This method creates the employee table.
     public JTable createEmployeeTable() {
-        employeeTable = new JTable();
+        employeeTable = new JTable(){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
         employeeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         connection.connect();

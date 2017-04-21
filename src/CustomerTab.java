@@ -25,7 +25,13 @@ public class CustomerTab {
 
     //This method creates the customer table.
     public JTable createCustomerTable() {
-        custTable = new JTable();
+        custTable = new JTable(){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
         custTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         connection.connect();

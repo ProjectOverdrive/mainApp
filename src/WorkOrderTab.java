@@ -21,7 +21,13 @@ public class WorkOrderTab {
 
     //This method creates the table for displaying work orders.
     public JTable createWorkOrderTable() {
-        workOrderTable = new JTable();
+        workOrderTable = new JTable(){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
         workOrderTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         connection.connect();
         workOrderTable.setModel(DbUtils.resultSetToTableModel(connection.populateWorkOrderTable()));

@@ -30,7 +30,13 @@ public class EmployeePortalTab {
     
     //This method creates the employee portal table.
     public JTable createEmployeePortalTable() {
-        portalTable = new JTable();
+        portalTable = new JTable(){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
 
         portalTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 

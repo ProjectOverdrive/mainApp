@@ -26,7 +26,13 @@ public class InventoryTab {
 
     //This method creates the inventory table.
     public JTable createInventoryTable() {
-        inventoryTable = new JTable();
+        inventoryTable = new JTable(){
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
         inventoryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         connection.connect();
         inventoryTable.setModel(DbUtils.resultSetToTableModel(connection.populateInventoryTable()));
