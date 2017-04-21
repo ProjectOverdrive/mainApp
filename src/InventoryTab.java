@@ -185,21 +185,58 @@ public class InventoryTab {
             @Override
             public void mousePressed(MouseEvent e) {
                 int row = inventoryTable.getSelectedRow();
-                int selectedInventoryItemID = (int) inventoryTable.getValueAt(row, 0);
+                if (row == -1) {
+                    createOrderInventoryItemErrorWindow();
+                } else {
+                    int selectedInventoryItemID = (int) inventoryTable.getValueAt(row, 0);
 
-                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-                    try {
-                        connection.connect();
-                        desktop.browse(connection.getItemURL(selectedInventoryItemID).toURI());
-                        connection.disconnect();
-                    } catch (URISyntaxException|IOException m) {
-                        m.printStackTrace();
+                    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+                    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                        try {
+                            connection.connect();
+                            desktop.browse(connection.getItemURL(selectedInventoryItemID).toURI());
+                            connection.disconnect();
+                        } catch (URISyntaxException|IOException m) {
+                            m.printStackTrace();
+                        }
                     }
                 }
             }
         });
         return orderInventoryItemButton;
+    }
+    
+     //This method creates the error window for ordering w/o selecting.
+    private void createOrderInventoryItemErrorWindow() {
+        //This creates the error window
+        JFrame orderErrorFrame = new JFrame();
+        orderErrorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        orderErrorFrame.setResizable(false);
+        orderErrorFrame.setTitle("Error");
+        orderErrorFrame.setBounds(100, 100, 350, 200);
+        orderErrorFrame.getContentPane().setLayout(null);
+
+        //This displays the error message.
+        JLabel errorMessage = new JLabel();
+        errorMessage.setText("Select an inventory item to order.");
+        errorMessage.setBounds(80, 50, 250, 32);
+        orderErrorFrame.getContentPane().add(errorMessage);
+
+        //This creates the okay button.
+        JButton closeErrorMessageButton = new JButton();
+        closeErrorMessageButton.setText("OK");
+        closeErrorMessageButton.setBounds(115, 100, 90, 28);
+        orderErrorFrame.getContentPane().add(closeErrorMessageButton);
+
+        //If this button is pressed, close the error window.
+        closeErrorMessageButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent arg0) {
+                orderErrorFrame.dispose();
+            }
+        });
+
+        orderErrorFrame.setVisible(true);
     }
 
     //This method creates and controls the add inventory item window.
