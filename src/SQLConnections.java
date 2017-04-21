@@ -2,9 +2,6 @@
  * Created by Colten on 4/11/17.
  */
 
-//TODO: Set all errors to show window not print to console
-//TODO: Refresh tables on click
-//TODO: Make table cells uneditable
 //TODO: finish commenting methods
 //TODO: Tidy up email class
 
@@ -52,7 +49,7 @@ public class SQLConnections {
         try {
             connection.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -81,7 +78,7 @@ public class SQLConnections {
             resultSet.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return false;
@@ -111,7 +108,7 @@ public class SQLConnections {
             resultSet.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return false;
@@ -141,7 +138,7 @@ public class SQLConnections {
             resultSet.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         // isAdmin = 0 or null
@@ -166,7 +163,7 @@ public class SQLConnections {
             return rowSet;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return null;
@@ -192,7 +189,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -210,7 +207,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());;
         }
     }
 
@@ -238,7 +235,7 @@ public class SQLConnections {
             return fieldResults;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         return null;
@@ -268,7 +265,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -288,7 +285,7 @@ public class SQLConnections {
             return rowSet;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -319,7 +316,7 @@ public class SQLConnections {
             return fieldResults;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -349,7 +346,7 @@ public class SQLConnections {
             return fieldResults;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -372,7 +369,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -387,7 +384,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -405,8 +402,6 @@ public class SQLConnections {
 
             for (int i = 0; i < columnCount; i++) {
                 fieldResults[i] = resultSet.getString(i + 1);
-
-                System.out.println(fieldResults[i]);
             }
 
             statement.close();
@@ -415,7 +410,7 @@ public class SQLConnections {
             return fieldResults;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -439,7 +434,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -459,7 +454,7 @@ public class SQLConnections {
             return rowSet;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -485,7 +480,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -502,7 +497,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -519,8 +514,6 @@ public class SQLConnections {
 
             for (int i = 0; i < columnCount; i++) {
                 fieldResults[i] = resultSet.getString(i + 1);
-
-                System.out.println(fieldResults[i]);
             }
 
             statement.close();
@@ -529,7 +522,7 @@ public class SQLConnections {
             return fieldResults;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -555,7 +548,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -576,7 +569,7 @@ public class SQLConnections {
             return url;
 
         } catch (SQLException | MalformedURLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -601,7 +594,7 @@ public class SQLConnections {
             return rowSet;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -633,7 +626,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -649,7 +642,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -666,8 +659,6 @@ public class SQLConnections {
 
             for (int i = 0; i < columnCount; i++) {
                 fieldResults[i] = resultSet.getString(i + 1);
-
-                System.out.println(fieldResults[i]);
             }
 
             statement.close();
@@ -676,7 +667,7 @@ public class SQLConnections {
             return fieldResults;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -709,7 +700,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -733,7 +724,7 @@ public class SQLConnections {
             return rowSet;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -754,8 +745,6 @@ public class SQLConnections {
 
             for (int i = 0; i < columnCount; i++) {
                 fieldResults[i] = resultSet.getString(i + 1);
-
-                System.out.println(fieldResults[i]);
             }
 
             statement.close();
@@ -764,7 +753,7 @@ public class SQLConnections {
             return fieldResults;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return null;
@@ -795,7 +784,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
@@ -817,7 +806,6 @@ public class SQLConnections {
 
                     statement.close();
                     resultSet.close();
-                    System.out.println("I was true");
                     return true;
                 }
             }
@@ -826,7 +814,7 @@ public class SQLConnections {
             resultSet.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
 
         return false;
@@ -845,7 +833,7 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
