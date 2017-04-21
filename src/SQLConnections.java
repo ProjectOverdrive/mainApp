@@ -2,7 +2,6 @@
  * Created by Colten on 4/11/17.
  */
 
-//TODO: finish commenting methods
 //TODO: Tidy up email class
 
 import com.sun.rowset.CachedRowSetImpl;
@@ -32,6 +31,7 @@ public class SQLConnections {
     // End of singleton
 
 
+    // Establishes database connection
     public static void connect() {
         String databaseURL = "jdbc:sqlite:database.db";
 
@@ -45,6 +45,7 @@ public class SQLConnections {
         }
     }
 
+    // Closes database connection
     public void disconnect() {
         try {
             connection.close();
@@ -84,6 +85,7 @@ public class SQLConnections {
         return false;
     }
 
+    // Validates username and email when resetting password
     public boolean validateUser(String username, String email) {
 
         String query = "SELECT Username, Email FROM employees";
@@ -207,15 +209,13 @@ public class SQLConnections {
             statement.close();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());;
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
     // Populates update customer box fields
     public String[] fillCustomerUpdate(int selectedCusID) {
         ResultSet resultSet;
-        //TODO: Make this not hard coded
-        String[] fieldResults = new String[8];
         String query = "SELECT * FROM customers WHERE rowid = ?";
 
         try (
@@ -224,6 +224,7 @@ public class SQLConnections {
             resultSet = statement.executeQuery();
 
             int columnCount = resultSet.getMetaData().getColumnCount();
+            String[] fieldResults = new String[columnCount];
 
             for (int i = 0; i < columnCount; i++) {
                 fieldResults[i] = resultSet.getString(i + 1);
@@ -242,7 +243,7 @@ public class SQLConnections {
 
     }
 
-    // Updates selected customer
+    // Updates selected customer info
     public void updateCustomer(String firstName, String lastName, String phoneNumber, String email,
                                String streetAddress, String city, String state, String zipcode,
                                int selectedCusID) {
@@ -269,6 +270,7 @@ public class SQLConnections {
         }
     }
 
+    // Populates work order table
     public CachedRowSet populateWorkOrderTable() {
         String query = "SELECT rowid AS 'ID', * FROM workOrders";
 
@@ -291,6 +293,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Populates employee dropdown selection in work orders tab
     public String[] populateEmployeeDropdown() {
 
         String query = "SELECT [First Name] FROM employees";
@@ -322,6 +325,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Populates customer dropdown selection in work orders tab
     public String[] populateCustomerDropdown() {
         String query = "SELECT [First Name] FROM customers";
 
@@ -352,6 +356,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Adds work order the database
     public void addWorkOrder(String employee, String customer, String status, String priority,
                              String details) {
         String query = "INSERT INTO workOrders(Employee, Customer, Status, " +
@@ -373,6 +378,7 @@ public class SQLConnections {
         }
     }
 
+    // Deletes the selected work order
     public void deleteWorkOrder(int selectedWorkOrderID) {
         String query = "DELETE FROM workOrders WHERE rowid = ?";
 
@@ -388,6 +394,7 @@ public class SQLConnections {
         }
     }
 
+    // Prepopulates update work order window with selected work order information
     public String[] fillWorkOrderUpdate(int selectedWorkOrderID) {
 
         String query = "SELECT * FROM workOrders WHERE rowid = ?";
@@ -416,6 +423,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Updates selected work order in database
     public void updateWorkOrder(String employeeName, String customerName, String status,
                                 String priority, String details, int selectedWorkOrderID) {
         String query = "UPDATE workOrders SET Employee = ?, Customer = ?, Status = ?, " +
@@ -438,6 +446,7 @@ public class SQLConnections {
         }
     }
 
+    // Populates inventory table
     public CachedRowSet populateInventoryTable() {
         String query = "SELECT rowid AS 'ID', * FROM inventory";
 
@@ -501,6 +510,7 @@ public class SQLConnections {
         }
     }
 
+    // Prepopulates update inventory window with selected inventory item info
     public String[] fillUpdateInventoryItem(int selectedInventoryItemID) {
         String query = "SELECT * FROM inventory WHERE rowid = ?";
 
@@ -528,6 +538,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Updates inventory item in the database
     public void updateInventoryItem(String number, String description, String vendor, String location,
                                     int quantity, double unitCost, String url, int selectedInventoryItemID) {
         String query = "UPDATE inventory SET 'Part Number' = ?, Description = ?, Vendor = ?, " +
@@ -552,6 +563,7 @@ public class SQLConnections {
         }
     }
 
+    // Returns URL of selected inventory item
     public URL getItemURL(int selectedInventoryItemID) {
         String query = "SELECT URL FROM inventory WHERE rowid = ?";
 
@@ -575,6 +587,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Populates management tab employee table
     public CachedRowSet populateEmployeeTable() {
         String query = "SELECT rowid AS 'ID', [First Name], [Last Name], [Phone Number], " +
                 "[Street Address], [City], [State], [Zipcode], [Email], [Hourly Pay], " +
@@ -600,6 +613,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Adds new employee to the database
     public void addNewEmployee(String firstName, String lastName, String phoneNumber, String streetAddress,
                                String city, String state, String zipcode, String email, double hourlyRate,
                                String username, String password, int isManager) {
@@ -630,6 +644,7 @@ public class SQLConnections {
         }
     }
 
+    // Removes employee from the database
     public void deleteEmployee(int selectedEmployeeID) {
         String query = "DELETE FROM employees WHERE rowid = ?";
 
@@ -646,6 +661,7 @@ public class SQLConnections {
         }
     }
 
+    // Prepopulates update employee window with selected employee information
     public String[] fillEmployeeUpdate(int selectedEmployeeID) {
         String query = "SELECT * FROM employees WHERE rowid = ?";
 
@@ -673,6 +689,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Updates the selected employee in the database
     public void updateEmployee(String firstName, String lastName, String phoneNumber, String email,
                                String streetAddress, String city, String state, String zipcode,
                                String username, double hourlyRate, int isManager, int selectedEmployeeID) {
@@ -704,6 +721,7 @@ public class SQLConnections {
         }
     }
 
+    // Populates employee personal info in Employee portal tab
     public CachedRowSet populateEmployeeInfo(String activeUser) {
         String query = "SELECT rowid AS 'ID', [First Name], [Last Name], [Phone Number], " +
                 "[Street Address], [City], [State], [Zipcode], [Email], [Hourly Pay], " +
@@ -730,6 +748,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Prepopulates employee personal info in the update personal info window
     public String[] fillPersonalInfoUpdate(String activeUser) {
         String query = "SELECT [First Name], [Last Name], [Phone Number], " +
                 "[Street Address], [City], [State], [Zipcode], [Email], " +
@@ -759,6 +778,7 @@ public class SQLConnections {
         return null;
     }
 
+    // Updates employee personal info from the employee portal in the database
     public void updatePersonalInfo(String firstName, String lastName, String phoneNumber, String email,
                                    String streetAddress, String city, String state, String zipcode,
                                    String username, String activeUser) {
@@ -788,7 +808,8 @@ public class SQLConnections {
         }
     }
 
-    // Verifies current password when attempting to change
+    // Verifies current password when attempting to change password
+    // Used by both employee portal and login window reset password
     public boolean verifyPassword(String user, String password) {
 
         String query = "SELECT Password FROM [employees] WHERE [Username] = ?";
@@ -820,6 +841,8 @@ public class SQLConnections {
         return false;
     }
 
+    // Updates password in the database for the given employee
+    // Used by both employee portal and login window reset password
     public void changePassword(String activeUser, String newPassword) {
         String query = "UPDATE employees SET Password = ? WHERE username = ?";
 
