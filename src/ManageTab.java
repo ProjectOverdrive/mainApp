@@ -438,7 +438,7 @@ public class ManageTab {
         String email = emailText.getText();
         Double hourlyRate = Double.parseDouble(hourlyPayText.getText());
         String username = usernameText.getText();
-        String password = usernameText.getText();
+        String password = passwordText.getText();
 
         int isManager = 0;
         if (isManagerSelection.getSelectedItem().toString().equals("Is Manager")) {

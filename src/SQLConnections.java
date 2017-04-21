@@ -5,8 +5,8 @@
 //TODO: Set all errors to show window not print to console
 //TODO: Refresh tables on click
 //TODO: Make table cells uneditable
-//TODO: forgot password
 //TODO: finish commenting methods
+//TODO: Tidy up email class
 
 import com.sun.rowset.CachedRowSetImpl;
 
