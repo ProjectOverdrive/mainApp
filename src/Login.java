@@ -1,27 +1,24 @@
+import javax.mail.MessagingException;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.UUID;
-import javax.mail.MessagingException;
-import javax.swing.*;
 
 public class Login {
-    
-    SQLConnections connection;
 
     //These are the main fields for the login window.
-    JFrame frame;
-    JTextField usernameText;
-    JTextField passwordText;
-    
-    JTextField resetPasswordCodeText;
-    JTextField newPasswordText;
-    JTextField confirmPasswordText;
-    JTextField forgotPasswordUsernameText;
-    JTextField emailText;
-
+    private JFrame frame;
+    private JTextField usernameText;
+    private JTextField passwordText;
+    private JTextField resetPasswordCodeText;
+    private JTextField newPasswordText;
+    private JTextField confirmPasswordText;
+    private JTextField forgotPasswordUsernameText;
+    private JTextField emailText;
     private String activeUser;
     private String email;
     private String verificationCode;
+    private SQLConnections connection;
 
     public Login() {
         this.connection = SQLConnections.getConnectionInstance();
@@ -191,7 +188,7 @@ public class Login {
         verificationCode = UUID.randomUUID().toString().substring(0, 5);
 
         try {
-            sendVerification.sendPlainTextEmail(email, "Verification Code", "Here is your verification code: "
+            sendVerification.sendEmail(email, "Verification Code", "Here is your verification code: "
                     + verificationCode);
         } catch (MessagingException e) {
             System.out.println(e);

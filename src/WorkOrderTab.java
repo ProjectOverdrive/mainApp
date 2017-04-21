@@ -5,7 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class WorkOrderTab {
-    
+
     //These are the fields/combo boxes for adding and updating work orders.
     private JComboBox employeeSelection;
     private JComboBox statusSelection;
@@ -21,10 +21,9 @@ public class WorkOrderTab {
 
     //This method creates the table for displaying work orders.
     public JTable createWorkOrderTable() {
-        workOrderTable = new JTable(){
+        workOrderTable = new JTable() {
             @Override
-            public boolean isCellEditable(int row, int column)
-            {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
@@ -103,7 +102,7 @@ public class WorkOrderTab {
 
         return updateWorkOrderButton;
     }
-    
+
     //This method creates the error window for deleting w/o selecting.
     private void createDeleteWorkOrderErrorWindow() {
         //This creates the error window
@@ -136,7 +135,7 @@ public class WorkOrderTab {
 
         deleteErrorFrame.setVisible(true);
     }
-    
+
     //This method creates the error window for updating w/o selecting.
     private void createUpdateWorkOrderErrorWindow() {
         //This creates the error window
@@ -169,7 +168,7 @@ public class WorkOrderTab {
 
         updateErrorFrame.setVisible(true);
     }
-    
+
     //This method creates and controls the add work order window.
     public void buildAddWorkOrderFrame() {
         //This initializes the add work order window.
@@ -239,13 +238,13 @@ public class WorkOrderTab {
         prioritySelection = new JComboBox(priorities);
         prioritySelection.setBounds(233, 111, 150, 32);
         addWorkOrderFrame.getContentPane().add(prioritySelection);
-        
+
         //Creates label for details.
         JLabel detailsLabel = new JLabel();
         detailsLabel.setText("Details");
         detailsLabel.setBounds(10, 160, 203, 24);
         addWorkOrderFrame.getContentPane().add(detailsLabel);
-        
+
         //This is the text field for the work order details.
         detailsText = new JTextField();
         detailsText.setBounds(10, 190, 383, 32);
@@ -408,7 +407,7 @@ public class WorkOrderTab {
         prioritySelection.setSelectedItem(updateWorkOrderFields[3]);
         prioritySelection.setBounds(233, 111, 150, 32);
         updateWorkOrderFrame.getContentPane().add(prioritySelection);
-        
+
         //Creates label for details.
         JLabel detailsLabel = new JLabel();
         detailsLabel.setText("Details");

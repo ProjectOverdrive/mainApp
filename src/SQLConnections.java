@@ -1,11 +1,4 @@
-/**
- * Created by Colten on 4/11/17.
- */
-
-//TODO: Tidy up email class
-
 import com.sun.rowset.CachedRowSetImpl;
-
 import javax.sql.rowset.CachedRowSet;
 import javax.swing.*;
 import java.net.MalformedURLException;
@@ -17,6 +10,7 @@ public class SQLConnections {
     private static Connection connection;
 
     // Singleton design pattern implementation
+    // Ensures only one SQL connection class is active
     private static SQLConnections connectionInstance;
 
     private SQLConnections() {

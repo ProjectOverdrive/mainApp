@@ -1,10 +1,10 @@
 import net.proteanit.sql.DbUtils;
-
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class EmployeePortalTab {
-    
+
     //These fields are for the employee portal data.
     private JTable portalTable;
     private JTextField firstNameText;
@@ -16,7 +16,6 @@ public class EmployeePortalTab {
     private JTextField zipcodeText;
     private JTextField emailText;
     private JTextField usernameText;
-    
     private JTextField currentPasswordText;
     private JTextField newPasswordText;
     private JTextField confirmPasswordText;
@@ -27,13 +26,12 @@ public class EmployeePortalTab {
         this.activeUser = activeUser;
         this.connection = SQLConnections.getConnectionInstance();
     }
-    
+
     //This method creates the employee portal table.
     public JTable createEmployeePortalTable() {
-        portalTable = new JTable(){
+        portalTable = new JTable() {
             @Override
-            public boolean isCellEditable(int row, int column)
-            {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
@@ -49,7 +47,7 @@ public class EmployeePortalTab {
 
         return portalTable;
     }
-    
+
     //This method creates the update info button.
     public JButton createUpdateInfoButton() {
         JButton updateInfoButton = new JButton();
@@ -81,7 +79,7 @@ public class EmployeePortalTab {
         });
         return changePasswordButton;
     }
-    
+
     //This method controls the update info window.
     private void buildUpdateInfoWindow() {
         connection.connect();
@@ -95,19 +93,19 @@ public class EmployeePortalTab {
         updateInfoFrame.setTitle("Update Info");
         updateInfoFrame.setBounds(100, 100, 475, 500);
         updateInfoFrame.getContentPane().setLayout(null);
-        
+
         //This is the first name label.
         JLabel firstNameLabel = new JLabel();
         firstNameLabel.setText("First Name");
         firstNameLabel.setBounds(10, 11, 203, 32);
         updateInfoFrame.getContentPane().add(firstNameLabel);
-        
+
         //This initializes the first name text field.
         firstNameText = new JTextField();
         firstNameText.setText(fieldValues[0]);
         firstNameText.setBounds(10, 48, 203, 32);
         updateInfoFrame.getContentPane().add(firstNameText);
-        
+
         //This is the last name label.
         JLabel lastNameLabel = new JLabel();
         lastNameLabel.setText("Last Name");
@@ -119,7 +117,7 @@ public class EmployeePortalTab {
         lastNameText.setText(fieldValues[1]);
         lastNameText.setBounds(233, 48, 203, 32);
         updateInfoFrame.getContentPane().add(lastNameText);
-        
+
         //This is the phone number label.
         JLabel phoneNumberLabel = new JLabel();
         phoneNumberLabel.setText("Phone Number");
@@ -131,7 +129,7 @@ public class EmployeePortalTab {
         phoneNumberText.setText(fieldValues[2]);
         phoneNumberText.setBounds(10, 127, 203, 32);
         updateInfoFrame.getContentPane().add(phoneNumberText);
-        
+
         //This is the email label.
         JLabel emailLabel = new JLabel();
         emailLabel.setText("Email");
@@ -143,7 +141,7 @@ public class EmployeePortalTab {
         emailText.setText(fieldValues[7]);
         emailText.setBounds(233, 127, 203, 32);
         updateInfoFrame.getContentPane().add(emailText);
-        
+
         //This is the street address label.
         JLabel streetAddressLabel = new JLabel();
         streetAddressLabel.setText("Street Address");
@@ -155,7 +153,7 @@ public class EmployeePortalTab {
         streetAddressText.setText(fieldValues[3]);
         streetAddressText.setBounds(10, 206, 426, 32);
         updateInfoFrame.getContentPane().add(streetAddressText);
-        
+
         //This is the city label.
         JLabel cityLabel = new JLabel();
         cityLabel.setText("City");
@@ -167,7 +165,7 @@ public class EmployeePortalTab {
         cityText.setText(fieldValues[4]);
         cityText.setBounds(10, 285, 203, 32);
         updateInfoFrame.getContentPane().add(cityText);
-        
+
         //This is the state label.
         JLabel stateLabel = new JLabel();
         stateLabel.setText("State");
@@ -179,7 +177,7 @@ public class EmployeePortalTab {
         stateText.setText(fieldValues[5]);
         stateText.setBounds(233, 285, 203, 32);
         updateInfoFrame.getContentPane().add(stateText);
-        
+
         //This is the zipcode label.
         JLabel zipcodeLabel = new JLabel();
         zipcodeLabel.setText("Zipcode");
@@ -191,19 +189,19 @@ public class EmployeePortalTab {
         zipcodeText.setText(fieldValues[6]);
         zipcodeText.setBounds(10, 364, 203, 32);
         updateInfoFrame.getContentPane().add(zipcodeText);
-        
+
         //This is the username label.
         JLabel usernameLabel = new JLabel();
         usernameLabel.setText("Username");
         usernameLabel.setBounds(233, 327, 203, 32);
         updateInfoFrame.getContentPane().add(usernameLabel);
-        
+
         //This initializes the username text field.
         usernameText = new JTextField();
         usernameText.setText(fieldValues[8]);
         usernameText.setBounds(233, 364, 203, 32);
         updateInfoFrame.getContentPane().add(usernameText);
-        
+
         //This initializes the cancel button.
         JButton updateInfoCancelButton = new JButton();
         updateInfoCancelButton.setText("Cancel");
@@ -234,7 +232,7 @@ public class EmployeePortalTab {
                 if (employeeHasRequiredFields()) {
                     if (phoneNumberParsesCorrectly()) {
                         updateEmployeeInfo();
-                        updateInfoFrame.dispose();      
+                        updateInfoFrame.dispose();
                     } else {
                         createPhoneNumberErrorWindow();
                     }
@@ -246,7 +244,7 @@ public class EmployeePortalTab {
 
         updateInfoFrame.setVisible(true);
     }
-    
+
     //This method validates that all required fields are present.
     private boolean employeeHasRequiredFields() {
         //If the value is the default value or is empty, return false.
@@ -286,11 +284,11 @@ public class EmployeePortalTab {
                 usernameText.getText().equals("")) {
             return false;
         }
-        
+
         //Otherwise return true. (All fields are present)
         return true;
     }
-    
+
     //This method updates the info in the database.
     private void updateEmployeeInfo() {
         String firstName = firstNameText.getText();
@@ -308,7 +306,7 @@ public class EmployeePortalTab {
                 city, state, zipcode, username, activeUser);
         connection.disconnect();
     }
-    
+
     //This method parses the phone number.
     private String parsePhoneNumber(String inputNumber) {
         String outputNumber = "";
@@ -320,7 +318,7 @@ public class EmployeePortalTab {
         }
         return outputNumber;
     }
-    
+
     //This method ensures that the phone number is correctly parsed.
     private boolean phoneNumberParsesCorrectly() {
         String phoneNumber = parsePhoneNumber(phoneNumberText.getText());
@@ -329,7 +327,7 @@ public class EmployeePortalTab {
         }
         return true;
     }
-    
+
     //This method creates an error window for an invalid phone number.
     private void createPhoneNumberErrorWindow() {
         //This creates the error window
@@ -362,7 +360,7 @@ public class EmployeePortalTab {
 
         phoneNumberErrorFrame.setVisible(true);
     }
-    
+
     private void createRequiredFieldsErrorWindow() {
         //This initializes the required fields error window.
         JFrame requiredFieldsErrorFrame = new JFrame();
@@ -394,8 +392,8 @@ public class EmployeePortalTab {
 
         requiredFieldsErrorFrame.setVisible(true);
     }
-    
-    
+
+
     //This method controls the update password window.
     private void createUpdatePasswordWindow() {
         //This initializes the frame.
@@ -411,34 +409,34 @@ public class EmployeePortalTab {
         currentPasswordLabel.setText("Enter Current Password");
         currentPasswordLabel.setBounds(10, 10, 203, 24);
         changePasswordFrame.getContentPane().add(currentPasswordLabel);
-        
+
         //Create current password text field.
         currentPasswordText = new JTextField();
         currentPasswordText.setBounds(10, 39, 203, 24);
         changePasswordFrame.getContentPane().add(currentPasswordText);
-        
+
         //Create current password label.
         JLabel newPasswordLabel = new JLabel();
         newPasswordLabel.setText("Enter New Password");
         newPasswordLabel.setBounds(10, 83, 203, 24);
         changePasswordFrame.getContentPane().add(newPasswordLabel);
-        
+
         //Create new password text field.
         newPasswordText = new JTextField();
         newPasswordText.setBounds(10, 112, 203, 24);
         changePasswordFrame.getContentPane().add(newPasswordText);
-        
+
         //Create confirm password label.
         JLabel confirmPasswordLabel = new JLabel();
         confirmPasswordLabel.setText("Confirm New Password");
         confirmPasswordLabel.setBounds(10, 156, 203, 24);
         changePasswordFrame.getContentPane().add(confirmPasswordLabel);
-        
+
         //Create confirm password text field.
         confirmPasswordText = new JTextField();
         confirmPasswordText.setBounds(10, 185, 203, 24);
         changePasswordFrame.getContentPane().add(confirmPasswordText);
-        
+
         //This initializes the cancel button.
         JButton changePasswordCancelButton = new JButton();
         changePasswordCancelButton.setText("Cancel");
@@ -485,7 +483,7 @@ public class EmployeePortalTab {
 
         changePasswordFrame.setVisible(true);
     }
-    
+
     //This method ensures that no fields are empty.
     private boolean passwordBoxHasRequiredFields() {
         if (currentPasswordText.getText().equals("")) {
@@ -499,13 +497,13 @@ public class EmployeePortalTab {
         }
         return true;
     }
-    
+
     //This method validates the current password against the database.
     private boolean currentPasswordIsValid() {
         String enteredCurrentPassword = currentPasswordText.getText();
 
         connection.connect();
-        if(connection.verifyPassword(activeUser, enteredCurrentPassword)) {
+        if (connection.verifyPassword(activeUser, enteredCurrentPassword)) {
             connection.disconnect();
             return true;
         } else {
@@ -514,7 +512,7 @@ public class EmployeePortalTab {
         }
 
     }
-    
+
     //This method ensures that the new password fields match. 
     private boolean newPasswordFieldsMatch() {
         if (!newPasswordText.getText().equals(confirmPasswordText.getText())) {
@@ -522,7 +520,7 @@ public class EmployeePortalTab {
         }
         return true;
     }
-    
+
     //This method will change the password in the database.
     private void changePassword() {
         String newPassword = newPasswordText.getText();
@@ -531,7 +529,7 @@ public class EmployeePortalTab {
         connection.changePassword(activeUser, newPassword);
         connection.disconnect();
     }
-    
+
     //This creates the error window if the new passwords don't match.
     private void createNewPasswordErrorWindow() {
         //This creates the error window
@@ -564,7 +562,7 @@ public class EmployeePortalTab {
 
         newPasswordErrorFrame.setVisible(true);
     }
-    
+
     //This creates the error window if the current password is wrong.
     private void createCurrentPasswordErrorWindow() {
         //This creates the error window

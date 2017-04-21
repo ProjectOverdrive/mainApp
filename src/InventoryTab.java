@@ -1,14 +1,12 @@
 import net.proteanit.sql.DbUtils;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class InventoryTab {
-
-    private SQLConnections connection;
 
     //These are the text fields for the add/update inventory item windows.
     private JTextField numberText;
@@ -19,6 +17,7 @@ public class InventoryTab {
     private JTextField unitCostText;
     private JTextField urlText;
     private JTable inventoryTable;
+    private SQLConnections connection;
 
     public InventoryTab() {
         this.connection = SQLConnections.getConnectionInstance();
@@ -26,10 +25,9 @@ public class InventoryTab {
 
     //This method creates the inventory table.
     public JTable createInventoryTable() {
-        inventoryTable = new JTable(){
+        inventoryTable = new JTable() {
             @Override
-            public boolean isCellEditable(int row, int column)
-            {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
@@ -77,13 +75,13 @@ public class InventoryTab {
                     connection.connect();
                     connection.deleteInventoryItem(selectedItemID);
                     connection.disconnect();
-                    JOptionPane.showMessageDialog(null, "Item Removed");    
+                    JOptionPane.showMessageDialog(null, "Item Removed");
                 }
             }
         });
         return deleteInventoryItemButton;
     }
-    
+
     //This method creates the error window for deleting w/o selecting.
     private void createDeleteInventoryItemErrorWindow() {
         //This creates the error window
@@ -138,7 +136,7 @@ public class InventoryTab {
         });
         return updateInventoryItemButton;
     }
-    
+
     //This method creates the error window for updating w/o selecting.
     private void createUpdateInventoryItemErrorWindow() {
         //This creates the error window
@@ -193,7 +191,7 @@ public class InventoryTab {
                             connection.connect();
                             desktop.browse(connection.getItemURL(selectedInventoryItemID).toURI());
                             connection.disconnect();
-                        } catch (URISyntaxException|IOException m) {
+                        } catch (URISyntaxException | IOException m) {
                             m.printStackTrace();
                         }
                     }
@@ -202,8 +200,8 @@ public class InventoryTab {
         });
         return orderInventoryItemButton;
     }
-    
-     //This method creates the error window for ordering w/o selecting.
+
+    //This method creates the error window for ordering w/o selecting.
     private void createOrderInventoryItemErrorWindow() {
         //This creates the error window
         JFrame orderErrorFrame = new JFrame();
@@ -245,7 +243,7 @@ public class InventoryTab {
         addInventoryItemFrame.setTitle("Add Inventory Item");
         addInventoryItemFrame.setBounds(100, 100, 475, 500);
         addInventoryItemFrame.getContentPane().setLayout(null);
-        
+
         //Creates part number label.
         JLabel partNumberLabel = new JLabel();
         partNumberLabel.setText("Part Number");
@@ -262,7 +260,7 @@ public class InventoryTab {
         partDescriptionLabel.setText("Part Description");
         partDescriptionLabel.setBounds(10, 90, 426, 32);
         addInventoryItemFrame.getContentPane().add(partDescriptionLabel);
-        
+
         //This is the part description text field.
         descriptionText = new JTextField();
         descriptionText.setBounds(10, 127, 426, 32);
@@ -273,7 +271,7 @@ public class InventoryTab {
         vendorLabel.setText("Vendor");
         vendorLabel.setBounds(10, 169, 203, 32);
         addInventoryItemFrame.getContentPane().add(vendorLabel);
-        
+
         //This is the part vendor text field.
         vendorText = new JTextField();
         vendorText.setBounds(10, 206, 203, 32);
@@ -284,7 +282,7 @@ public class InventoryTab {
         partLocationLabel.setText("Location in Store");
         partLocationLabel.setBounds(233, 169, 203, 32);
         addInventoryItemFrame.getContentPane().add(partLocationLabel);
-        
+
         //This is the part location text field.
         locationText = new JTextField();
         locationText.setBounds(233, 206, 203, 32);
@@ -295,7 +293,7 @@ public class InventoryTab {
         quantityLabel.setText("Quantity in Stock");
         quantityLabel.setBounds(10, 248, 203, 32);
         addInventoryItemFrame.getContentPane().add(quantityLabel);
-        
+
         //This is the quantity in stock text field.
         quantityText = new JTextField();
         quantityText.setBounds(10, 285, 203, 32);
@@ -306,7 +304,7 @@ public class InventoryTab {
         unitCostLabel.setText("Unit Cost");
         unitCostLabel.setBounds(233, 248, 203, 32);
         addInventoryItemFrame.getContentPane().add(unitCostLabel);
-        
+
         //This is the unit cost text field.
         unitCostText = new JTextField();
         unitCostText.setBounds(233, 285, 203, 32);
@@ -317,7 +315,7 @@ public class InventoryTab {
         urlLabel.setText("URL");
         urlLabel.setBounds(10, 327, 426, 32);
         addInventoryItemFrame.getContentPane().add(urlLabel);
-        
+
         //This is the part url text field.
         urlText = new JTextField();
         urlText.setBounds(10, 364, 426, 32);
@@ -481,7 +479,7 @@ public class InventoryTab {
         partDescriptionLabel.setText("Part Description");
         partDescriptionLabel.setBounds(10, 90, 426, 32);
         updateInventoryItemFrame.getContentPane().add(partDescriptionLabel);
-        
+
         //This is the part description text field.
         descriptionText = new JTextField();
         descriptionText.setBounds(10, 127, 426, 32);
@@ -492,7 +490,7 @@ public class InventoryTab {
         vendorLabel.setText("Vendor");
         vendorLabel.setBounds(10, 169, 203, 32);
         updateInventoryItemFrame.getContentPane().add(vendorLabel);
-        
+
         //This is the part vendor text field.
         vendorText = new JTextField();
         vendorText.setBounds(10, 206, 203, 32);
@@ -503,7 +501,7 @@ public class InventoryTab {
         partLocationLabel.setText("Location in Store");
         partLocationLabel.setBounds(233, 169, 203, 32);
         updateInventoryItemFrame.getContentPane().add(partLocationLabel);
-        
+
         //This is the part location text field.
         locationText = new JTextField();
         locationText.setBounds(233, 206, 203, 32);
@@ -514,7 +512,7 @@ public class InventoryTab {
         quantityLabel.setText("Quantity in Stock");
         quantityLabel.setBounds(10, 248, 203, 32);
         updateInventoryItemFrame.getContentPane().add(quantityLabel);
-        
+
         //This is the quantity in stock text field.
         quantityText = new JTextField();
         quantityText.setBounds(10, 285, 203, 32);
@@ -525,7 +523,7 @@ public class InventoryTab {
         unitCostLabel.setText("Unit Cost");
         unitCostLabel.setBounds(233, 248, 203, 32);
         updateInventoryItemFrame.getContentPane().add(unitCostLabel);
-        
+
         //This is the unit cost text field.
         unitCostText = new JTextField();
         unitCostText.setBounds(233, 285, 203, 32);
@@ -536,7 +534,7 @@ public class InventoryTab {
         urlLabel.setText("URL");
         urlLabel.setBounds(10, 327, 426, 32);
         updateInventoryItemFrame.getContentPane().add(urlLabel);
-        
+
         //This is the part url text field.
         urlText = new JTextField();
         urlText.setBounds(10, 364, 426, 32);

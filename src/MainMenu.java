@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainMenu {
 
-    JFrame frame;
+    private JFrame frame;
     private SQLConnections connection;
     private String activeUser;
     private CustomerTab customerTab;
@@ -41,13 +42,13 @@ public class MainMenu {
         overdriveLabel.setBounds(620, 5, 300, 60);
         overdriveLabel.setFont(new Font(overdriveLabel.getFont().getName(), Font.PLAIN, 32));
         frame.getContentPane().add(overdriveLabel);
-        
+
         //Create Logout Button
         JButton logoutButton = new JButton();
         logoutButton.setText("Logout");
         logoutButton.setBounds(1145, 25, 167, 28);
         frame.getContentPane().add(logoutButton);
-        
+
         logoutButton.addMouseListener(new MouseAdapter() {
             //The window should close and login should open.
             @Override
@@ -161,7 +162,7 @@ public class MainMenu {
         JPanel employeePortalPanel = new JPanel();
         mainWindowPanel.addTab("Employee Portal", null, employeePortalPanel, null);
         employeePortalPanel.setLayout(null);
-        
+
         //Initialize the employee portal tab and its components.
         //Initialize the symptoms tab and its components.
         employeePortalTab = new EmployeePortalTab(activeUser);
@@ -188,7 +189,6 @@ public class MainMenu {
             @Override
             public void mousePressed(MouseEvent e) {
                 createCustomerTable();
-                System.out.println("I fired");
             }
         });
 

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Email {
 
-    public void sendPlainTextEmail(String toAddress, String subject, String message)
+    public void sendEmail(String toAddress, String subject, String message)
             throws MessagingException {
 
         // sets SMTP server properties

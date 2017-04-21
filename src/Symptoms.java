@@ -1,7 +1,11 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Symptoms {
     //These are the input fields for the Symptoms Checker UI.
@@ -272,19 +276,19 @@ public class Symptoms {
         //Add the selected symptoms to an arraylist.
         ArrayList<String> symptoms = new ArrayList<>();
         symptoms.add(symptomsInput1.getSelectedItem().toString());
-        symptoms.add(symptomsInput2.getSelectedItem().toString()); 
+        symptoms.add(symptomsInput2.getSelectedItem().toString());
         symptoms.add(symptomsInput3.getSelectedItem().toString());
-        
+
         //Remove all null values from the arraylist and store as an array.
         symptoms.removeAll(Arrays.asList(""));
         String[] selectedSymptoms = new String[symptoms.size()];
         for (int i = 0; i < symptoms.size(); i++) {
             selectedSymptoms[i] = symptoms.get(i);
         }
-        
+
         int[] solutionCodes = new int[selectedSymptoms.length];
         //Loop through the array and parse each symptom as its code.
-        for (int i=0; i < selectedSymptoms.length; i++) {
+        for (int i = 0; i < selectedSymptoms.length; i++) {
             String s = selectedSymptoms[i];
             if (s.equals("Car Pulls")) {
                 solutionCodes[i] = 1;

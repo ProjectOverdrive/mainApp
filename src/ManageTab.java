@@ -1,12 +1,10 @@
 import net.proteanit.sql.DbUtils;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.SQLException;
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ManageTab {
-    
+
     //These are the text fields for the add/update inventory item windows.
     private JTextField firstNameText;
     private JTextField lastNameText;
@@ -29,10 +27,9 @@ public class ManageTab {
 
     //This method creates the employee table.
     public JTable createEmployeeTable() {
-        employeeTable = new JTable(){
+        employeeTable = new JTable() {
             @Override
-            public boolean isCellEditable(int row, int column)
-            {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
@@ -69,7 +66,7 @@ public class ManageTab {
         JButton deleteEmployeeButton = new JButton();
         deleteEmployeeButton.setText("Delete Employee");
         deleteEmployeeButton.setBounds(1133, 50, 167, 28);
-        
+
         //The customer should be deleted when this is pressed.
         deleteEmployeeButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -88,7 +85,7 @@ public class ManageTab {
         });
         return deleteEmployeeButton;
     }
-    
+
     //This method creates the error window for deleting w/o selecting.
     private void createDeleteEmployeeErrorWindow() {
         //This creates the error window
@@ -143,7 +140,7 @@ public class ManageTab {
         });
         return updateEmployeeButton;
     }
-    
+
     //This method creates the error window for updating w/o selecting.
     private void createUpdateEmployeeErrorWindow() {
         //This creates the error window
@@ -176,7 +173,7 @@ public class ManageTab {
 
         updateErrorFrame.setVisible(true);
     }
-    
+
     //This method creates and controls the add employee window.
     public void buildAddEmployeeFrame() {
         //This initializes the frame.
@@ -192,12 +189,12 @@ public class ManageTab {
         firstNameLabel.setText("First Name");
         firstNameLabel.setBounds(10, 11, 203, 32);
         addEmployeeFrame.getContentPane().add(firstNameLabel);
-        
+
         //This initializes the first name text field.
         firstNameText = new JTextField();
         firstNameText.setBounds(10, 48, 203, 32);
         addEmployeeFrame.getContentPane().add(firstNameText);
-        
+
         //Creates last name label.
         JLabel lastNameLabel = new JLabel();
         lastNameLabel.setText("Last Name");
@@ -208,7 +205,7 @@ public class ManageTab {
         lastNameText = new JTextField();
         lastNameText.setBounds(233, 48, 203, 32);
         addEmployeeFrame.getContentPane().add(lastNameText);
-        
+
         //Creates phone number label.
         JLabel phoneNumberLabel = new JLabel();
         phoneNumberLabel.setText("Phone Number");
@@ -219,7 +216,7 @@ public class ManageTab {
         phoneNumberText = new JTextField();
         phoneNumberText.setBounds(10, 127, 203, 32);
         addEmployeeFrame.getContentPane().add(phoneNumberText);
-        
+
         //Creates email label.
         JLabel emailLabel = new JLabel();
         emailLabel.setText("Email");
@@ -230,7 +227,7 @@ public class ManageTab {
         emailText = new JTextField();
         emailText.setBounds(233, 127, 203, 32);
         addEmployeeFrame.getContentPane().add(emailText);
-        
+
         //Creates street address label.
         JLabel streetAddressLabel = new JLabel();
         streetAddressLabel.setText("Street Address");
@@ -241,7 +238,7 @@ public class ManageTab {
         streetAddressText = new JTextField();
         streetAddressText.setBounds(10, 206, 426, 32);
         addEmployeeFrame.getContentPane().add(streetAddressText);
-        
+
         //Creates city label.
         JLabel cityLabel = new JLabel();
         cityLabel.setText("City");
@@ -252,7 +249,7 @@ public class ManageTab {
         cityText = new JTextField();
         cityText.setBounds(10, 285, 203, 32);
         addEmployeeFrame.getContentPane().add(cityText);
-        
+
         //Creates state label.
         JLabel stateLabel = new JLabel();
         stateLabel.setText("State");
@@ -263,7 +260,7 @@ public class ManageTab {
         stateText = new JTextField();
         stateText.setBounds(233, 285, 203, 32);
         addEmployeeFrame.getContentPane().add(stateText);
-        
+
         //Creates zipcode label.
         JLabel zipcodeLabel = new JLabel();
         zipcodeLabel.setText("Zipcode");
@@ -274,52 +271,52 @@ public class ManageTab {
         zipcodeText = new JTextField();
         zipcodeText.setBounds(10, 364, 203, 32);
         addEmployeeFrame.getContentPane().add(zipcodeText);
-        
+
         //Creates username label.
         JLabel usernameLabel = new JLabel();
         usernameLabel.setText("Username");
         usernameLabel.setBounds(10, 406, 203, 32);
         addEmployeeFrame.getContentPane().add(usernameLabel);
-        
+
         //This initializes the username text field.
         usernameText = new JTextField();
         usernameText.setBounds(10, 443, 203, 32);
         addEmployeeFrame.getContentPane().add(usernameText);
-        
+
         //Creates password label.
         JLabel passwordLabel = new JLabel();
         passwordLabel.setText("Password");
         passwordLabel.setBounds(233, 406, 203, 32);
         addEmployeeFrame.getContentPane().add(passwordLabel);
-        
+
         //This initializes the password text field.
         passwordText = new JTextField();
         passwordText.setBounds(233, 443, 203, 32);
         addEmployeeFrame.getContentPane().add(passwordText);
-        
+
         //Creates hourly pay label.
         JLabel hourlyPayLabel = new JLabel();
         hourlyPayLabel.setText("Hourly Pay");
         hourlyPayLabel.setBounds(10, 485, 203, 32);
         addEmployeeFrame.getContentPane().add(hourlyPayLabel);
-        
+
         //This initializes the hourly pay text field.
         hourlyPayText = new JTextField();
         hourlyPayText.setBounds(10, 522, 203, 32);
         addEmployeeFrame.getContentPane().add(hourlyPayText);
-        
+
         //Creates manager label.
         JLabel managerLabel = new JLabel();
         managerLabel.setText("Manager");
         managerLabel.setBounds(233, 485, 203, 32);
         addEmployeeFrame.getContentPane().add(managerLabel);
-        
+
         //This initializes the is manager combo box.
         String[] isManagerChoices = {"", "Is Manager", "Not Manager"};
         isManagerSelection = new JComboBox(isManagerChoices);
         isManagerSelection.setBounds(233, 522, 203, 32);
         addEmployeeFrame.getContentPane().add(isManagerSelection);
-        
+
         //This initializes the cancel button.
         JButton addEmployeeCancelButton = new JButton();
         addEmployeeCancelButton.setText("Cancel");
@@ -352,7 +349,7 @@ public class ManageTab {
                     if (numberParsesCorrectly(hourlyPayText.getText())) {
                         if (phoneNumberParsesCorrectly()) {
                             addNewEmployee();
-                            addEmployeeFrame.dispose();      
+                            addEmployeeFrame.dispose();
                         } else {
                             createPhoneNumberErrorWindow();
                         }
@@ -367,7 +364,7 @@ public class ManageTab {
 
         addEmployeeFrame.setVisible(true);
     }
-    
+
     //This method validates that all required fields are present.
     private boolean addEmployeeHasRequiredFields() {
         //If the value is the default value or is empty, return false.
@@ -418,11 +415,11 @@ public class ManageTab {
         if (isManagerSelection.getSelectedItem().equals("")) {
             return false;
         }
-        
+
         //Otherwise return true. (All fields are present)
         return true;
     }
-    
+
     //This method adds the new employee to the database.
     private void addNewEmployee() {
         String firstName = firstNameText.getText();
@@ -447,7 +444,7 @@ public class ManageTab {
                 state, zipcode, email, hourlyRate, username, password, isManager);
         connection.disconnect();
     }
-    
+
     private void createRequiredFieldsErrorWindow() {
         //This initializes the required fields error window.
         JFrame requiredFieldsErrorFrame = new JFrame();
@@ -479,7 +476,7 @@ public class ManageTab {
 
         requiredFieldsErrorFrame.setVisible(true);
     }
-     
+
     //This method controls the update employee window
     public void buildUpdateEmployeeFrame() {
         int row = employeeTable.getSelectedRow();
@@ -502,13 +499,13 @@ public class ManageTab {
         firstNameLabel.setText("First Name");
         firstNameLabel.setBounds(10, 11, 203, 32);
         updateEmployeeFrame.getContentPane().add(firstNameLabel);
-        
+
         //This initializes the first name text field.
         firstNameText = new JTextField();
         firstNameText.setText(fieldValues[0]);
         firstNameText.setBounds(10, 48, 203, 32);
         updateEmployeeFrame.getContentPane().add(firstNameText);
-        
+
         //Creates last name label.
         JLabel lastNameLabel = new JLabel();
         lastNameLabel.setText("Last Name");
@@ -520,7 +517,7 @@ public class ManageTab {
         lastNameText.setText(fieldValues[1]);
         lastNameText.setBounds(233, 48, 203, 32);
         updateEmployeeFrame.getContentPane().add(lastNameText);
-        
+
         //Creates phone number label.
         JLabel phoneNumberLabel = new JLabel();
         phoneNumberLabel.setText("Phone Number");
@@ -532,7 +529,7 @@ public class ManageTab {
         phoneNumberText.setText(fieldValues[2]);
         phoneNumberText.setBounds(10, 127, 203, 32);
         updateEmployeeFrame.getContentPane().add(phoneNumberText);
-        
+
         //Creates email label.
         JLabel emailLabel = new JLabel();
         emailLabel.setText("Email");
@@ -544,7 +541,7 @@ public class ManageTab {
         emailText.setText(fieldValues[7]);
         emailText.setBounds(233, 127, 203, 32);
         updateEmployeeFrame.getContentPane().add(emailText);
-        
+
         //Creates street address label.
         JLabel streetAddressLabel = new JLabel();
         streetAddressLabel.setText("Street Address");
@@ -556,7 +553,7 @@ public class ManageTab {
         streetAddressText.setText(fieldValues[3]);
         streetAddressText.setBounds(10, 206, 426, 32);
         updateEmployeeFrame.getContentPane().add(streetAddressText);
-        
+
         //Creates city label.
         JLabel cityLabel = new JLabel();
         cityLabel.setText("City");
@@ -568,7 +565,7 @@ public class ManageTab {
         cityText.setText(fieldValues[4]);
         cityText.setBounds(10, 285, 203, 32);
         updateEmployeeFrame.getContentPane().add(cityText);
-        
+
         //Creates state label.
         JLabel stateLabel = new JLabel();
         stateLabel.setText("State");
@@ -580,7 +577,7 @@ public class ManageTab {
         stateText.setText(fieldValues[5]);
         stateText.setBounds(233, 285, 203, 32);
         updateEmployeeFrame.getContentPane().add(stateText);
-        
+
         //Creates zipcode label.
         JLabel zipcodeLabel = new JLabel();
         zipcodeLabel.setText("Zipcode");
@@ -592,51 +589,51 @@ public class ManageTab {
         zipcodeText.setText(fieldValues[6]);
         zipcodeText.setBounds(10, 364, 203, 32);
         updateEmployeeFrame.getContentPane().add(zipcodeText);
-        
+
         //Creates username label.
         JLabel usernameLabel = new JLabel();
         usernameLabel.setText("Username");
         usernameLabel.setBounds(10, 406, 203, 32);
         updateEmployeeFrame.getContentPane().add(usernameLabel);
-        
+
         //This initializes the username text field.
         usernameText = new JTextField();
         usernameText.setText(fieldValues[9]);
         usernameText.setBounds(10, 443, 203, 32);
         updateEmployeeFrame.getContentPane().add(usernameText);
-        
+
         //Managers are not allowed to update passwords
-        
+
         //Creates hourly pay label.
         JLabel hourlyPayLabel = new JLabel();
         hourlyPayLabel.setText("Hourly Pay");
         hourlyPayLabel.setBounds(10, 485, 203, 32);
         updateEmployeeFrame.getContentPane().add(hourlyPayLabel);
-        
+
         //This initializes the hourly pay text field.
         hourlyPayText = new JTextField();
         hourlyPayText.setText(fieldValues[8]);
         hourlyPayText.setBounds(10, 522, 203, 32);
         updateEmployeeFrame.getContentPane().add(hourlyPayText);
-        
+
         //Creates manager label.
         JLabel managerLabel = new JLabel();
         managerLabel.setText("Manager");
         managerLabel.setBounds(233, 485, 203, 32);
         updateEmployeeFrame.getContentPane().add(managerLabel);
-        
+
         //This initializes the is manager combo box.
         String[] isManagerChoices = {"", "Is Manager", "Not Manager"};
         isManagerSelection = new JComboBox(isManagerChoices);
         //Auto select manager if employee is a manager
-        if(Integer.parseInt(fieldValues[11]) == 1) {
+        if (Integer.parseInt(fieldValues[11]) == 1) {
             isManagerSelection.setSelectedIndex(1);
         } else {
             isManagerSelection.setSelectedIndex(2);
         }
         isManagerSelection.setBounds(233, 522, 203, 32);
         updateEmployeeFrame.getContentPane().add(isManagerSelection);
-        
+
         //This initializes the cancel button.
         JButton updateEmployeeCancelButton = new JButton();
         updateEmployeeCancelButton.setText("Cancel");
@@ -669,7 +666,7 @@ public class ManageTab {
                     if (numberParsesCorrectly(hourlyPayText.getText())) {
                         if (phoneNumberParsesCorrectly()) {
                             updateEmployee();
-                            updateEmployeeFrame.dispose();     
+                            updateEmployeeFrame.dispose();
                         } else {
                             createPhoneNumberErrorWindow();
                         }
@@ -684,7 +681,7 @@ public class ManageTab {
 
         updateEmployeeFrame.setVisible(true);
     }
-    
+
     //This method validates that all required fields are present.
     private boolean updateEmployeeHasRequiredFields() {
         //If the value is the default value or is empty, return false.
@@ -731,11 +728,11 @@ public class ManageTab {
         if (isManagerSelection.getSelectedItem().equals("")) {
             return false;
         }
-        
+
         //Otherwise return true. (All fields are present)
         return true;
     }
-    
+
     //This method updates the employee to the database.
     private void updateEmployee() {
         int row = employeeTable.getSelectedRow();
@@ -761,7 +758,7 @@ public class ManageTab {
                 city, state, zipcode, username, hourlyRate, isManager, selectedEmployeeID);
         connection.disconnect();
     }
-    
+
     //This number ensures that fields that are supposed to be numeric are so.
     private boolean numberParsesCorrectly(String numericalText) {
         int count = 0;
@@ -780,7 +777,7 @@ public class ManageTab {
         //Otherwise return true.
         return true;
     }
-    
+
     //This method creates the error window for hourly pay not being numeric.
     private void createHourlyPayErrorWindow() {
         //This creates the error window
@@ -813,7 +810,7 @@ public class ManageTab {
 
         hourlyPayErrorFrame.setVisible(true);
     }
-    
+
     //This method parses the phone number.
     private String parsePhoneNumber(String inputNumber) {
         String outputNumber = "";
@@ -825,7 +822,7 @@ public class ManageTab {
         }
         return outputNumber;
     }
-    
+
     //This method ensures that the phone number is correctly parsed.
     private boolean phoneNumberParsesCorrectly() {
         String phoneNumber = parsePhoneNumber(phoneNumberText.getText());
@@ -834,7 +831,7 @@ public class ManageTab {
         }
         return true;
     }
-    
+
     //This method creates an error window for an invalid phone number.
     private void createPhoneNumberErrorWindow() {
         //This creates the error window
