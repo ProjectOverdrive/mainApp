@@ -102,7 +102,7 @@ public class Login {
         passwordText = new JPasswordField();
         passwordText.setToolTipText("Enter password here");
         passwordText.setHorizontalAlignment(SwingConstants.CENTER);
-        passwordText.setText("1234");
+        passwordText.setText("Th1sI$Fke!42");
         passwordText.setBounds(332, 226, 174, 31);
         frame.getContentPane().add(passwordText);
 
@@ -111,7 +111,7 @@ public class Login {
         passwordText.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent arg0) {
-                if (passwordText.getText().trim().equals("1234")) {
+                if (passwordText.getText().trim().equals("Th1sI$Fke!42")) {
                     passwordText.setText("");
                 }
             }
@@ -119,7 +119,7 @@ public class Login {
             @Override
             public void focusLost(FocusEvent e) {
                 if (passwordText.getText().trim().equals("")) {
-                    passwordText.setText("1234");
+                    passwordText.setText("Th1sI$Fke!42");
                 }
             }
         });
