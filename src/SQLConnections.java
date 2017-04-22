@@ -745,8 +745,8 @@ public class SQLConnections {
     // Prepopulates employee personal info in the update personal info window
     public String[] fillPersonalInfoUpdate(String activeUser) {
         String query = "SELECT [First Name], [Last Name], [Phone Number], " +
-                "[Street Address], [City], [State], [Zipcode], [Email], " +
-                "[Username] FROM employees WHERE Username = ?";
+                "[Street Address], [City], [State], [Zipcode], [Email] " +
+                "FROM employees WHERE Username = ?";
 
         try (
                 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -775,10 +775,10 @@ public class SQLConnections {
     // Updates employee personal info from the employee portal in the database
     public void updatePersonalInfo(String firstName, String lastName, String phoneNumber, String email,
                                    String streetAddress, String city, String state, String zipcode,
-                                   String username, String activeUser) {
+                                   String activeUser) {
         String query = "UPDATE employees SET 'First Name' = ?, 'Last Name' = ?, 'Phone Number' = ?, " +
-                "'Street Address' = ?, City = ?, State = ?, Zipcode = ?, Email = ?," +
-                "Username = ? WHERE username = ?";
+                "'Street Address' = ?, City = ?, State = ?, Zipcode = ?, Email = ?" +
+                "WHERE username = ?";
 
         try (
                 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -790,8 +790,7 @@ public class SQLConnections {
             statement.setString(6, state);
             statement.setString(7, zipcode);
             statement.setString(8, email);
-            statement.setString(9, username);
-            statement.setString(10, activeUser);
+            statement.setString(9, activeUser);
 
             statement.executeUpdate();
 

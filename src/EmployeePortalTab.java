@@ -190,18 +190,6 @@ public class EmployeePortalTab {
         zipcodeText.setBounds(10, 364, 203, 32);
         updateInfoFrame.getContentPane().add(zipcodeText);
 
-        //This is the username label.
-        JLabel usernameLabel = new JLabel();
-        usernameLabel.setText("Username");
-        usernameLabel.setBounds(233, 327, 203, 32);
-        updateInfoFrame.getContentPane().add(usernameLabel);
-
-        //This initializes the username text field.
-        usernameText = new JTextField();
-        usernameText.setText(fieldValues[8]);
-        usernameText.setBounds(233, 364, 203, 32);
-        updateInfoFrame.getContentPane().add(usernameText);
-
         //This initializes the cancel button.
         JButton updateInfoCancelButton = new JButton();
         updateInfoCancelButton.setText("Cancel");
@@ -280,10 +268,6 @@ public class EmployeePortalTab {
                 zipcodeText.getText().equals("")) {
             return false;
         }
-        if (usernameText.getText().equals("Username") ||
-                usernameText.getText().equals("")) {
-            return false;
-        }
 
         //Otherwise return true. (All fields are present)
         return true;
@@ -299,11 +283,10 @@ public class EmployeePortalTab {
         String city = cityText.getText();
         String state = stateText.getText();
         String zipcode = zipcodeText.getText();
-        String username = usernameText.getText();
 
         connection.connect();
         connection.updatePersonalInfo(firstName, lastName, phoneNumber, email, streetAddress,
-                city, state, zipcode, username, activeUser);
+                city, state, zipcode, activeUser);
         connection.disconnect();
     }
 
